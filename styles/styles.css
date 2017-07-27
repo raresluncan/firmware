@@ -6,22 +6,42 @@
   font-family: 'Roboto', sans-serif;
 }
 
+footer {
+  position: relative;
+  z-index: 3001;
+  width:100%;
+  height: 50px;
+  background: rgb(45, 45, 45);
+  top:1000px;
+}
+
 body {
-  height: 1000px;
   background-color: rgb(113, 113, 113);
+  width: 100%;
+  height: 100%;
+  min-width: 500px;
+  min-height: 500px;
+  overflow-x: : scroll;
+}
+
+.header {
+  position: fixed;
+  z-index: 30;
+  width: 100%;
+  height: 100px;
 }
 
 .home-title {
-  position:relative;
-  left: +322px;
-  font-size: 50px;
+  position:fixed;
+  left: +230px;
+  font-size: 20px;
   background-color: rgb(69, 67, 67);
   color: rgb(0, 194, 255);
   width:100%;
-  padding-left: 30px;
+  z-index: 20;
 }
 
-.home-title#subtitle {
+.subtitle {
   font-size: 20px;
   margin-top: -3px;
   color: rgb(213, 213, 213);
@@ -29,9 +49,10 @@ body {
 }
 
 .navigation {
-  position: absolute;
+  position: fixed;
   text-align: center;
   width: 15%;
+  top: -6px;
   background-color: rgb(69, 67, 67);
 }
 
@@ -40,24 +61,27 @@ body {
   text-decoration: none;
   text-align: center;
   display: block;
-  padding: 15px 0;
+  padding: 15px 45px 15px 45px;
   border: 1px solid rgb(0, 0, 0);
   border-bottom: none;
   border-left: none;
   border-right: none;
+  font-weight: bold;
 }
 
-.navigation a:hover
-{
+.navigation a:hover {
   color: rgb(236, 236, 236);
   background-color: rgb(113, 172, 201);
 }
 
-.navigation#navlist {
-  position: absolute;
+.navlist {
+  position: fixed;
   text-align: center;
   color: color: rgb(0, 194, 255);
-  left: -240px;
+  background-color: rgb(69, 67, 67);
+  list-style: none;
+  z-index: 2;
+  top:-250px;
   transition: all .3s ease-in-out;
 }
 
@@ -65,18 +89,132 @@ body {
   display: none;
  }
 
-.nav-toggle {
-  position: absolute;
-  top: -85px;
-  left: 15px;
-  padding-right: 260px;
-  padding-bottom: 5px;
-  padding-left:10px;
+.nav-toggle
+{
+  position: fixed;
+  top:-6px;
+  left: 0px;
+  padding-left: 60px;
+  margin-right: 40px;
   font-size: 60px;
   cursor: pointer;
+  text-align: center;
+  padding-right: 120px;
   background-color: rgb(69, 67, 67);
+  z-index: 3
 }
 
 #navToggle:checked ~ .navlist {
+  position: fixed;
+  left: 0px;
+  top: 73px;
+  text-align: center;
+}
+
+.banner {
+  display: none;
+  position: fixed;
+  background:red;
+  width:100%;
+  height: 450px;
+  top: 74px;
+  z-index: -1;
+}
+
+.content {
+  overflow-x: scroll;
+  max-width: auto;
+  position:absolute;
+  bottom: 50px;
+  padding: 20px 20px;
+  width:100%;
+  height:500px;
+  z-index: 0;
+  top:475px;
+  background: rgb(236, 236, 236);
+}
+
+.company-image {
+  width: 120px;
+  height: 120px;
+  max-width: 120px;
+  max-height: 120px;
+  float:left;
+  margin-right: 2px;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.companies {
+  padding: 10px;
+  margin-left: 30px;
+  width:100%;
+  display: flex;
+  flex-direction: row;
+  align-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.pagination {
+  display: inline-block;
   position: absolute;
+  bottom: 0;
+}
+
+.pagination a {
+  color: rgb(94, 188, 255);
+  float: left;
+  padding: 8px 20px;
+  text-decoration: none;
+  transition: background-color .3s;
+}
+
+.pagination a:active {
+  color: white;
+  background: rgb(0, 147, 41);
+}
+
+.pagination a:hover:not(.active) {
+  background-color:rgb(113, 172, 201);
+}
+
+.rating {
+  width: 130px;
+  margin-top: 8px;
+}
+
+.company {
+  background-color: rgb(236, 236, 236);
+  width: 400px;
+  padding: 30px 30px;
+  margin: 5px;
+}
+
+.company-left{
+  display: inline-flex;
+  flex-direction: column;
+  float: left;
+}
+
+.company-details {
+  position:  absolute;
+  width: 300px;
+  margin-left: 140px;
+  margin-top: 30px;
+  word-wrap: break-word;
+  text-align: left;
+  float: right;
+}
+
+.company:hover {
+  background: rgb(117, 201, 255);
+  opacity: .6;
+  cursor: pointer;
+  border-radius: 25px;
+}
+
+.company-title {
+  text-align: center;
+  font-weight: bold;
+  font-style: italic;
 }
