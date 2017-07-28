@@ -1,0 +1,82 @@
+* {
+  padding: 0px;
+  border: 0;
+  margin: 0;
+  height: auto;
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  height: 1000px;
+  background-color: rgb(113, 113, 113);
+}
+
+.home-title {
+  position:relative;
+  left: +322px;
+  font-size: 50px;
+  background-color: rgb(69, 67, 67);
+  color: rgb(0, 194, 255);
+  width:100%;
+  padding-left: 30px;
+}
+
+.home-title#subtitle {
+  font-size: 20px;
+  margin-top: -3px;
+  color: rgb(213, 213, 213);
+  height: 30px;
+}
+
+.navigation {
+  position: absolute;
+  text-align: center;
+  width: 15%;
+  background-color: rgb(69, 67, 67);
+}
+
+.navigation a {
+  color: rgb(0, 194, 255);
+  text-decoration: none;
+  text-align: center;
+  display: block;
+  padding: 15px 0;
+  border: 1px solid rgb(0, 0, 0);
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+}
+
+.navigation a:hover
+{
+  color: rgb(236, 236, 236);
+  background-color: rgb(113, 172, 201);
+}
+
+.navigation#navlist {
+  position: absolute;
+  text-align: center;
+  color: color: rgb(0, 194, 255);
+  left: -240px;
+  transition: all .3s ease-in-out;
+}
+
+#navToggle {
+  display: none;
+ }
+
+.nav-toggle {
+  position: absolute;
+  top: -85px;
+  left: 15px;
+  padding-right: 260px;
+  padding-bottom: 5px;
+  padding-left:10px;
+  font-size: 60px;
+  cursor: pointer;
+  background-color: rgb(69, 67, 67);
+}
+
+#navToggle:checked ~ .navlist {
+  position: absolute;
+}
