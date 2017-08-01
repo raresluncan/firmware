@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset=“UTF-8“ />
+    <title></title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles.css')}}" />
+    <link href="https://fonts.googleapis.com/css?family=Anton|Questrial|Roboto" rel="stylesheet">
+  </head>
+  <body class="firmware-body">
+    <div class="header">
+      <div class="home-title">
+        <h1 class="title">WELCOME TO FIRMWARE</h1>
+        <h2 class="subtitle">THE BIGGEST SERVICE FINDER ONLINE</h2>
+      </div>
+      <nav class='navigation'>
+          <input type="checkbox" id="navToggle" />
+          <label for="navToggle" class="nav-toggle">&#9776</label>
+          <ul class='navlist'>
+            <li><a href="#">HOME</a></li>
+            <li><a href="#">SIGN IN</a></li>
+            <li><a href="#">SEARCH COMPANY</a></li>
+            <li><a href="#">ADD COMPANY</a></li>
+            <li><a href="#">ABOUT</a></li>
+          </ul>
+      </nav>
+    </div>
+    <div class="banner">
+    </div>
+    {% block content %}
+    <div class="companies">
+      {% for message in range(1, 10) %}
+        <div class="company">
+          <div class="company-left">
+            <img class="company-image" src="../static/images/{{ message }}.jpg" />
+              <fieldset class="rating">
+                <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="AMAZING!">5</label>
+                <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="NB BRAH">4</label>
+                <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="SO-SO">3 </label>
+                <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="LAME">2 </label>
+                <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="HORRIBLE">1</label>
+              </fieldset>
+         </div>
+         <p class="company-details">
+          Expensive car parts if you can't fix them yourself
+         </p>
+         <h3 class="company-title">RENAULT</h3>
+       </div>
+      {% endfor %}
+      </div>
+    {% endblock %}
+    <footer>
+      <div class="pagination">
+        <a href="#/">&laquo;</a>
+        <a href="#/">1</a>
+        <a href="#/">2</a>
+        <a href="#/">3</a>
+        <a href="#/">4</a>
+        <a href="#/">5</a>
+        <a href="#/">6</a>
+        <a href="#/">&raquo;</a>
+      </div>
+    </footer>
+  </body>
+</html>
