@@ -5,9 +5,11 @@
   height: auto;
   font-family: 'Roboto', sans-serif;
 }
+
 html {
   position: absolute;
 }
+
 footer {
   position: relative;
   z-index: 3001;
@@ -189,7 +191,6 @@ body {
   margin-top: 8px;
 }
 
-<<<<<<< HEAD:styles/styles.css
 .company {
   background-color: rgb(236, 236, 236);
   width: 400px;
@@ -198,9 +199,6 @@ body {
 }
 
 .company-left {
-=======
-.company-left{
->>>>>>> Integrated Flask:static/styles.css
   display: inline-flex;
   flex-direction: column;
   float: left;
@@ -222,7 +220,6 @@ body {
   width: 400px;
   padding: 30px 30px;
   margin: 5px;
-
   transition: all 0.4s;
 }
 
@@ -237,10 +234,7 @@ body {
   font-weight: bold;
   font-style: italic;
 }
-<<<<<<< HEAD:styles/styles.css
 
-=======
->>>>>>> Integrated Flask:static/styles.css
 .company-page {
   position: relative;
   overflow-x: scroll;
@@ -291,11 +285,6 @@ body {
   display: inline-flex;
   max-width: 1000px;
   max-height: 500px;
-<<<<<<< HEAD:styles/styles.css
-=======
-  min-width: 10px;
-  min-height: 10px;
->>>>>>> Integrated Flask:static/styles.css
 }
 
 .company-detail-text {
@@ -361,12 +350,9 @@ body {
 .overall-review {
   margin-top: 20px;
 }
-<<<<<<< HEAD:styles/styles.css
-=======
 
 .banner-image {
   position: absolute;
   max-height: 450px;
   background-size: cover;
 }
->>>>>>> Integrated Flask:static/styles.css
