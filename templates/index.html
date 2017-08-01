@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+<body class="firmware-body">
+    {% block banner %}
+      <div class="banner">
+      </div>
+    {% endblock %}
+    {% block content %}
+      <div class="companies">
+        {% for message in range(1, 10) %}
+          <div class="company">
+            <div class="company-left">
+              <img class="company-image" src="../static/images/{{ message }}.jpg" />
+                <fieldset class="rating">
+                  <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="AMAZING!">5</label>
+                  <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="NB BRAH">4</label>
+                  <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="SO-SO">3 </label>
+                  <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="LAME">2 </label>
+                  <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="HORRIBLE">1</label>
+                 </fieldset>
+            </div>
+            <p class="company-details">
+              Expensive car parts if you can't fix them yourself
+            </p>
+            <h3 class="company-title">RENAULT</h3>
+           </div>
+        {% endfor %}
+      </div>
+    {% endblock %}
+</body>
