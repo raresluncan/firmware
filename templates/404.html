@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+  <div class="error not-found">
+    <p class="error-message-title">
+        THE REQUESTED PAGE WAS NOT FOUND!<br /><br />
+    </p>
+    <p class="error-message-content">
+      <br />Possible causes:<br /><br />
+        &nbsp&nbsp&nbsp&#9679;&nbsp   Check bad internet connection.<br />
+        &nbsp&nbsp&nbsp&#9679;&nbsp  Company might not exist with the requested id (details/id)<br />
+        &nbsp&nbsp&nbsp&#9679;&nbsp  Company id might have been modified.Please use the search feature.<br />
+        &nbsp&nbsp&nbsp&#9679;&nbsp   If the error persists please send a report!<br />
+    </p>
+  </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

@@ -12,14 +12,14 @@ app.config.update(dict(
 
 
 def connect_db():
-    rv=sqlite3.connect(app.config['DATABASE'])
+    rv = sqlite3.connect(app.config['DATABASE'])
     rv.row_factory = sqlite3.Row
     return rv
 
 
 def init_db():
-    db=get_db()
-    with app.open_resource('schema.sql',mode='r') as f:
+    db = get_db()
+    with app.open_resource('schema.sql', mode='r') as f:
         db.cursor().executescript(f.read())
     db.commit()
 
@@ -53,8 +53,12 @@ def home():
 @app.route('/details/<company_id>')
 def details(company_id):
     db = get_db()
+    print(company_id)
+    companyCursor = db.execute('select * from companies where company_id="%s"' % company_id)
+    company = companyCursor.fetchmany(1)
+    if not company:
+        print("No company detected with specified id")
+        return render_template('404.html')
     reviewsCursor = db.execute('select user, review from reviews where company_id="%s" order by id desc' % company_id)
     reviews = reviewsCursor.fetchall()
-    companyCursor = db.execute('select * from companies where company_id="%s"' % company_id)
-    company = companyCursor.fetchall()
     return render_template('details.html', reviews=reviews, company=company)
