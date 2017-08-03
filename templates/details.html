@@ -1,113 +1,46 @@
 {% extends "layout.html" %}
 
 {% block content %}
-  <div class="company-page">
-    <div class="company-left-side">
-      <div class="company-detail-title">
-        <img class="detail-logo" src="../static/images/1.jpg"  />
-          <h2 class="company-detail-name">
-            RENAULT
-          </h2>
+  <div action="{{ url_for('details', company_id=company.company_id) }}"  class="company-details" >
+    <div class="details-title-logo">
+      <div class="details-presentation-title">
+        <img class="details-logo" src="../static/images/{{ company.company_logo }}" />
+        <p class="details-title">
+          {{ company.company_name }}
+        </p>
       </div>
-      <div class="company-detail-description">
-        <h3 class="company-detail-subtitle">Description</h3>
-        <p class="company-detail-text">
-            This company is a company that company keeps company for companies without company because
-            company is company companion compare compromise such detail much wow vroooom rrratata kabum car
-            braaaa on system hit your enemies with cash, their head under my value shall crash, because "even when
-            i die i have value, at cemeteries i have pockets, so that enemies may see that i take my money with me"
-            This company is a company that company keeps company for companies without company because
-            company is company companion compare compromise such detail much wow vroooom rrratata kabum car
-            braaaa on system hit your enemies with cash, their head under my value shall crash, because "even when
-            i die i have value, at cemeteries i have pockets, so that enemies may see that i take my money with me"
-            This company is a company that company keeps company for companies without company because
-            company is company companion compare compromise such detail much wow vroooom rrratata kabum car
-            braaaa on system hit your enemies with cash, their head under my value shall crash, because "even when
-            i die i have value, at cemeteries i have pockets, so that enemies may see that i take my money with me"
-            This company is a company that company keeps company for companies without company because
-            company is company companion compare compromise such detail much wow vroooom rrratata kabum car
-            braaaa on system hit your enemies with cash, their head under my value shall crash, because "even when
-            i die i have value, at cemeteries i have pockets, so that enemies may see that i take my money with me"
+      <div class="overall-rating-company">
+        Overall rating: {{ company.company_rating }}
+        <fieldset class="rating">
+          <input type="radio" class="star1" name="rating" value="1" /><label for="star5" title="AMAZING!">5</label>
+          <input type="radio" class="star2" name="rating" value="2" /><label for="star4" title="NB BRAH">4</label>
+          <input type="radio" class="star3" name="rating" value="3" /><label for="star3" title="SO-SO">3 </label>
+          <input type="radio" class="star4" name="rating" value="4" /><label for="star2" title="LAME">2 </label>
+          <input type="radio" class="star5" name="rating" value="5" /><label for="star1" title="HORRIBLE">1</label>
+        </fieldset>
+      </div>
+      <div class="details-description">
+        <p class="details-description-text">
+          {{ company.company_details }}
         </p>
       </div>
     </div>
-    <div class="company-right-side">
-      <div class="company-reviews">
-        <div class="company-review-title">
-          <h2>REVIEWS</h2>
-        </div>
-        <div class="review">
-          <h2 class="author">Charlie the fancy</h2>
-          <p class="comment">
-              Such a fancy drive.I am astoundingly pleased with this fancy car.I bought two fancy clios, but my money went adios.
-          </p>
-        </div>
-        <div class="review">
-          <h2 class="author">Le parles de roumanes</h2>
-          <p class="comment">
-            Je suiijes le bombones, un reunault mercedes, qui audi sen porjour, piese scumpe rau, ma jur.
-            Da-i un comment lung de tot
-            Sa vezi scrollingul, pe bot,
-            Am si rima ca masina,
-            Varza rau, stricat ca INNA,
-            Trebe sa continui strofa
-            ca sa vad scrollingul
-            LALALALAL BATMANppppppp
-            Da-i un comment lung de tot
-            Sa vezi scrollingul, pe bot,
-            Am si rima ca masina,
-            Varza rau, stricat ca INNA,
-            Trebe sa continui strofa
-            ca sa vad scrollingul
-            LALALALAL BATMANppppppp
-            Da-i un comment lung de tot
-            Sa vezi scrollingul, pe bot,
-            Am si rima ca masina,
-            Varza rau, stricat ca INNA,
-            Trebe sa continui strofa
-            ca sa vad scrollingul
-            LALALALAL BATMANppppppp
-            Da-i un comment lung de tot
-            Sa vezi scrollingul, pe bot,
-            Am si rima ca masina,
-            Varza rau, stricat ca INNA,
-            Trebe sa continui strofa
-            ca sa vad scrollingul
-            LALALALAL BATMANppppppp
-            Da-i un comment lung de tot
-            Sa vezi scrollingul, pe bot,
-            Am si rima ca masina,
-            Varza rau, stricat ca INNA,
-            Trebe sa continui strofa
-            ca sa vad scrollingul
-            LALALALAL BATMANppppppp
-          </p>
-        </div>
-        <div class="review">
-          <h2 class="author">Gustav Molotov</h2>
-          <p class="comment">
-              Not enough room for my phat arse yet, but thanks to renault i lost about 3 kgs.Luckly i don't drink
-              anymore, am thinner and leading a happier life because of renault.Bad news is i sold two kidneys when
-              my clutch broke.
-          </p>
-        </div>
-        <div class="review">
-          <h2 class="author">Alex</h2>
-          <p class="comment">
-             I used to have money before purchasing this manufacturer.Unfortunately now i have my car but my
-             wife and kids left me because i couldn't further spend money in the house.Whenever a renault part
-             broke i had to access my kids' college fund to repair it.But overall, they work fine.4 stars from me.
-            </p>
-        </div>
-      </div>
-      <h2 class="overall-review">OVERALL RATING:</h2>
-      <fieldset class="rating">
-        <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="AMAZING!">5</label>
-        <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="NB BRAH">4</label>
-        <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="SO-SO">3 </label>
-        <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="LAME">2 </label>
-        <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="HORRIBLE">1</label>
-      </fieldset>
+    <div class="details-reviews-body">
+      <h1 class='title-reviews'>REVIEWS</h1>
+        <ul class = "review-list">
+          {% for review in reviews %}
+            <li class="details-reviews">
+              <h2 class="details-user">
+                {{ review.user }}
+              </h2>
+              <p class="details-user-review">
+                {{ review.review|safe }}
+              </p>
+            </li>
+            {% else %}
+            <li class="details-reviews"><em class="details-reviews" >NO REVIEWS YET</em></li>
+          {% endfor %}
+        </ul>
     </div>
   </div>
 {% endblock %}
