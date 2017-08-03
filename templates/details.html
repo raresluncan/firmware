@@ -1,11 +1,11 @@
 {% extends "layout.html" %}
 
 {% block content %}
-  <div action="{{ url_for('show_details', company_id=rows.company_id) }}"  class="company-details" >
+  <div action="{{ url_for('details', company_id=company.company_id) }}"  class="company-details" >
     <div class="details-title-logo">
-      {% for row in rows %}
+      {% for row in company %}
         <div class="details-presentation-title">
-          <img class="details-logo" src="../static/images/{{ row.company_logo }}.jpg" />
+          <img class="details-logo" src="../static/images/{{ row.company_logo }}" />
           <p class="details-title">
             {{ row.company_name }}
           </p>
