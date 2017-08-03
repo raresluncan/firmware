@@ -319,6 +319,7 @@ body {
   border-radius: 25px;
   text-align: center;
   box-shadow: 0px 4px 83px 14px rgba(0,0,0,0.75);
+  padding: 10px;
 }
 
 .details-reviews-body {
