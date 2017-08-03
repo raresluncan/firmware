@@ -50,15 +50,24 @@ def home():
     return render_template('index.html', companies=companies)
 
 
+@app.route('/404-page-not-found')
+def not_found():
+    return render_template('404.html', error_message="Resource not found!")
+
+
 @app.route('/details/<company_id>')
 def details(company_id):
     db = get_db()
-    print(company_id)
-    companyCursor = db.execute('select * from companies where company_id="%s"' % company_id)
-    company = companyCursor.fetchmany(1)
-    if not company:
-        print("No company detected with specified id")
-        return render_template('404.html')
-    reviewsCursor = db.execute('select user, review from reviews where company_id="%s" order by id desc' % company_id)
+    companyCursor = db.execute(
+        'select * from companies where company_id="%s"' % company_id
+    )
+    records = companyCursor.fetchmany(1)
+    if len(records) == 0:
+        return redirect(url_for('not_found'))
+
+    reviewsCursor = db.execute(
+        'select user, review from reviews where company_id="%s" order by id desc'
+        % company_id
+    )
     reviews = reviewsCursor.fetchall()
-    return render_template('details.html', reviews=reviews, company=company)
+    return render_template('details.html', reviews=reviews, company=records[0])

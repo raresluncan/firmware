@@ -3,29 +3,27 @@
 {% block content %}
   <div action="{{ url_for('details', company_id=company.company_id) }}"  class="company-details" >
     <div class="details-title-logo">
-      {% for row in company %}
-        <div class="details-presentation-title">
-          <img class="details-logo" src="../static/images/{{ row.company_logo }}" />
-          <p class="details-title">
-            {{ row.company_name }}
-          </p>
-        </div>
-        <div class="overall-rating-company">
-          Overall rating: {{ row.company_rating }}
-          <fieldset class="rating">
-            <input type="radio" class="star1" name="rating" value="1" /><label for="star5" title="AMAZING!">5</label>
-            <input type="radio" class="star2" name="rating" value="2" /><label for="star4" title="NB BRAH">4</label>
-            <input type="radio" class="star3" name="rating" value="3" /><label for="star3" title="SO-SO">3 </label>
-            <input type="radio" class="star4" name="rating" value="4" /><label for="star2" title="LAME">2 </label>
-            <input type="radio" class="star5" name="rating" value="5" /><label for="star1" title="HORRIBLE">1</label>
-          </fieldset>
-        </div>
-        <div class="details-description">
-          <p class="details-description-text">
-            {{ row.company_details }}
-          </p>
-        </div>
-      {% endfor %}
+      <div class="details-presentation-title">
+        <img class="details-logo" src="../static/images/{{ company.company_logo }}" />
+        <p class="details-title">
+          {{ company.company_name }}
+        </p>
+      </div>
+      <div class="overall-rating-company">
+        Overall rating: {{ company.company_rating }}
+        <fieldset class="rating">
+          <input type="radio" class="star1" name="rating" value="1" /><label for="star5" title="AMAZING!">5</label>
+          <input type="radio" class="star2" name="rating" value="2" /><label for="star4" title="NB BRAH">4</label>
+          <input type="radio" class="star3" name="rating" value="3" /><label for="star3" title="SO-SO">3 </label>
+          <input type="radio" class="star4" name="rating" value="4" /><label for="star2" title="LAME">2 </label>
+          <input type="radio" class="star5" name="rating" value="5" /><label for="star1" title="HORRIBLE">1</label>
+        </fieldset>
+      </div>
+      <div class="details-description">
+        <p class="details-description-text">
+          {{ company.company_details }}
+        </p>
+      </div>
     </div>
     <div class="details-reviews-body">
       <h1 class='title-reviews'>REVIEWS</h1>
