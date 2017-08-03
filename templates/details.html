@@ -11,13 +11,16 @@
       </div>
       <div class="overall-rating-company">
         Overall rating: {{ company.company_rating }}
-        <fieldset class="rating">
-          <input type="radio" class="star1" name="rating" value="1" /><label for="star5" title="AMAZING!">5</label>
-          <input type="radio" class="star2" name="rating" value="2" /><label for="star4" title="NB BRAH">4</label>
-          <input type="radio" class="star3" name="rating" value="3" /><label for="star3" title="SO-SO">3 </label>
-          <input type="radio" class="star4" name="rating" value="4" /><label for="star2" title="LAME">2 </label>
-          <input type="radio" class="star5" name="rating" value="5" /><label for="star1" title="HORRIBLE">1</label>
-        </fieldset>
+        <form id="ratingsForm">
+          <div class="stars">
+            <input type="radio" name="star" class="star-1" id="star-1" /><label for="star-5" class="star-1">1</label>
+            <input type="radio" name="star" class="star-2" id="star-2" /><label for="star-4" class="star-2">2</label>
+            <input type="radio" name="star" class="star-3" id="star-3" /><label for="star-3" class="star-3">3</label>
+            <input type="radio" name="star" class="star-4" id="star-4" /><label for="star-2" class="star-4">4</label>
+            <input type="radio" name="star" class="star-5" id="star-5" /><label for="star-1" class="star-5">5</label>
+            <span></span>
+          </div>
+        </form>
       </div>
       <div class="details-description">
         <p class="details-description-text">
