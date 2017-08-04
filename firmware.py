@@ -71,3 +71,8 @@ def details(company_id):
     )
     reviews = reviewsCursor.fetchall()
     return render_template('details.html', reviews=reviews, company=records[0])
+
+
+@app.route('/add/company')
+def add_company():
+    return render_template('add_company.html')

@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% block content %}
+  <div class="add-company-layout">
+    <form action="" class="add-company">
+      <dl class="entries">
+        <div class="left">
+          <dt class="add-company-label name">COMPANY NAME</dt>
+          <dd>
+            <textarea class="add-company- inputadd -name" rows=1 cols=20 name=company_name_input maxlength=20></textarea>
+          </dd>
+          <dt class="add-company-label adress">COMPANY ADRESS</dt>
+          <dd>
+            <textarea class= "add-company- inputadd -adress" name=company_name_input maxlength=120></textarea>
+          </dd>
+          <dt class="add-company-label description">COMPANY DESCRIPTION</dt>
+          <dd>
+            <textarea class="add-company- inputadd -description" type=textarea name=company_name_input maxlength=150></textarea>
+          </dd>
+          <dt class="add-company-label description">COMPANY CATEGORY</dt><br />
+          <select class="select-category">
+            <option disabled selected value> -- select category -- </option>
+            <option>marketing</option>
+            <option>food/drinks</option>
+            <option>automotive</option>
+            <option>clothing</option>
+            <option>technology</option>
+            <option>resources</option>
+            <option>social</option>
+          </select>
+          <br>
+          <dt class="add-company-label details">COMPANY DETAILS</dt>
+          <dd>
+            <textarea class="add-company- inputadd -details" rows=20 cols=80 maxlength=2000></textarea>
+          </dd>
+          <div class="addlogo">
+            <p class="add-company-label logo">
+              COMPANY LOGO
+            </p>
+            <input class="add-company- inputadd -logo" type=file name=company_name_input accept="image/*"/>
+          </div>
+          <button class="submit-button">SUBMIT COMPANY</button>
+        </div>
+      </dl>
+    </form>
+  </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
