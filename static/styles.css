@@ -663,6 +663,7 @@ form .stars span {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.25s,color 0.25s;
+  margin-left: 25px;
 }
 
 .submit-button:hover {
@@ -680,4 +681,46 @@ form .stars span {
 
 .select-category.label {
   text-align: center;
+}
+
+.add-company-label:after {
+  color: red;
+  content: "  *";
+}
+
+.add-company-title {
+  display: block;
+  margin-bottom: 200px;
+  font-size: 30px;
+  font-weight: bolder;
+  background-color: rgba(195, 74, 74, 0.8);
+  border-radius: 25px;
+  padding-left:10px;
+  padding-right: 10px;
+  float:left;
+  text-align: center;
+  align-self:stretch;
+}
+
+.alert {
+  padding: 20px;
+  background-color: #006a81;
+  color: white;
+  margin-top: 74px;
+  text-align: center;
+}
+
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
 }

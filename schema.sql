@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS companies (
   `company_details` TEXT NOT NULL,
   `company_rating` TEXT NOT NULL,
   `company_logo` TEXT NOT NULL,
-  `company_adress` TEXT NOT NULL,
+  `company_adress` TEXT NOT NULL UNIQUE,
   `category_id` INTEGER
 );
 
