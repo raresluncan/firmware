@@ -308,7 +308,7 @@ body {
   flex-flow: row;
   margin-bottom: 20px;
   align-items: baseline;
-  align-content:flex-end;
+  align-content: flex-end;
   border-bottom: 2px solid black;
 }
 
