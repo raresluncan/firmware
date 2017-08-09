@@ -7,18 +7,18 @@ create table if not exists reviews (
 
 
 CREATE TABLE IF NOT EXISTS companies (
-  `company_id` INTEGER PRIMARY KEY AUTOINCREMENT,
-  `company_name` TEXT NOT NULL UNIQUE,
-  `company_description` TEXT NOT NULL,
-  `company_details` TEXT NOT NULL,
-  `company_rating` TEXT NOT NULL,
-  `company_logo` TEXT NOT NULL,
-  `company_adress` TEXT NOT NULL UNIQUE,
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `name` TEXT NOT NULL UNIQUE,
+  `description` TEXT NOT NULL,
+  `details` TEXT NOT NULL,
+  `rating` TEXT NOT NULL,
+  `logo` TEXT NOT NULL,
+  `adress` TEXT NOT NULL UNIQUE,
   `category_id` INTEGER
 );
 
 
-CREATE TABLE IF NOT EXISTS category (
-  `category_id` INTEGER PRIMARY KEY AUTOINCREMENT,
-  `category_type` TEXT NOT NULL UNIQUE
+CREATE TABLE IF NOT EXISTS categories (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `type` TEXT NOT NULL UNIQUE
 );

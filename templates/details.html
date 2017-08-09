@@ -1,12 +1,12 @@
 {% extends "layout.html" %}
 
 {% block content %}
-  <div action="{{ url_for('details', company_id=company.company_id) }}"  class="company-details" >
+  <div action="{{ url_for('details', company_id=company.id) }}"  class="company-details" >
     <div class="details-title-logo">
       <div class="details-presentation-title">
-        <img class="details-logo" src="../static/images/{{ company.company_logo }}" />
+        <img class="details-logo" src="../static/images/{{ company.logo }}" />
         <p class="details-title">
-          {{ company.company_name }}
+          {{ company.name }}
         </p>
       </div>
       <div class="overall-rating-company">
@@ -31,7 +31,7 @@
             company adress
            </p>
            <p class="adress-body">
-            {{ company.company_adress }}
+            {{ company.adress }}
            </p>
 
          </div>
@@ -40,12 +40,12 @@
          </p>
       </div>
 
-      <p class="details-readOnly">
+      <p class="details-read-only">
         DETAILS
       </p>
       <div class="details-description">
         <p class="details-description-text">
-          {{ company.company_details }}
+          {{ company.details }}
         </p>
       </div>
     </div>

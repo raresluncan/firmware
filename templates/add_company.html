@@ -6,20 +6,19 @@
         <div class="left">
           <dt class="add-company-label name">COMPANY NAME</dt>
           <dd>
-            <input value="{{ data.form.get('company_name', '') }}" name="company_name" class="add-company- inputadd -name" placeholder="Company name (max 20 characters)" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Company name (max 20 characters)'" rows=1 cols=20 maxlength=20  />
+            <input value="{{ data.get('company_name', '') }}" name="company_name" class="add-company- inputadd -name" placeholder="Company name (max 20 characters)" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Company name (max 20 characters)'" rows=1 cols=20 maxlength=20  />
           </dd>
           <dt class="add-company-label adress">COMPANY ADRESS</dt>
           <dd>
-            <textarea name="company_adress" class= "add-company- inputadd -adress" placeholder="Enter the adress where clients can find you (max 120 characters)" onfocus="this.placeholder=''" onblur="this.placeholder = 'Enter the adress where clients can find you (max 120 characters)'" maxlength=120>{{ data.form.get('company_adress', '') }}</textarea>
+            <textarea name="company_adress" class= "add-company- inputadd -adress" placeholder="Enter the adress where clients can find you (max 120 characters)" onfocus="this.placeholder=''" onblur="this.placeholder = 'Enter the adress where clients can find you (max 120 characters)'" maxlength=120>{{ data.get('company_adress', '') }}</textarea>
           </dd>
           <dt class="add-company-label description">COMPANY DESCRIPTION</dt>
           <dd>
-            <textarea name="company_description" class="add-company- inputadd -description" placeholder="Enter a short description for your company (max 150 characters)" onfocus="this.placeholder = None" onblur="this.placeholder = 'Enter a short description for your company (max 150 characters)'" type=textarea maxlength=150>{{ data.form.get('company_description', '') }}</textarea>
+            <textarea name="company_description" class="add-company- inputadd -description" placeholder="Enter a short description for your company (max 150 characters)" onfocus="this.placeholder = None" onblur="this.placeholder = 'Enter a short description for your company (max 150 characters)'" type=textarea maxlength=150>{{ data.get('company_description', '') }}</textarea>
           </dd>
           <dt class="add-company-label description">COMPANY CATEGORY</dt><br />
           <select name="select-category-list" class="select-category">
             <option disabled selected value>-- select category --</option>
-             <option>{{ data.form.get('select-category-list') }}</option>
               <option>marketing</option>
               <option>food/drinks</option>
               <option>automotive</option>
@@ -31,7 +30,7 @@
           <br>
           <dt class="add-company-label details">COMPANY DETAILS</dt>
           <dd>
-            <textarea name="company_details" class="add-company- inputadd -details" placeholder="Enter a detailed description about your company (max 2000 characters)" onfocus="this.placeholder = None" onblur="this.placeholder = 'Enter a detailed description about your company (max 2000 characters)'" rows=20 cols=80 maxlength=2000>{{ data.form.get('company_details', '') }}</textarea>
+            <textarea name="company_details" class="add-company- inputadd -details" placeholder="Enter a detailed description about your company (max 2000 characters)" onfocus="this.placeholder = None" onblur="this.placeholder = 'Enter a detailed description about your company (max 2000 characters)'" rows=20 cols=80 maxlength=2000>{{ data.get('company_details', '') }}</textarea>
           </dd>
           <div class="addlogo">
             <p class="add-company-label logo">

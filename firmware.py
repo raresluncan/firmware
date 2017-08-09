@@ -11,10 +11,11 @@ app.config.update(dict(
     SECRET_KEY = 'such secret much wow so key no guess muh'
 ))
 
+
 UPLOAD_FOLDER = 'static/Images/'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['MY_MESSAGE'] = "error"
+filename="default"
 
 
 def connect_db():
@@ -57,75 +58,83 @@ def home():
 
 
 @app.route('/404-page-not-found')
-def not_found():
-    return render_template('404.html', error_message=app.config['MY_MESSAGE'])
+def not_found(error):
+    return render_template('404.html', error_message=error)
 
 
 @app.route('/details/<company_id>')
 def details(company_id):
     db = get_db()
     companyCursor = db.execute(
-        'select * from companies where company_id="%s"' % company_id
+        'select * from companies where id="%s"' % company_id
     )
     records = companyCursor.fetchmany(1)
     if len(records) == 0:
-        app.config['MY_MESSAGE']="The requested company was not found!"
-        return redirect(url_for('not_found'))
-    categoryCursors = db.execute( 'select category_type from category where category_id="%s"' % records[0]['category_id'])
+        return render_template('404.html', error="The requested company \
+        was not found!")
+    categoryCursors = db.execute( 'select type from categories where \
+    id="%s"' % records[0]['category_id'])
     category = categoryCursors.fetchall()
     reviewsCursor = db.execute(
-        'select user, review from reviews where company_id="%s" order by id desc'
-        % company_id
+        'select user, review from reviews where company_id="%s" order by id \
+        desc' % company_id
     )
     reviews = reviewsCursor.fetchall()
-    return render_template('details.html', reviews=reviews, company=records[0], category=category[0]['category_type'])
+    return render_template('details.html', reviews=reviews, company=records[0],
+        category=category[0]['type'])
+
+
+def upload_file(file):
+    globals()['filename'] = file.filename
+    file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
+    os.rename(UPLOAD_FOLDER+filename, UPLOAD_FOLDER+filename+".jpg")
+
+
+def validate_company(request_form, request_files):
+    errors = dict()
+    if(request_form['company_name'] == ""):
+        errors['company_name'] = "Please add a name for your company!"
+    if(request_form['company_adress'] == ""):
+        errors['company_adress'] = "Please add an adress for your company!"
+    if(request_form['company_description'] == ""):
+        errors['company_description'] = "Please add a short description for \
+        your company!"
+    if request_form.get('select-category-list') == None:
+        errors['select-category-list'] = 'Please select a category for your \
+        company!'
+    if(request_form['company_details'] == ""):
+        errors['company_details'] = "Please add a few details about your \
+        company!"
+    file = request_files['company_logo']
+    if file:
+        upload_file(file)
+    return errors
 
 
 @app.route('/add/company', methods=['GET', 'POST'])
 def add_company():
     db = get_db()
-    submitted_data = request;
+    errors = dict()
     if request.method == 'POST':
-        submitted_data = request
-        a = request.form['company_name']
-        if(a == ""):
-            flash("Please add a name for your company!")
-            return render_template('add_company.html', data=submitted_data)
-        e = request.form['company_adress']
-        if(e == ""):
-            flash("Please add an adress for your company!")
-            return render_template('add_company.html', data=submitted_data)
-        b = request.form['company_description']
-        if(b == ""):
-            flash("Please add a short description for your company!")
-            return render_template('add_company.html', data=submitted_data)
-        if request.form.get('select-category-list') == None:
-            flash('Please select a category for your company!')
-            return render_template('add_company.html', data=submitted_data)
-        addCursor = db.execute("select category_id from category where \
-            category_type='%s'" % str(request.form.get('select-category-list')))
-        cat_id = addCursor.fetchall()[0]
-        c = request.form['company_details']
-        if(c == ""):
-            flash("Please add a few details about your company!")
-            return render_template('add_company.html', data=submitted_data)
-        d = str(int(cat_id[0]))
-        file = request.files['company_logo']
-        if file:
-            filename = file.filename
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
-            os.rename(UPLOAD_FOLDER+filename, UPLOAD_FOLDER+a+".jpg")
-        else:
-            flash("No logo added for your company.You can do that later!")
-            filename = "default"
-        db.execute("insert into companies (company_name, \
-            company_description , company_details, company_rating, \
-            company_logo, company_adress, category_id) values \
-            (?, ?, ?, ?, ?, ?, ?)", (a, b, c, 0, filename+".jpg", e, d)
-            )
-        db.commit()
-        flash('Congratulations on adding your company, '+a+' to our website!Check out your profile below.')
-        addCursor = db.execute("select MAX(company_id) from companies")
-        cat_id = addCursor.fetchall()[0]
-        return redirect(url_for('details', company_id=cat_id[0]))
-    return render_template('add_company.html', data=request)
+        errors = validate_company(request.form, request.files)
+        if not errors:
+            add_cursor = db.execute("select id from categories where \
+                type='%s'" % str(request.form.get('select-category-list')))
+            category_id = add_cursor.fetchall()[0]
+            db.execute("insert into companies (name, \
+                description , details, rating, \
+                logo, adress, category_id) values \
+                (?, ?, ?, ?, ?, ?, ?)", (request.form['company_name'],
+                request.form['company_description'],
+                request.form['company_details'],
+                0, filename+".jpg",
+                request.form['company_adress'],
+                str(int(category_id[0]))))
+            db.commit()
+            add_cursor = db.execute("select MAX(id) from companies")
+            new_company_id = add_cursor.fetchall()[0]
+            flash('Congratulations on adding your company, ' \
+                + request.form['company_name']+' to our website!Check out your \
+                 profile below.')
+            return redirect(url_for('details', company_id=new_company_id[0]))
+    return render_template('add_company.html', data=request.form, errors=errors)
