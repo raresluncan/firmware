@@ -3,6 +3,7 @@ import os
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
 
 from uploaders import upload_file
+from firmware import app
 
 def connect_db():
     rv = sqlite3.connect(app.config['DATABASE'], timeout=1)
@@ -42,7 +43,8 @@ def get_companies():
     return companies
 
 
-def add_company(request_form):
+def add_company(request_form,request_files):
+    db = get_db()
     add_cursor = db.execute("select id from categories where \
         type='%s'" % str(request_form.get('select-category-list')))
     category_id = add_cursor.fetchall()[0]
@@ -71,6 +73,7 @@ def get_company(company_id):
 
 
 def get_category(company_id):
+    db = get_db()
     categoryCursors = db.execute( 'select type from categories where \
     id="%s"' % get_company(company_id)['category_id'])
     category = categoryCursors.fetchall()
@@ -78,6 +81,7 @@ def get_category(company_id):
 
 
 def get_reviews(company_id):
+    db = get_db()
     reviewsCursor = db.execute(
         'select user, review from reviews where company_id="%s" order by id \
         desc' % company_id
