@@ -40,6 +40,10 @@ def add_company():
                 + request.form['company_name']+' to our website!Check out your \
                  profile below.')
             return redirect(url_for('details', company_id=new_company_id))
-        else:
-            error_point = "#"+max(errors.keys())
     return render_template('add_company.html', data=request.form, errors=errors)
+
+
+@app.route('/add/user/', methods=['GET', 'POST'])
+def add_user():
+    errors = dict()
+    return render_template('add_user.html', data=request.form, errors=errors)

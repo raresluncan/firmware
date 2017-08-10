@@ -83,7 +83,7 @@ def get_category(company_id):
 def get_reviews(company_id):
     db = get_db()
     reviewsCursor = db.execute(
-        'select user, review from reviews where company_id="%s" order by id \
+        'select user_id, review from reviews where company_id="%s" order by id \
         desc' % company_id
     )
     reviews = reviewsCursor.fetchall()

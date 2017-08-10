@@ -50,21 +50,46 @@
       </div>
     </div>
     <div class="details-reviews-body">
-      <h1 class='title-reviews'>REVIEWS</h1>
-        <ul class = "review-list">
-          {% for review in reviews %}
-            <li class="details-reviews">
-              <h2 class="details-user">
-                {{ review.user }}
-              </h2>
-              <p class="details-user-review">
-                {{ review.review|safe }}
-              </p>
-            </li>
-            {% else %}
-            <li class="details-reviews"><em class="details-reviews" >NO REVIEWS YET</em></li>
-          {% endfor %}
-        </ul>
+      <div class="reviews-top">
+        <h1 class='title-reviews'>REVIEWS</h1>
+          <ul class = "review-list">
+            {% for review in reviews %}
+              <li class="details-reviews">
+                <h2 class="details-user">
+                  {{ review.user }}
+                </h2>
+                <p class="details-user-review">
+                  {{ review.review|safe }}
+                </p>
+              </li>
+              {% else %}
+              <li class="details-reviews"><em class="details-reviews" >NO REVIEWS YET</em></li>
+            {% endfor %}
+          </ul>
+      </div>
+      <div class="reviews-bottow">
+        <div class="add-review">
+          <div class="add-review-title-rating">
+            <div class="add-review-title">
+              ENTER A REVIEW:
+            </div>
+            <div class="add-review-rating">
+              <form id="ratingsForm user-input">
+                <div class="stars">
+                  <input type="radio" name="star" class="star-1" id="star-1" /><label for="star-5" class="star-1">1</label>
+                  <input type="radio" name="star" class="star-2" id="star-2" /><label for="star-4" class="star-2">2</label>
+                  <input type="radio" name="star" class="star-3" id="star-3" /><label for="star-3" class="star-3">3</label>
+                  <input type="radio" name="star" class="star-4" id="star-4" /><label for="star-2" class="star-4">4</label>
+                  <input type="radio" name="star" class="star-5" id="star-5" /><label for="star-1" class="star-5">5</label>
+                  <span></span>
+                </div>
+              </form>
+            </div>
+          </div>
+          <textarea  name="enter-review" class="enter-review" placeholder="Enter a detailed description about your company (max 2000 characters)" onfocus="this.placeholder = None" onblur="this.placeholder = 'Enter a detailed description about your company (max 2000 characters)'" rows=20 cols=80 maxlength=2000></textarea>
+          <input type="submit" value="SUBMIT REVIEW" class="submit-review"></input>
+        </div>
+      </div>
     </div>
   </div>
 {% endblock %}

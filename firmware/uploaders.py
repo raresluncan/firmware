@@ -14,5 +14,5 @@ def upload_file(file):
     if file:
         globals()['filename'] = file.filename
         file.save(os.path.join(app.config['UPLOAD_FOLDER'],globals()['filename']))
-        os.rename(UPLOAD_FOLDER+filename, UPLOAD_FOLDER+filename+".jpg")
+        os.rename(UPLOAD_FOLDER+filename, UPLOAD_FOLDER+filename)
     return filename

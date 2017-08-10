@@ -45,21 +45,112 @@ body {
   height: 100px;
 }
 
+.header-buttons {
+  display: inline-flex;
+  flex-direction: row-reverse;
+  align-items: stretch;
+  align-content: center;
+  width: 100%;
+  margin-left: 692px
+}
+
+.header-button-search {
+  display: inline-block;
+  width: 150px;
+  height: 100px;
+  font-weight: bolder;
+  font-size: 15px;
+  box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
+  cursor: pointer;
+  transition: background-color 0.25s,color 0.25s;
+  background-color: rgb(69, 67, 67);
+}
+
+.header-button {
+  margin-top: 15px;
+  margin-right: 20px;
+  display: inline-block;
+  width: 150px;
+  height: 50px;
+  font-weight: bolder;
+  font-size: 15px;
+  box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.25s,color 0.25s;
+}
+
+.header-button.-new-account{
+  background-color: rgb(0, 164, 71);
+  transition: color 0.25s,background-color 0.25s;
+  margin-left: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-button.-new-account:hover{
+  background-color: rgb(0, 193, 83);
+  color: white;
+}
+
+.header-button.-log-in{
+  background-color: rgba(0, 133, 190, 1);
+}
+
+.-profile-pic {
+  position: relative;
+  top: -8px;
+  display:block;
+  height: 70px;
+  width: 70px;
+  border-radius: 50%;
+  box-shadow: 0px 0px 45px 1px rgba(0,0,0,0.75);
+}
+
+.header-button:hover {
+  background-color: rgb(91, 191, 255);
+  color: white;
+}
+
+.title-area {
+  display: inline-flex;
+  flex-flow: row;
+  width: 100%;
+  height: 100spx;
+  background-color: rgb(69, 67, 67);
+}
+
 .home-title {
+  display: inline-flex;
+  flex-flow: column;
   position: fixed;
+  height: 74px;
   left: +230px;
   font-size: 20px;
   background-color: rgb(69, 67, 67);
   color: rgb(0, 194, 255);
-  width: 100%;
   z-index: 20;
+  min-width: 480px;
+}
+
+.title {
+  margin-top: 10px;
+  display: inline-block;
+  position: fixed;
+  min-width: 480px;
+  text-align: center;
 }
 
 .subtitle {
+  display: inline-block;
+  text-align: center;
   font-size: 20px;
-  margin-top: -3px;
+  margin-top: 48px;
   color: rgb(213, 213, 213);
   height: 30px;
+  margin-top: 48px;
+  min-width: 480px;
 }
 
 .navigation {
@@ -95,7 +186,7 @@ body {
   background-color: rgb(69, 67, 67);
   list-style: none;
   z-index: 2;
-  top: -250px;
+  top: -350px;
   transition: all .3s ease-in-out;
 }
 
@@ -114,7 +205,13 @@ body {
   text-align: center;
   padding-right: 120px;
   background-color: rgb(69, 67, 67);
-  z-index: 3
+  z-index: 3;
+  color: rgb(29, 34, 37);
+  transition: color 0.25s;
+}
+
+.nav-toggle:hover {
+  color: white;
 }
 
 #navToggle:checked ~ .navlist {
@@ -141,8 +238,8 @@ body {
   position: absolute;
   bottom: 50px;
   padding: 20px 20px;
-  width:100%;
-  height:500px;
+  width: 100%;
+  height: 500px;
   z-index: 0;
   top: 475px;
   background: rgb(236, 236, 236);
@@ -164,13 +261,14 @@ body {
 .companies {
   position: relative;
   top: 80px;
-  padding: 10px;
-  margin-left: 30px;
+  padding: 10px 0px 10px 0px;
   width:100%;
   display: flex;
   flex-direction: row;
-  align-content: flex-start;
+  align-content: center;
+  align-items:stretch;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .pagination {
@@ -206,7 +304,7 @@ body {
   background-color: rgb(236, 236, 236);
   width: 400px;
   padding: 30px 30px;
-  margin: 5px;
+  margin: 5px 20px 5px 20px;
   height: 150px;
 }
 
@@ -263,7 +361,7 @@ body {
   position: relative;
   display: flex;
   flex-flow: row;
-  justify-content:space-around;
+  justify-content: space-around;
   top: 150px;
   width: 100%;
   display: flex;
@@ -340,6 +438,61 @@ body {
 .details-reviews-body {
   margin-right: 100px;
   position: relative;
+  max-height: 500px;
+  width: 1000px;
+  min-width: 500px;
+}
+
+.add-review {
+  width: 100%;
+  height: 500px;
+  margin-top: 50px;
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.add-review-title-rating {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+
+}
+
+.add-review-title {
+  margin-right: 50px;
+  background-color: rgba(255, 161, 0, 0.8);
+  padding: 4px;
+}
+
+.enter-review {
+  width: 530px;
+  min-width: 300px;
+  min-height: 150px;
+  padding: 5px;
+  background-color: rgb(203, 203, 203);
+  font-size: 15px;
+}
+
+.submit-review {
+  float: right;
+  width: 150px;
+  height: 50px;
+  font-weight: bolder;
+  font-size: 15px;
+  box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: rgba(255, 161, 0, 0.8);
+  transition: background-color 0.25s,color 0.25s;
+  margin-left: 380px;
+  margin-top: 50px;
+  margin-bottom: 70px;
+}
+
+.submit-review:hover {
+  background-color: rgba(255, 185, 65, 0.8);
+  color: white;
 }
 
 .title-reviews {
@@ -397,7 +550,6 @@ body {
   color: white;
   text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000,
     2px 2px 0 #000;
-
 }
 
 .review-list {
@@ -701,7 +853,6 @@ form .stars span {
 .alerts {
   display: flex;
   flex-flow: column-reverse;
-  margin-top: 74px;
 }
 
 .alert {
@@ -714,7 +865,6 @@ form .stars span {
 
 .alert:hover {
   background-color: #f4241d;
-
 }
 
 .closebtn {
@@ -775,4 +925,91 @@ form .stars span {
 
 .closebtn-flash:hover {
   color: black;
+}
+
+.ratingsForm.user-input {
+  padding-left: 100px;
+}
+
+.-input {
+  margin: 0;
+}
+
+.title-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.add-user-label {
+  display: inline-block;
+  font-size: 20px;
+  font-weight: bolder;
+  font-style: italic;
+  margin-bottom: 10px;
+  margin-top: 5px;
+  background-color: rgba(119, 210, 244, 0.7);
+  border-radius: 5px;
+  padding: 5px 10px 5px 107px;
+  color: rgb(244, 243, 242);
+  text-align: right;
+}
+
+.-mandatory-label:after {
+  color: red;
+  content: "  *";
+}
+
+.--input-new-user {
+  width: 500px;
+  margin-left: 30px;
+  font-size: 15px;
+  height: 30px;
+  font-weight: bolder;
+}
+
+.user-email {
+  padding-left: 57px;
+}
+
+.user-confirm-password {
+  padding-left: 15px;
+}
+
+.real-name {
+  padding-left: 117px;
+}
+
+.user-email {
+  padding-left: 154px;
+}
+
+.surname {
+  padding-left: 132px;
+}
+
+.add-user-submit-button {
+  position: relative;
+  bottom: 0;
+  float: right;
+  width: 150px;
+  height: 50px;
+  font-weight: bolder;
+  font-size: 15px;
+  box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.25s,color 0.25s;
+  margin-left: 616px;
+  margin-top: 30px;
+}
+
+.add-user-submit-button:hover {
+  background-color: rgb(91, 191, 255);
+  color: white;
+}
+
+.add-user {
+  display: inline-flex;
+  flex-direction: column;
 }
