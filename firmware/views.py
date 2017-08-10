@@ -28,9 +28,10 @@ def details(company_id):
         category=category)
 
 
-@app.route('/add/company', methods=['GET', 'POST'])
+@app.route('/add/company/', methods=['GET', 'POST'])
 def add_company():
     errors = dict()
+    error_point=''
     if request.method == 'POST':
         errors = validate_company(request.form, request.files)
         if not errors:
@@ -39,4 +40,6 @@ def add_company():
                 + request.form['company_name']+' to our website!Check out your \
                  profile below.')
             return redirect(url_for('details', company_id=new_company_id))
+        else:
+            error_point = "#"+max(errors.keys())
     return render_template('add_company.html', data=request.form, errors=errors)
