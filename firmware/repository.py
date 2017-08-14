@@ -5,6 +5,8 @@ from flask import Flask, request, session, g, redirect, url_for, abort, render_t
 from uploaders import upload_file
 from firmware import app
 
+import pdb
+
 def connect_db():
     rv = sqlite3.connect(app.config['DATABASE'], timeout=1)
     rv.row_factory = sqlite3.Row
@@ -43,7 +45,7 @@ def get_companies():
     return companies
 
 
-def add_company(request_form,request_files):
+def add_company(request_form, request_files):
     db = get_db()
     add_cursor = db.execute("select id from categories where \
         type='%s'" % str(request_form.get('select-category-list')))
@@ -54,7 +56,8 @@ def add_company(request_form,request_files):
         (?, ?, ?, ?, ?, ?, ?)", (request_form['company_name'],
         request_form['company_description'],
         request_form['company_details'],
-        0, upload_file(request_files['company_logo'])+".jpg",
+        0, upload_file(request_files['company_logo'], 'firmware/static/Images/',
+        request_form['company_name']),
         request_form['company_adress'],
         str(int(category_id[0]))))
     db.commit()
@@ -83,8 +86,26 @@ def get_category(company_id):
 def get_reviews(company_id):
     db = get_db()
     reviewsCursor = db.execute(
-        'select user_id, review from reviews where company_id="%s" order by id \
-        desc' % company_id
+        'select users.username, users.avatar, reviews.id, reviews.user_id, reviews.review from reviews \
+    inner join users on reviews.user_id = users.id where reviews.company_id ="%s"' % company_id
     )
     reviews = reviewsCursor.fetchall()
     return reviews
+
+
+def add_user(request_form, request_files):
+    db = get_db()
+    add_cursor = db.execute("insert into users (username, password , email, \
+        name, surname, avatar, contact, gender) values \
+        (?, ?, ?, ?, ?, ?, ?, ?)", (request_form['username'],
+        request_form['password'],
+        request_form['email'],
+        request_form.get('real_name', '-'),
+        request_form['surname'],
+        upload_file(request_files['user_avatar'], 'firmware/static/Avatars/',
+            request_form['username']),
+        request_form['contact'],
+        request_form['gender'])
+        )
+    db.commit()
+    return True

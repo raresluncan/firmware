@@ -55,9 +55,14 @@
           <ul class = "review-list">
             {% for review in reviews %}
               <li class="details-reviews">
-                <h2 class="details-user">
-                  {{ review.user }}
-                </h2>
+                <div class="username-avatar">
+                  <h2 class="details-user">
+                    {{ review.username }}
+                  </h2>
+                  <div class="review-avatar-container">
+                    <img src="../static/Avatars/{{ review.avatar }}" class="review-avatar">
+                  </div>
+                </div>
                 <p class="details-user-review">
                   {{ review.review|safe }}
                 </p>

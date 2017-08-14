@@ -7,7 +7,7 @@ app=Flask(__name__)
 app.config.from_object(__name__)
 app.config.update(dict(
     DATABASE = os.path.join(app.root_path, 'firmware.db'),
-    SECRET_KEY = 'such secret much wow so key no guess muh'
+    SECRET_KEY = 'key'
 ))
 
 from firmware import views

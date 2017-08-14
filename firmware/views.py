@@ -4,7 +4,9 @@ from flask import Flask, request, session, g, redirect, url_for, abort, render_t
 
 from firmware import app
 import repository
-from validators import validate_company
+from validators import validate_company, validate_user
+
+import pdb
 
 
 @app.route('/home')
@@ -46,4 +48,14 @@ def add_company():
 @app.route('/add/user/', methods=['GET', 'POST'])
 def add_user():
     errors = dict()
+    if request.method == 'POST':
+        errors = validate_user(request.form, request.files)
+        if not errors:
+            new_user_id = repository.add_user(request.form, request.files)
+            flash("NEW USER ADDED SUCESFULLY!")
+            return redirect(url_for('home'))
     return render_template('add_user.html', data=request.form, errors=errors)
+
+@app.route('/login')
+def login():
+    return render_template('login.html')

@@ -1,6 +1,7 @@
 import sqlite3
 import os
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
+import pdb
 
 def validate_company(request_form, request_files):
     errors = dict()
@@ -17,4 +18,19 @@ def validate_company(request_form, request_files):
     if(request_form['company_details'] == ""):
         errors['add-details'] = "Please add a few details about your \
         company!"
+    return errors
+
+
+def validate_user(request_form, request_files):
+    errors = dict()
+    if request_form['username'] == "":
+        errors['username'] = "Please add a username"
+    if request_form['password'] == "":
+        errors['password'] = "Please add a password"
+    if request_form['confirm_password'] != request_form['password']:
+        errors['confirm_password'] = "Passwords don't match"
+    if request_form['confirm_password'] == "":
+        errors['confirm_password'] = "Please confirm your password!"
+    if request_form['email'] == "":
+        errors['email'] = "Please enter an email!"
     return errors

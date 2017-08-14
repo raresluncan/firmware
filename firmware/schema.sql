@@ -23,11 +23,15 @@ CREATE TABLE IF NOT EXISTS categories (
   `type` TEXT NOT NULL UNIQUE
 );
 
+
 CREATE TABLE IF NOT EXISTS users (
 	`id`	INTEGER PRIMARY KEY AUTOINCREMENT,
 	`username`	TEXT NOT NULL UNIQUE,
 	`password`	TEXT NOT NULL,
 	`email`	TEXT NOT NULL UNIQUE,
 	`name`	TEXT NOT NULL,
-	`surname`	TEXT NOT NULL
+	`surname`	TEXT NOT NULL,
+  `avatar`	TEXT NOT NULL,
+  `contact`	TEXT NOT NULL,
+	`gender`	INTEGER NOT NULL
 );
