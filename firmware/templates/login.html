@@ -1,23 +1,23 @@
 {% extends "layout.html" %}
 
 {% block content %}
-  <div class="login-data">
+  <form method="post" enctype="multipart/form-data" action="{{ url_for('login') }}" class="login-data">
     <div class="enter-user">
       <div class="log-fields">
         <div class="add-user-label -login">
           USERNAME
         </div>
-        <textarea name="username" class="add-user --input-new-user -username-login" placeholder="Enter username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter username'" maxlength=20></textarea></textarea>
+        <textarea name="username-login" class="add-user --input-new-user -username-login" placeholder="Enter username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter username'" maxlength=20></textarea></textarea>
       </div>
       <div class="log-fields">
         <div class="add-user-label -login">
           PASSWORD
         </div>
-        <input type=password name="password" class= "add-user --input-new-user -username-login" placeholder="Enter password" onfocus="this.placeholder=''" onblur="this.placeholder = 'Enter password'" maxlength=120>
+        <input type=password name="password-login" class= "add-user --input-new-user -username-login" placeholder="Enter password" onfocus="this.placeholder=''" onblur="this.placeholder = 'Enter password'" maxlength=120>
       </div>
       <input type="submit" value="LOG IN" class="submit-button -login-submit"></input>
     </div>
-  </div>
+  </form>
 {% endblock %}
 
 {% block footer %}

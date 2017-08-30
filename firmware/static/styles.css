@@ -55,7 +55,8 @@ body {
   align-items: stretch;
   align-content: center;
   width: 100%;
-  margin-left: 692px
+  margin-left: 692px;
+  height: 83px;
 }
 
 .header-button-search {
@@ -103,18 +104,23 @@ body {
 }
 
 .-profile-pic {
+  background-color: rgba(250, 250, 250, 0.8);
   position: relative;
   top: -8px;
   display:block;
   height: 70px;
   width: 70px;
   border-radius: 50%;
-  box-shadow: 0px 0px 45px 1px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 45px 1px rgba(0,0,0,0.55);
 }
 
 .header-button:hover {
   background-color: rgb(91, 191, 255);
   color: white;
+}
+
+.-profile-pic:hover {
+
 }
 
 .title-area {
@@ -1048,13 +1054,14 @@ form .stars span {
   flex-direction: row-reverse;
   align-items: center;
   justify-content: flex-end;
-  width:300px;
+  width: 300px;
+  height: 50px;
   margin-bottom: 30px;
   margin-top: 20px;
   max-width: 400px;
   padding: 5px 10px 5px 0px;
   background-color: rgba(104, 184, 251, 0.2);
-  border-radius: 35px;
+  border-radius: 50px;
   text-align: center;
   transition: background-color 0.25s,color 0.25s,width 0.25s;
 }
@@ -1065,19 +1072,25 @@ form .stars span {
   color: rgb(201, 230, 242);
   cursor: pointer;
 }
+
 .review-avatar-container {
-  width: 60px;
-  height: 60px;
+  min-width: 60px;
+  min-height: 60px;
+  max-width: 90px;
+  max-height: 90px;
+  height:auto;
+  width:auto;
   border-radius: 50%;
   overflow: hidden;
 }
+
 .review-avatar {
+  position: relative;
   height:auto;
   width:auto;
   float:left;
-  max-width: 90px;
-  max-height: 90px;
-
+  width: 4vw;
+  background-color: rgba(196, 228, 255, 1);
 }
 
 .details-user {
@@ -1087,7 +1100,8 @@ form .stars span {
 
 .login-data {
   position: relative;
-  top: 200px;
+  left: -40px;
+  top: 300px;
   width: 100%;
   height: 600px;
   transform: translate(50%, 0%);

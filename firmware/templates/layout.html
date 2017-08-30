@@ -20,7 +20,11 @@
                   <p class="menu-text">HOME</p>
                 </div>
               </a></li>
-              <li class="drop-down-item"><a href="/login">LOG IN</a></li>
+              {% if session.logged_in %}
+                <li class="drop-down-item"><a href="/logout">LOG OUT</a></li>
+              {% else %}
+                <li class="drop-down-item"><a href="/login">LOG IN</a></li>
+              {% endif %}
               <li class="drop-down-item"><a href="#">SEARCH COMPANY</a></li>
               <li class="drop-down-item"><a href="/add/company">ADD COMPANY</a></li>
               <li class="drop-down-item"><a href="#">ABOUT</a></li>
@@ -31,14 +35,20 @@
             <h2 class="subtitle">THE BIGGEST SERVICE FINDER ONLINE</h2>
           </div>
           <div class="header-buttons">
-            <a href="#" type=submit value="profile pic" class="header-button -profile-pic">
-
-            </a>
-            <a href="{{ url_for('login') }}" type=submit value="LOG IN" class="header-button -log-in">
-              <p class="button-label -login-label">
-                <i class="fa fa-sign-in menu-sign-in" aria-hidden="true"></i>LOG IN
-              </p>
-            </a>
+            {% if session.logged_in %}
+                <img src="../static/Avatars/{{ session['avatar'] }}" type=submit id="user_pic" value="profile pic" class="header-button -profile-pic"/>
+                <a href="{{ url_for('logout') }}" type=submit value="LOG IN" class="header-button -log-in">
+                <p class="button-label -login-label">
+                  <i class="fa fa-sign-in menu-sign-in" aria-hidden="true"></i>LOG OUT
+                </p>
+              </a>
+            {% else %}
+              <a href="{{ url_for('login') }}" type=submit value="LOG IN" class="header-button -log-in">
+                <p class="button-label -login-label">
+                  <i class="fa fa-sign-in menu-sign-in" aria-hidden="true"></i>LOG IN
+                </p>
+              </a>
+            {% endif %}
             <a href="{{ url_for('add_user') }}" type=submit value="NEW ACCOUNT" class="header-button -new-account">
               <p class="button-label">
                 <i class="fa fa-plus menu-plus" aria-hidden="true"></i>NEW ACCOUNT
@@ -51,17 +61,19 @@
             {% for key,value in errors.items() %}
               <div class="alert">
                 <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                  {{ value }}
+                {{ value }}
               </div>
             {% endfor %}
+            {% if errors.items()|count >2 %}
             <span class="closebtnall" onclick="this.parentElement.style.display='none';">&times;</span>
+            {% endif %}
           {% endif %}
           {% with messages=get_flashed_messages() %}
             {% if messages %}
               {% for message in messages %}
                 <div class="alert-flash">
                   <span class="closebtn-flash" onclick="this.parentElement.style.display='none';">&times;</span>
-                    {{ message }}
+                  {{ message }}
                 </div>
               {% endfor %}
             {% endif %}

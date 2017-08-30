@@ -19,13 +19,9 @@
           <dt class="add-company-label description">COMPANY CATEGORY</dt><br />
           <select name="select-category-list" class="select-category">
             <option disabled selected value>-- select category --</option>
-              <option>marketing</option>
-              <option>food/drinks</option>
-              <option>automotive</option>
-              <option>clothing</option>
-              <option>technology</option>
-              <option>resources</option>
-              <option>social</option>
+            {% for category in categories %}
+              <option value="{{ category.id }}">{{ category.type }}</option>
+            {% endfor %}
           </select>
           <br>
           <dt class="add-company-label details">COMPANY DETAILS</dt>

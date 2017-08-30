@@ -72,7 +72,7 @@
             {% endfor %}
           </ul>
       </div>
-      <div class="reviews-bottow">
+      <form method="post" enctype="multipart/form-data" action="{{ url_for('add_review', company_id=company.id) }}" class="reviews-bottow">
         <div class="add-review">
           <div class="add-review-title-rating">
             <div class="add-review-title">
@@ -94,7 +94,7 @@
           <textarea  name="enter-review" class="enter-review" placeholder="Enter a detailed description about your company (max 2000 characters)" onfocus="this.placeholder = None" onblur="this.placeholder = 'Enter a detailed description about your company (max 2000 characters)'" rows=20 cols=80 maxlength=2000></textarea>
           <input type="submit" value="SUBMIT REVIEW" class="submit-review"></input>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 {% endblock %}
