@@ -6,6 +6,8 @@ from uploaders import upload_file
 from firmware import app
 
 import pdb
+
+
 def connect_db():
     rv = sqlite3.connect(app.config['DATABASE'], timeout=1)
     rv.row_factory = sqlite3.Row
@@ -141,3 +143,21 @@ def add_reviews(company_id, user, text):
     company_id) values (?, ?, ?)", (user_id,text,company_id))
     db.commit()
     return None
+
+
+def get_category_id(category):
+    db = get_db()
+    get_category_id_query = db.execute("select id from categories where \
+        type = '%s'" % category)
+    category_id_row = get_category_id_query.fetchmany()
+    category_id = category_id_row[0]['id']
+    return category_id
+
+
+def get_filtered_companies(category):
+    db = get_db()
+    category_id = get_category_id(category)
+    get_companies_query = db.execute("select * from companies where \
+        category_id = '%s'" % category_id)
+    companies = get_companies_query.fetchall()
+    return companies

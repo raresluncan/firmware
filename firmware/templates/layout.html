@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="{{ url_for('static',filename='styles.css')}}" />
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="static/category_change.js"></script>
   </head>
   <body>
     {% block header %}
@@ -14,20 +15,57 @@
             <input type="checkbox" id="navToggle" />
             <label for="navToggle" class="nav-toggle">&#9776</label>
             <ul class='navlist'>
-              <li><a class="menu-reference" href="/home">
-                <div class="drop-down-item">
-                  <i class="fa fa-home menu-icon" aria-hidden="true"></i>
-                  <p class="menu-text">HOME</p>
-                </div>
-              </a></li>
+              <li class="menu-list-item">
+                <a class="menu-button" href="/home">
+                  <div class="drop-down-item">
+                    <i class="fa fa-home menu-icon" aria-hidden="true"></i>
+                    <p class="menu-text">HOME</p>
+                  </div>
+                </a>
+              </li>
               {% if session.logged_in %}
-                <li class="drop-down-item"><a href="/logout">LOG OUT</a></li>
+                <li class="menu-list-item">
+                  <a class="menu-button" href="/logout">
+                    <div class="drop-down-item">
+                      <i class="fa fa-sign-out menu-icon" aria-hidden="true"></i>
+                      <p class="menu-text">LOG OUT</p>
+                    </div>
+                  </a>
+                </li>
               {% else %}
-                <li class="drop-down-item"><a href="/login">LOG IN</a></li>
+              <li class="menu-list-item">
+                <a class="menu-button" href="/login">
+                  <div class="drop-down-item">
+                    <i class="fa fa-sign-in menu-icon" aria-hidden="true"></i>
+                    <p class="menu-text">LOG IN</p>
+                  </div>
+                </a>
+              </li>
               {% endif %}
-              <li class="drop-down-item"><a href="#">SEARCH COMPANY</a></li>
-              <li class="drop-down-item"><a href="/add/company">ADD COMPANY</a></li>
-              <li class="drop-down-item"><a href="#">ABOUT</a></li>
+              <li class="menu-list-item">
+                <a class="menu-button" href="#">
+                  <div class="drop-down-item">
+                    <i class="fa fa-search menu-icon" aria-hidden="true"></i>
+                    <p class="menu-text">SEARCH COMPANY</p>
+                  </div>
+                </a>
+              </li>
+              <li class="menu-list-item">
+                <a class="menu-button" href="/add/company/">
+                  <div class="drop-down-item">
+                    <i class="fa fa-plus-circle menu-icon" aria-hidden="true"></i>
+                    <p class="menu-text">ADD COMPANY</p>
+                  </div>
+                </a>
+              </li>
+              <li class="menu-list-item">
+                <a class="menu-button" href="#">
+                  <div class="drop-down-item">
+                    <i class="fa fa-question menu-icon" aria-hidden="true"></i>
+                    <p class="menu-text">ABOUT</p>
+                  </div>
+                </a>
+              </li>
             </ul>
           </nav>
           <div class="home-title">

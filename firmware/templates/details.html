@@ -23,7 +23,6 @@
             <span></span>
           </div>
         </form>
-
       </div>
       <div class="details-adress-category">
          <div class="company-adress">
@@ -72,7 +71,7 @@
             {% endfor %}
           </ul>
       </div>
-      <form method="post" enctype="multipart/form-data" action="{{ url_for('add_review', company_id=company.id) }}" class="reviews-bottow">
+      <form method="post" enctype="multipart/form-data" action="{{ url_for('add_review', company_id=company.id) }}" class="reviews-bottom">
         <div class="add-review">
           <div class="add-review-title-rating">
             <div class="add-review-title">
@@ -91,8 +90,14 @@
               </form>
             </div>
           </div>
-          <textarea  name="enter-review" class="enter-review" placeholder="Enter a detailed description about your company (max 2000 characters)" onfocus="this.placeholder = None" onblur="this.placeholder = 'Enter a detailed description about your company (max 2000 characters)'" rows=20 cols=80 maxlength=2000></textarea>
-          <input type="submit" value="SUBMIT REVIEW" class="submit-review"></input>
+          <div class="enter-text-review-button">
+            <div>
+              <textarea  name="enter-review" class="enter-review" placeholder="Enter a detailed description about your company (max 2000 characters)" onfocus="this.placeholder = None" onblur="this.placeholder = 'Enter a detailed description about your company (max 2000 characters)'" rows=20 cols=80 maxlength=2000></textarea>
+            </div>
+            <div>
+              <input type="submit" value="SUBMIT REVIEW" class="submit-review"></input>
+            </div>
+          </div>
         </div>
       </form>
     </div>

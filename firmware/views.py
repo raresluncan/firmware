@@ -8,6 +8,7 @@ from validators import validate_company, validate_user, validate_login, validate
 
 import pdb
 
+
 def get_details(company_id):
     company = repository.get_company(company_id)
     if company == None:
@@ -19,7 +20,13 @@ def get_details(company_id):
 
 @app.route('/home')
 def home():
-    return render_template('index.html', companies=repository.get_companies())
+    category = request.args.get('category', 'all categories')
+    if category == 'all categories':
+        companies = repository.get_companies()
+    else:
+        companies = repository.get_filtered_companies(category)
+    return render_template('index.html', companies=companies,
+        categories=repository.get_categories(), current_category=category)
 
 
 @app.route('/404-page-not-found')
@@ -78,13 +85,14 @@ def login():
             session['username'] = request.form['username-login']
             session['avatar'] = repository.get_avatar(session['username'])
             return render_template('index.html', user=user, companies=
-                repository.get_companies())
+                repository.get_companies(),
+                categories=repository.get_categories())
     return render_template('login.html', errors=errors, data=request.form)
 
 
 @app.route('/logout')
 def logout():
-    session['logged_in'] = False;
+    session['logged_in'] = False
     session.pop('username', None)
     session.pop('avatar', None)
     flash('You were logged out')

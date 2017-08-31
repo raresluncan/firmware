@@ -6,29 +6,38 @@
 {% endblock %}
 
 {% block content %}
-  <div class="companies">
-    {% for company in companies %}
-      <a href="{{ url_for('details', company_id=company.id) }}">
-        <div class="company">
-          <div class="company-left">
-            <img class="company-image" src="../static/images/{{ company.logo }}" />
-            <form id="ratingsForm">
-              <div class="stars">
-                <input type="radio" name="star" class="star-1" id="star-1" /><label for="star-5" class="star-1">1</label>
-                <input type="radio" name="star" class="star-2" id="star-2" /><label for="star-4" class="star-2">2</label>
-                <input type="radio" name="star" class="star-3" id="star-3" /><label for="star-3" class="star-3">3</label>
-                <input type="radio" name="star" class="star-4" id="star-4" /><label for="star-2" class="star-4">4</label>
-                <input type="radio" name="star" class="star-5" id="star-5" /><label for="star-1" class="star-5">5</label>
-                <span></span>
-              </div>
-            </form>
+  <div class="home-content">
+    <div class="category-select">
+      <a href="{{ url_for('home', category='all categories') }}" class="add-user-submit-button radio-type {% if 'all categories' == current_category %}active-category{% endif %}">all categories</a>
+      {% for category in categories %}
+        <a href="{{ url_for('home', category=category.type) }}" class="add-user-submit-button radio-type {% if category.type == current_category %}active-category{% endif %}">{{ category.type }}</a>
+      {% endfor %}
+    </div>
+    <div class="companies">
+      <a name="reload-point"></a> <script> window.location.hash="reload-point"; </script>
+      {% for company in companies %}
+        <a href="{{ url_for('details', company_id=company.id) }}">
+          <div class="company">
+            <div class="company-left">
+              <img class="company-image" src="../static/images/{{ company.logo }}" />
+              <form id="ratingsForm">
+                <div class="stars">
+                  <input type="radio" name="star" class="star-1" id="star-1" /><label for="star-5" class="star-1">1</label>
+                  <input type="radio" name="star" class="star-2" id="star-2" /><label for="star-4" class="star-2">2</label>
+                  <input type="radio" name="star" class="star-3" id="star-3" /><label for="star-3" class="star-3">3</label>
+                  <input type="radio" name="star" class="star-4" id="star-4" /><label for="star-2" class="star-4">4</label>
+                  <input type="radio" name="star" class="star-5" id="star-5" /><label for="star-1" class="star-5">5</label>
+                  <span></span>
+                </div>
+              </form>
+            </div>
+            <p class="company-home-details">
+              {{ company.description }}
+            </p>
+            <h3 class="company-title">{{ company.name }}</h3>
           </div>
-          <p class="company-home-details">
-            {{ company.description }}
-          </p>
-          <h3 class="company-title">{{ company.name }}</h3>
-        </div>
-      </a>
-    {% endfor %}
+        </a>
+      {% endfor %}
+    </div>
   </div>
 {% endblock %}

@@ -36,9 +36,7 @@ footer {
 
 body {
   background-color: rgb(113, 113, 113);
-  max-width: 100%;
-  max-height: 100%;
-  min-width: 100px;
+  width: 100vw;
   min-height: 100px;
 }
 
@@ -119,10 +117,6 @@ body {
   color: white;
 }
 
-.-profile-pic:hover {
-
-}
-
 .title-area {
   display: inline-flex;
   flex-flow: row;
@@ -187,10 +181,15 @@ body {
   background-color: rgb(113, 172, 201);
 }
 
+.navigation a:hover .menu-icon {
+  color: rgb(236, 236, 236);
+  background-color: rgb(113, 172, 201);
+}
+
 .navlist {
   position: fixed;
   text-align: center;
-  color: color: rgb(0, 194, 255);
+  color: rgb(0, 194, 255);
   background-color: rgb(69, 67, 67);
   list-style: none;
   z-index: 2;
@@ -225,7 +224,7 @@ body {
 #navToggle:checked ~ .navlist {
   position: fixed;
   left: 0px;
-  top: 73px;
+  top: 83px;
   text-align: center;
 }
 
@@ -268,7 +267,8 @@ body {
 
 .companies {
   position: relative;
-  top: 80px;
+  top: 100px;
+  left: -60px;
   padding: 10px 0px 10px 0px;
   width:100%;
   display: flex;
@@ -282,7 +282,7 @@ body {
 .pagination {
   display: block;
   position: relative;
-  margin-top: 100px;
+  margin-top: 140px;
   width: 100%;
 }
 
@@ -451,12 +451,18 @@ body {
   min-width: 500px;
 }
 
+.reviews-top {
+  padding-bottom: 3vw;
+  border-bottom: 2px solid black;
+}
 .add-review {
   width: 100%;
-  height: 500px;
+  max-height: 5vw;
+  max-width: 20vw;
   margin-top: 50px;
   display: inline-flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .add-review-title-rating {
@@ -471,31 +477,46 @@ body {
   margin-right: 50px;
   background-color: rgba(255, 161, 0, 0.8);
   padding: 4px;
+  max-width: 20vw;
+  min-width: 17vw;
+  margin-bottom: 2vw;
+  font-size: 1.2vw;
+  text-align: center;
 }
 
 .enter-review {
-  width: 530px;
-  min-width: 300px;
+  min-width: 160px;
   min-height: 150px;
+  max-width: 40vw;
+  max-height: 19vw;
+  margin-bottom: 2.3vw;
+
   padding: 5px;
+  margin-top: 2.3vw;
   background-color: rgb(203, 203, 203);
   font-size: 15px;
 }
 
+.add-review-rating {
+  padding-bottom: 2.35vw;
+  font-size: 1vw;
+}
+
 .submit-review {
   float: right;
-  width: 150px;
+  width: 20vw;
   height: 50px;
   font-weight: bolder;
-  font-size: 15px;
+  font-size: 1.5vw;
   box-shadow: 0px 0px 2px rgba(0,0,0,0.5);
   border-radius: 5px;
   cursor: pointer;
   background-color: rgba(255, 161, 0, 0.8);
   transition: background-color 0.25s,color 0.25s;
-  margin-left: 380px;
-  margin-top: 50px;
-  margin-bottom: 70px;
+  padding-left: 10px;
+  padding-right: 10px;
+  position: relative;
+  margin-bottom: 40px;
 }
 
 .submit-review:hover {
@@ -516,14 +537,20 @@ body {
 }
 
 .details-user-review {
-  margin-bottom: 40px;
-  max-height: 200px;
+  padding-left: 40px;
+  margin-bottom: 2.5vw;
+  margin-top: 0.5vw;
+  margin-right: 40px;
+  max-height: 200vw;
+  width: auto;
   overflow: auto;
-  margin-left: 30px;
+  margin-left: 2vw;
+  font-size: 1.5vw;
 }
 
 .details-reviews {
   position: relative;
+  margin-top: 20px;
 }
 
 .details-logo {
@@ -546,6 +573,7 @@ body {
   position: relative;
   max-height: 600px;
   overflow: auto;
+  padding-top: 1vw;
 }
 
 .error {
@@ -720,14 +748,15 @@ form .stars span {
 }
 
 .add-company-layout {
+  position: relative;
   display: flex;
   flex-flow: column;
-  align-items: center;
+  align-items: baseline;
   padding-top: 200px;
   padding-bottom: 100px;
   margin-bottom: 100px;
   margin-left: -100px;
-  transform: translate(50%, 0%);
+  transform: translate(25%, 0%);
 }
 
 .add-company-label {
@@ -1024,14 +1053,16 @@ form .stars span {
 
 .drop-down-item {
   display: flex;
-  flex-direction: row;
+  flex-direction: row-reverse;
   justify-content: space-between;
   align-content: stretch;
 }
 
 .menu-icon {
   font-size: 500px;
-  color: green;
+  color: rgb(0, 194, 255);
+  position: relative;
+  right: -25px;
 }
 
 .fa-plus {
@@ -1054,16 +1085,16 @@ form .stars span {
   flex-direction: row-reverse;
   align-items: center;
   justify-content: flex-end;
-  width: 300px;
-  height: 50px;
+  max-width: 20vw;
+  max-height: 40px;
   margin-bottom: 30px;
   margin-top: 20px;
-  max-width: 400px;
   padding: 5px 10px 5px 0px;
   background-color: rgba(104, 184, 251, 0.2);
   border-radius: 50px;
   text-align: center;
   transition: background-color 0.25s,color 0.25s,width 0.25s;
+  transform: translate(25%, 0%);
 }
 
 .username-avatar:hover {
@@ -1074,14 +1105,15 @@ form .stars span {
 }
 
 .review-avatar-container {
-  min-width: 60px;
-  min-height: 60px;
-  max-width: 90px;
-  max-height: 90px;
+  min-width: 4vw;
+  min-height: 4vw;
+  max-width: 5vw;
+  max-height: 5vw;
   height:auto;
   width:auto;
   border-radius: 50%;
   overflow: hidden;
+  transform: translate(0%, 0%);
 }
 
 .review-avatar {
@@ -1089,13 +1121,16 @@ form .stars span {
   height:auto;
   width:auto;
   float:left;
-  width: 4vw;
+  max-width: 5vw;
+  min-width: 3vw;
   background-color: rgba(196, 228, 255, 1);
+  transform: translate(0%, 0%);
 }
 
 .details-user {
   margin-left: 20px;
   padding-right: 15px;
+  font-size: 1.5vw;
 }
 
 .login-data {
@@ -1104,7 +1139,7 @@ form .stars span {
   top: 300px;
   width: 100%;
   height: 600px;
-  transform: translate(50%, 0%);
+  transform: translate(25%, 0%);
 }
 
 .enter-user {
@@ -1126,4 +1161,55 @@ form .stars span {
 .-login-submit {
   margin-top: 30px;
   margin-left: 603px;
+}
+
+.home-content {
+  display: inline-flex;
+  flex-flow: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.category-select {
+  position: relative;
+  top: 110px;
+  left: -110px;
+  display: inline-flex;
+  flex-direction: column;
+  min-height: 400px;
+  height: auto;
+  max-height: 1600px;
+  scroll-behavior: smooth;
+}
+
+.category-option {
+  font-size: 20px;
+}
+
+.radio-type {
+  margin-top: 0px;
+  margin-right: 50px;
+  border-radius: 0px;
+  padding-top: 10px;
+  width: calc(40px + 15vw);
+  text-align: center;
+  background-color: rgb(176, 176, 176);
+  font-size: calc(8px + 1vw);
+  border-top-right-radius: 0.7em;
+  border-bottom-right-radius: 0.7em;
+}
+
+.menu-text {
+  position: relative;
+  left: -25px;
+}
+
+.enter-text-review-button {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.active-category {
+  background-color: rgb(212, 255, 215);
 }
