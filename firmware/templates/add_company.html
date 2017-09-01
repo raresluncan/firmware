@@ -28,13 +28,17 @@
           <dd>
             <textarea name="company_details" class="add-company- inputadd -details" placeholder="Enter a detailed description about your company (max 2000 characters)" onfocus="this.placeholder = None" onblur="this.placeholder = 'Enter a detailed description about your company (max 2000 characters)'" rows=20 cols=80 maxlength=2000>{{ data.get('company_details', '') }}</textarea>
           </dd>
-          <div class="addlogo">
-            <p class="add-company-label logo">
-              COMPANY LOGO
-            </p>
-            <input name="company_logo" class="add-company- inputadd -logo" type=file accept="image/*"/>
-          </div>
-          <input type="submit" value="SUBMIT COMPANY" class="submit-button"></input>
+          <div class="add-logo-submit">
+            <div class="addlogo">
+              <p class="add-company-label logo">
+                COMPANY LOGO
+              </p>
+              <input name="company_logo" class="add-company- inputadd -logo" type=file accept="image/*"/>
+            </div>
+            <div>
+              <input type="submit" value="SUBMIT COMPANY" class="submit-button"></input>
+            </div>
+        </div>
         </div>
       </dl>
     </form>

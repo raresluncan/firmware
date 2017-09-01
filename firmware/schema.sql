@@ -14,7 +14,8 @@ CREATE TABLE IF NOT EXISTS companies (
   `rating` TEXT NOT NULL,
   `logo` TEXT NOT NULL,
   `adress` TEXT NOT NULL UNIQUE,
-  `category_id` INTEGER
+  `category_id` INTEGER NOT NULL,
+  `added_by` TEXT NOT NULL
 );
 
 
@@ -33,5 +34,6 @@ CREATE TABLE IF NOT EXISTS users (
 	`surname`	TEXT NOT NULL,
   `avatar`	TEXT NOT NULL,
   `contact`	TEXT NOT NULL,
+  `privilege`	TEXT,
 	`gender`	INTEGER NOT NULL
 );

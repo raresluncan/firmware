@@ -1,55 +1,78 @@
 {% extends "layout.html" %}
+
 {% block content %}
   <div class="add-user-layout add-company-layout">
     <form method="post" enctype="multipart/form-data" action="{{ url_for('add_user') }}" class="add-user">
       <dl class="entries">
         <div class="right-and left">
           <div class="title-field">
-            <dt class="add-user-label -mandatory-label username">USERNAME</dt>
+            <dt class="add-user-label -mandatory-label">USERNAME</dt>
             <dd>
               <textarea name="username" class="add-user --input-new-user" placeholder="Username (max 20 characters)" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username (max 20 characters)'" maxlength=20>{{ data.get('username', '') }}</textarea>
             </dd>
           </div>
           <div class="title-field">
-            <dt class="add-user-label -mandatory-label password">PASSWORD</dt>
+            <dt class="add-user-label -mandatory-label">PASSWORD</dt>
             <dd>
               <input type=password name="password" class= "add-user --input-new-user -password" placeholder="Enter password" onfocus="this.placeholder=''" onblur="this.placeholder = 'Enter password'" maxlength=120>{{ data.get('password', '') }}</textarea>
             </dd>
           </div>
           <div class="title-field">
-            <dt class="add-user-label -mandatory-label user-confirm-password">CONFIRM PASSWORD</dt>
+            <dt class="add-user-label -mandatory-label">CONFIRM PASSWORD</dt>
             <dd>
               <input type=password name="confirm_password" class="add-user --input-new-user" placeholder="Confirm password" onfocus="this.placeholder = None" onblur="this.placeholder = 'Confirm password'" type=textarea maxlength=40>{{ data.get('confirm_password', '') }}</input>
             </dd>
           </div>
           <div class="title-field">
-            <dt class="add-user-label -mandatory-label user-email">EMAIL</dt>
+            <dt class="add-user-label -mandatory-label">EMAIL</dt>
             <dd>
               <textarea name="email" class="add-user --input-new-user" placeholder="Enter your email adress" onfocus="this.placeholder = None" onblur="this.placeholder = 'Enter your email adress'" type=textarea maxlength=40>{{ data.get('email', '') }}</textarea>
             </dd>
           </div>
           <div class="title-field">
-            <dt class="add-user-label real-name">REAL NAME</dt>
+            <dt class="add-user-label">REAL NAME</dt>
             <dd>
               <textarea name="real_name" class="add-user --input-new-user" placeholder="Enter your name" onfocus="this.placeholder = None" onblur="this.placeholder = 'Enter your name'" type=textarea maxlength=60>{{ data.get('real-name', '') }}</textarea>
             </dd>
           </div>
           <div class="title-field">
-            <dt class="add-user-label  surname">SURNAME</dt>
+            <dt class="add-user-label">SURNAME</dt>
             <dd>
               <textarea name="surname" class="add-user --input-new-user" placeholder="Enter your surname" onfocus="this.placeholder = None" onblur="this.placeholder = 'Enter your surname'" type=textarea maxlength=60>{{ data.get('surname', '') }}</textarea>
             </dd>
           </div>
           <div class="title-field">
-            <dt class="add-user-label  contact">CONTACT</dt>
+            <dt class="add-user-label">CONTACT</dt>
             <dd>
               <textarea name="contact" class="add-user --input-new-user" placeholder="Enter a contact(skype, phone, business card)" onfocus="this.placeholder = None" onblur="this.placeholder = 'Enter a contact(skype, phone, business card)'" type=textarea maxlength=60>{{ data.get('surname', '') }}</textarea>
             </dd>
           </div>
           <div class="title-field">
-            <dt class="add-user-label  gender">GENDER</dt>
-            <dd>
-              <textarea name="gender" class="add-user --input-new-user" placeholder="Enter a contact(skype, phone, business card)" onfocus="this.placeholder = None" onblur="this.placeholder = 'Enter a contact(skype, phone, business card)'" type=textarea maxlength=60>{{ data.get('surname', '') }}</textarea>
+            <dt class="add-user-label">GENDER</dt>
+            <dd class="radio-buttons">
+              <p>
+                <input type="radio" id="male" value="male" class="radio-buttons-input gender" name="radio-group-gender" checked>
+                <label for="male" class="radio-label">Male</label>
+              </p>
+              <p>
+                <input type="radio" id="female" value="female" class="radio-buttons-input gender" name="radio-group-gender">
+                <label for="female" class = "radio-label">Female</label>
+              </p>
+              <p>
+            </dd>
+          </div>
+          <div class="title-field">
+            <dt class="add-user-label">PRIVILEGE</dt>
+            <dd class="radio-buttons">
+              <p>
+                <input type="radio" id="user" value="user" class="radio-buttons-input privilege" name="radio-group-privilege" checked>
+                <label class="radio-label">User </label>
+              </p>
+              <p>
+                <input type="radio" id="admin" value="admin" class="radio-buttons-input privilege" name="radio-group-privilege">
+                <label class="radio-label">Admin  </label>
+              </p>
+              <p>
             </dd>
           </div>
         </div>

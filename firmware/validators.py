@@ -4,6 +4,28 @@ from flask import Flask, request, session, g, redirect, url_for, abort, render_t
 import pdb
 
 
+def validate_add_company(session):
+    errors = dict()
+    if not session.get('logged_in', None):
+        errors['logged_in'] = "You must be logged in to add a company!"
+        return errors
+    if session.get('privilege', None) != 'admin':
+        errors['not_admin'] = "Sorry, dear %s.Only admins can add companies.\
+        Please upgrade to admin." % session.get('username', None)
+    return errors
+
+
+def validate_add_user(session):
+    errors = dict()
+    if not session.get('logged_in', None):
+        errors['logged_in'] = "You must be logged in to add a user!"
+        return errors
+    if session.get('privilege', None) != 'admin':
+        errors['not_admin'] = "Sorry, dear %s.Only admins can add users.\
+        Please upgrade to admin." % session.get('username', None)
+    return errors
+
+
 def validate_company(company, company_files):
     errors = dict()
     if(company['company_name'] == ""):
@@ -44,6 +66,7 @@ def validate_login(login):
     if login['password-login'] == "":
         errors['password-login'] = "Please enter your password"
     return errors
+
 
 def validate_review(review):
     errors = dict()

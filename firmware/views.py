@@ -4,7 +4,8 @@ from flask import Flask, request, session, g, redirect, url_for, abort, render_t
 
 from firmware import app
 import repository
-from validators import validate_company, validate_user, validate_login, validate_review
+from validators import validate_company, validate_user, validate_login, validate_review, validate_add_company
+from validators import validate_add_user
 
 import pdb
 
@@ -36,38 +37,52 @@ def not_found(error):
 
 @app.route('/details/<company_id>')
 def details(company_id):
-    company, category, reviews = get_details(company_id)
+    try:
+        company, category, reviews = get_details(company_id)
+    except ValueError:
+        return render_template('404.html', error_message="Company not found!")
     return render_template('details.html', reviews=reviews, company=company,
         category=category)
 
 
 @app.route('/add/company/', methods=['GET', 'POST'])
 def add_company():
+    errors = validate_add_company(session)
     categories = repository.get_categories()
-    errors = dict()
-    error_point=''
-    if request.method == 'POST':
-        errors = validate_company(request.form, request.files)
-        if not errors:
-            new_company_id = repository.add_company(request.form, request.files)
-            flash('Congratulations on adding your company, ' \
-                + request.form['company_name']+' to our website!Check out your \
-                 profile below.')
-            return redirect(url_for('details', company_id=new_company_id))
-    return render_template('add_company.html', data=request.form, errors=errors,
-        categories=categories)
+    if not errors:
+        errors = dict()
+        if request.method == 'POST':
+            errors = validate_company(request.form, request.files)
+            if not errors:
+                new_company_id = repository.add_company(request.form,
+                    request.files, session.get('username', None))
+                flash('Congratulations on adding your company, ' \
+                    + request.form['company_name']+' to our website!Check out your \
+                     profile below.')
+                return redirect(url_for('details', company_id=new_company_id))
+        return render_template('add_company.html', data=request.form, errors=errors,
+            categories=categories)
+    else:
+        return render_template('404.html', error_message="Oops!You cannot add a\
+            company unless you are logged in and your account is an admin!")
 
 
 @app.route('/add/user/', methods=['GET', 'POST'])
 def add_user():
     errors = dict()
-    if request.method == 'POST':
-        errors = validate_user(request.form, request.files)
-        if not errors:
-            new_user_id = repository.add_user(request.form, request.files)
-            flash("NEW USER ADDED SUCESFULLY!")
-            return redirect(url_for('home'))
-    return render_template('add_user.html', data=request.form, errors=errors)
+    errors = validate_add_user(session)
+    if not errors:
+        if request.method == 'POST':
+            errors = validate_user(request.form, request.files)
+            if not errors:
+                new_user_id = repository.add_user(request.form, request.files)
+                flash("NEW USER ADDED SUCESFULLY!")
+                category = request.args.get('category', 'all categories')
+                return redirect(url_for('home', current_category = request.args.get('category', 'all categories')))
+        return render_template('add_user.html', data=request.form, errors=errors)
+    else:
+        return render_template('404.html', error_message="Only admins can add other\
+            users! Please log in as an admin to add an account!")
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -84,10 +99,12 @@ def login():
             flash('Welcome back, dear %s!' % request.form['username-login'])
             session['username'] = request.form['username-login']
             session['avatar'] = repository.get_avatar(session['username'])
+            session['privilege'] = repository.get_privilege(session['username'])
             return render_template('index.html', user=user, companies=
                 repository.get_companies(),
                 categories=repository.get_categories())
-    return render_template('login.html', errors=errors, data=request.form)
+    return render_template('login.html', errors=errors, data=request.form,
+        session=session)
 
 
 @app.route('/logout')

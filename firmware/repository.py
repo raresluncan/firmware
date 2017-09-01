@@ -40,18 +40,19 @@ def get_companies():
     return companies
 
 
-def add_company(company, company_files):
+def add_company(company, company_files, username):
     db = get_db()
     db.execute("insert into companies (name, \
         description , details, rating, \
-        logo, adress, category_id) values \
-        (?, ?, ?, ?, ?, ?, ?)", (company['company_name'],
+        logo, adress, category_id, added_by) values \
+        (?, ?, ?, ?, ?, ?, ?, ?)", (company['company_name'],
         company['company_description'],
         company['company_details'],
         0, upload_file(company_files['company_logo'],
         company['company_name'], 'Images'),
         company['company_adress'],
-        company.get('select-category-list')))
+        company.get('select-category-list'),
+        username))
     db.commit()
     new_company_id_query = db.execute("select MAX(id) from companies")
     new_company_id = new_company_id_query.fetchall()[0]
@@ -126,11 +127,19 @@ def check_user(username, password):
 
 def get_avatar(username):
     db = get_db()
-    get_user_query = db.execute("select avatar from users where username='%s'"
+    get_user_query = db.execute("select avatar from users where username = '%s'"
         % username )
     user = get_user_query.fetchmany()
     avatar = user[0]['avatar']
     return avatar
+
+def get_privilege(username):
+    db = get_db()
+    get_privilege_query = db.execute("select privilege from users where \
+        username = '%s'" % username )
+    privilege_row = get_privilege_query.fetchmany()
+    privilege = privilege_row[0]['privilege']
+    return privilege
 
 
 def add_reviews(company_id, user, text):

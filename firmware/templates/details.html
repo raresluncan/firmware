@@ -3,11 +3,17 @@
 {% block content %}
   <div action="{{ url_for('details', company_id=company.id) }}"  class="company-details" >
     <div class="details-title-logo">
-      <div class="details-presentation-title">
-        <img class="details-logo" src="../static/images/{{ company.logo }}" />
-        <p class="details-title">
-          {{ company.name }}
-        </p>
+      <div class="title-edit">
+        <div class="details-presentation-title">
+          <img class="details-logo" src="../static/images/{{ company.logo }}" />
+          <p class="details-title">
+            {{ company.name }}
+          </p>
+        </div>
+        <div class="edit-company-details">
+          <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+          <a href="" class="edit-button">EDIT COMPANY</a>
+        </div>
       </div>
       <div class="overall-rating-company">
         <p class=title-rating>
@@ -32,13 +38,22 @@
            <p class="adress-body">
             {{ company.adress }}
            </p>
-
          </div>
-         <p class="company-category">
-            CATEGORY: {{ category }}
-         </p>
+         <div class="added-and-category">
+           <div class="company-category">
+              <p class="category-class">
+                CATEGORY:
+              </p>
+              <a href="" class="go-to-details category">{{ category }}</a>
+           </div>
+           <div class="company-category">
+              <p class="category-class">
+                ADDED BY:
+              </p>
+              <a href="" class="go-to-details user-added-by">{{ company.added_by }}</a>
+           </div>
+         </div>
       </div>
-
       <p class="details-read-only">
         DETAILS
       </p>
