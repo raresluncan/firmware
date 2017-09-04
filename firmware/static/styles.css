@@ -1225,6 +1225,8 @@ form .stars span {
 .enter-user {
   display: inline-flex;
   flex-direction: column;
+  position: relative;
+  top: -3vw;
 }
 
 .log-fields {
@@ -1234,13 +1236,18 @@ form .stars span {
   justify-content: center;
 }
 
+.add-user-label.-login {
+  margin-top: 2.2vw;
+}
+
 .-username-login {
   border-radius: 5px;
+  margin-top: 2vw;
 }
 
 .-login-submit {
-  margin-top: 30px;
-  margin-left: 603px;
+  margin-top: 3vw;
+  margin-left: 51.3vw;
 }
 
 .home-content {

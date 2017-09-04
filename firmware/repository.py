@@ -99,8 +99,8 @@ def get_reviews(company_id):
 def add_user(user, user_files):
     db = get_db()
     add_user_query = db.execute("insert into users (username, password , email, \
-        name, surname, avatar, contact, gender) values \
-        (?, ?, ?, ?, ?, ?, ?, ?)", (user['username'],
+        name, surname, avatar, contact, privilege, gender) values \
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)", (user['username'],
         user['password'],
         user['email'],
         user.get('real_name', '-'),
@@ -108,7 +108,8 @@ def add_user(user, user_files):
         upload_file(user_files['user_avatar'] ,
             user['username'], 'Avatars'),
         user['contact'],
-        user['gender'])
+        user['radio-group-privilege'],
+        user['radio-group-gender'])
         )
     db.commit()
     return True
