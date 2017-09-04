@@ -1,7 +1,8 @@
 {% extends "layout.html" %}
+
 {% block content %}
   <div class="add-company-layout">
-    <form method="post" enctype="multipart/form-data" action="{{ url_for('add_company') }}" class="add-company">
+    <form method="post" enctype="multipart/form-data" action="{{ url_for('add_company', company_id=company_id) }}" class="add-company">
       <dl class="entries">
         <div class="left">
           <dt class="add-company-label name">COMPANY NAME</dt>
@@ -20,7 +21,11 @@
           <select name="select-category-list" class="select-category">
             <option disabled selected value>-- select category --</option>
             {% for category in categories %}
-              <option value="{{ category.id }}">{{ category.type }}</option>
+              {% if category.type == data.get('select-category-list', '') %}
+                <option value="{{ category.id }}" selected="selected">{{ category.type }}</option>
+              {% else %}
+                <option value="{{ category.id }}">{{ category.type }}</option>
+              {% endif %}
             {% endfor %}
           </select>
           <br>
@@ -36,7 +41,7 @@
               <input name="company_logo" class="add-company- inputadd -logo" type=file accept="image/*"/>
             </div>
             <div>
-              <input type="submit" value="SUBMIT COMPANY" class="submit-button"></input>
+              <input type="submit" name="submit_button" value="{{ button_text }}" class="submit-button"></input>
             </div>
         </div>
         </div>

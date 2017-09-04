@@ -3,16 +3,32 @@ import os
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
 import pdb
 
+from repository import get_company, get_username_by_id
 
-def validate_add_company(session):
+
+def validate_user_type(session, company_id):
+    errors = dict()
+    added_by_id = get_company(company_id)['added_by_id']
+    added_by = get_username_by_id(added_by_id)
+    if session.get('username', None) != added_by:
+        errors['stranger'] = ("Only the author, %s, can edit this company!" %
+            added_by)
+    return errors
+
+
+def validate_add_company(session, company_id):
     errors = dict()
     if not session.get('logged_in', None):
         errors['logged_in'] = "You must be logged in to add a company!"
         return errors
     if session.get('privilege', None) != 'admin':
-        errors['not_admin'] = "Sorry, dear %s.Only admins can add companies.\
-        Please upgrade to admin." % session.get('username', None)
-    return errors
+        errors['not_admin'] = "Sorry, dear %s.Only admins can add or edit \
+        companies.Please upgrade to admin." % session.get('username', None)
+        return errors
+    if company_id is not None:
+        errors = validate_user_type(session, company_id)
+        pdb.set_trace()
+        return errors
 
 
 def validate_add_user(session):
@@ -44,7 +60,7 @@ def validate_company(company, company_files):
     return errors
 
 
-def validate_user(user, user_files):
+def validate_new_user(user, user_files):
     errors = dict()
     if user['username'] == "":
         errors['username'] = "Please add a username"

@@ -12,7 +12,7 @@
         </div>
         <div class="edit-company-details">
           <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-          <a href="" class="edit-button">EDIT COMPANY</a>
+          <a href="{{ url_for('add_company', company_id=company.id) }}" class="edit-button">EDIT COMPANY</a>
         </div>
       </div>
       <div class="overall-rating-company">
@@ -50,7 +50,7 @@
               <p class="category-class">
                 ADDED BY:
               </p>
-              <a href="" class="go-to-details user-added-by">{{ company.added_by }}</a>
+              <a href="" class="go-to-details user-added-by">{{ added_by_user }}</a>
            </div>
          </div>
       </div>

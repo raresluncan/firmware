@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS companies (
   `logo` TEXT NOT NULL,
   `adress` TEXT NOT NULL UNIQUE,
   `category_id` INTEGER NOT NULL,
-  `added_by` TEXT NOT NULL
+  `added_by_id` INTEGER NOT NULL,
 );
 
 

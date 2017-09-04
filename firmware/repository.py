@@ -40,19 +40,27 @@ def get_companies():
     return companies
 
 
+def get_user_id(username):
+    db = get_db()
+    get_id_query = db.execute("select id from users where username='%s'"
+                              % username)
+    user_row = get_id_query.fetchall()
+    id = user_row[0]['id']
+    return id
+
+
 def add_company(company, company_files, username):
     db = get_db()
-    db.execute("insert into companies (name, \
-        description , details, rating, \
-        logo, adress, category_id, added_by) values \
-        (?, ?, ?, ?, ?, ?, ?, ?)", (company['company_name'],
-        company['company_description'],
-        company['company_details'],
+    db.execute("insert into companies (name, description , details, rating, \
+               logo, adress, category_id, added_by_id) values \
+               (?, ?, ?, ?, ?, ?, ?, ?)",
+               (company['company_name'], company['company_description'],
+               company['company_details'],
         0, upload_file(company_files['company_logo'],
         company['company_name'], 'Images'),
         company['company_adress'],
         company.get('select-category-list'),
-        username))
+        get_user_id(username)))
     db.commit()
     new_company_id_query = db.execute("select MAX(id) from companies")
     new_company_id = new_company_id_query.fetchall()[0]
@@ -171,3 +179,53 @@ def get_filtered_companies(category):
         category_id = '%s'" % category_id)
     companies = get_companies_query.fetchall()
     return companies
+
+
+def get_username_by_id(user_id):
+    db = get_db()
+    user_id_query = db.execute("select username from users where id='%s'"
+        % user_id)
+    user_id_row = user_id_query.fetchmany()
+    username = user_id_row[0]['username']
+    return username
+
+
+def fragment_company(company_id):
+    company = get_company(company_id)
+    data = dict()
+    data['company_name'] = company['name']
+    data['company_description'] = company['description']
+    data['company_details'] = company['details']
+    data['company_rating'] = company['rating']
+    data['company_logo'] = company['logo']
+    data['company_adress'] = company['adress']
+    data['select-category-list'] = get_category(company['id'])
+    data['added-by-user'] = get_username_by_id(company['added_by_id'])
+    return data
+
+
+def get_category_by_id(id):
+    db = get_db()
+    get_category_query = db.execute("select type from categories where id='%s'" % id)
+    get_category_row = get_category_query.fetchmany()
+    category = get_category_row[0]['type']
+    return category
+
+
+def update_company(company, company_files, company_id):
+    db = get_db()
+    db.execute("update companies set name = ?, description = ?, details = ?, \
+        logo = ?, adress = ?, category_id = ? where id = ?" , (
+        company['company_name'],
+        company['company_description'],
+        company['company_details'],
+        upload_file(company_files['company_logo'],
+        company['company_name'], 'Images'),
+        company['company_adress'],
+        company.get('select-category-list'),
+        company_id))
+    db.commit()
+    company_id_query = db.execute("select id from companies where id='%s'"
+        % company_id)
+    updated_company_id = company_id_query.fetchall()[0]
+    return updated_company_id[0]

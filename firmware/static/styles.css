@@ -861,7 +861,11 @@ form .stars span {
   padding-bottom: 100px;
   margin-bottom: 100px;
   margin-left: -100px;
-  transform: translate(25vw, 0%);
+  transform: translate(40vw, 0%);
+}
+
+.add-user-layout {
+  transform: translate(15vw, 0%);
 }
 
 .add-company-label {
