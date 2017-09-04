@@ -1,0 +1,108 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <div action="{{ url_for('details', company_id=company.id) }}"  class="company-details" >
+    <div class="details-title-logo">
+      <div class="details-presentation-title">
+        <img class="details-logo" src="../static/images/{{ company.logo }}" />
+        <p class="details-title">
+          {{ company.name }}
+        </p>
+      </div>
+      <div class="overall-rating-company">
+        <p class=title-rating>
+          Overall rating
+        </p>
+        <form id="ratingsForm">
+          <div class="stars">
+            <input type="radio" name="star" class="star-1" id="star-1" /><label for="star-5" class="star-1">1</label>
+            <input type="radio" name="star" class="star-2" id="star-2" /><label for="star-4" class="star-2">2</label>
+            <input type="radio" name="star" class="star-3" id="star-3" /><label for="star-3" class="star-3">3</label>
+            <input type="radio" name="star" class="star-4" id="star-4" /><label for="star-2" class="star-4">4</label>
+            <input type="radio" name="star" class="star-5" id="star-5" /><label for="star-1" class="star-5">5</label>
+            <span></span>
+          </div>
+        </form>
+      </div>
+      <div class="details-adress-category">
+         <div class="company-adress">
+           <p class="adress-title">
+            company adress
+           </p>
+           <p class="adress-body">
+            {{ company.adress }}
+           </p>
+
+         </div>
+         <p class="company-category">
+            CATEGORY: {{ category }}
+         </p>
+      </div>
+
+      <p class="details-read-only">
+        DETAILS
+      </p>
+      <div class="details-description">
+        <p class="details-description-text">
+          {{ company.details }}
+        </p>
+      </div>
+    </div>
+    <div class="details-reviews-body">
+      <div class="reviews-top">
+        <h1 class='title-reviews'>REVIEWS</h1>
+          <ul class = "review-list">
+            {% for review in reviews %}
+              <li class="details-reviews">
+                <div class="username-avatar">
+                  <h2 class="details-user">
+                    {{ review.username }}
+                  </h2>
+                  <div class="review-avatar-container">
+                    <img src="../static/Avatars/{{ review.avatar }}" class="review-avatar">
+                  </div>
+                </div>
+                <p class="details-user-review">
+                  {{ review.review|safe }}
+                </p>
+              </li>
+              {% else %}
+              <li class="details-reviews"><em class="details-reviews" >NO REVIEWS YET</em></li>
+            {% endfor %}
+          </ul>
+      </div>
+      <form method="post" enctype="multipart/form-data" action="{{ url_for('add_review', company_id=company.id) }}" class="reviews-bottom">
+        <div class="add-review">
+          <div class="add-review-title-rating">
+            <div class="add-review-title">
+              ENTER A REVIEW:
+            </div>
+            <div class="add-review-rating">
+              <form id="ratingsForm user-input">
+                <div class="stars">
+                  <input type="radio" name="star" class="star-1" id="star-1" /><label for="star-5" class="star-1">1</label>
+                  <input type="radio" name="star" class="star-2" id="star-2" /><label for="star-4" class="star-2">2</label>
+                  <input type="radio" name="star" class="star-3" id="star-3" /><label for="star-3" class="star-3">3</label>
+                  <input type="radio" name="star" class="star-4" id="star-4" /><label for="star-2" class="star-4">4</label>
+                  <input type="radio" name="star" class="star-5" id="star-5" /><label for="star-1" class="star-5">5</label>
+                  <span></span>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="enter-text-review-button">
+            <div>
+              <textarea  name="enter-review" class="enter-review" placeholder="Enter a detailed description about your company (max 2000 characters)" onfocus="this.placeholder = None" onblur="this.placeholder = 'Enter a detailed description about your company (max 2000 characters)'" rows=20 cols=80 maxlength=2000></textarea>
+            </div>
+            <div>
+              <input type="submit" value="SUBMIT REVIEW" class="submit-review"></input>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

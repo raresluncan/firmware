@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset=“UTF-8“ />
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles.css')}}" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="static/category_change.js"></script>
+  </head>
+  <body>
+    {% block header %}
+      <div class="header">
+        <div class="title-area">
+          <nav class='navigation'>
+            <input type="checkbox" id="navToggle" />
+            <label for="navToggle" class="nav-toggle">&#9776</label>
+            <ul class='navlist'>
+              <li class="menu-list-item">
+                <a class="menu-button" href="/home">
+                  <div class="drop-down-item">
+                    <i class="fa fa-home menu-icon" aria-hidden="true"></i>
+                    <p class="menu-text">HOME</p>
+                  </div>
+                </a>
+              </li>
+              {% if session.logged_in %}
+                <li class="menu-list-item">
+                  <a class="menu-button" href="/logout">
+                    <div class="drop-down-item">
+                      <i class="fa fa-sign-out menu-icon" aria-hidden="true"></i>
+                      <p class="menu-text">LOG OUT</p>
+                    </div>
+                  </a>
+                </li>
+              {% else %}
+              <li class="menu-list-item">
+                <a class="menu-button" href="/login">
+                  <div class="drop-down-item">
+                    <i class="fa fa-sign-in menu-icon" aria-hidden="true"></i>
+                    <p class="menu-text">LOG IN</p>
+                  </div>
+                </a>
+              </li>
+              {% endif %}
+              <li class="menu-list-item">
+                <a class="menu-button" href="#">
+                  <div class="drop-down-item">
+                    <i class="fa fa-search menu-icon" aria-hidden="true"></i>
+                    <p class="menu-text">SEARCH COMPANY</p>
+                  </div>
+                </a>
+              </li>
+              <li class="menu-list-item">
+                <a class="menu-button" href="/add/company/">
+                  <div class="drop-down-item">
+                    <i class="fa fa-plus-circle menu-icon" aria-hidden="true"></i>
+                    <p class="menu-text">ADD COMPANY</p>
+                  </div>
+                </a>
+              </li>
+              <li class="menu-list-item">
+                <a class="menu-button" href="#">
+                  <div class="drop-down-item">
+                    <i class="fa fa-question menu-icon" aria-hidden="true"></i>
+                    <p class="menu-text">ABOUT</p>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <div class="home-title">
+            <h1 class="title">WELCOME TO FIRMWARE</h1>
+            <h2 class="subtitle">THE BIGGEST SERVICE FINDER ONLINE</h2>
+          </div>
+          <div class="header-buttons">
+            {% if session.logged_in %}
+                <img src="../static/Avatars/{{ session['avatar'] }}" type=submit id="user_pic" value="profile pic" class="header-button -profile-pic"/>
+                <a href="{{ url_for('logout') }}" type=submit value="LOG IN" class="header-button -log-in">
+                <p class="button-label -login-label">
+                  <i class="fa fa-sign-in menu-sign-in" aria-hidden="true"></i>LOG OUT
+                </p>
+              </a>
+            {% else %}
+              <a href="{{ url_for('login') }}" type=submit value="LOG IN" class="header-button -log-in">
+                <p class="button-label -login-label">
+                  <i class="fa fa-sign-in menu-sign-in" aria-hidden="true"></i>LOG IN
+                </p>
+              </a>
+            {% endif %}
+            <a href="{{ url_for('add_user') }}" type=submit value="NEW ACCOUNT" class="header-button -new-account">
+              <p class="button-label">
+                <i class="fa fa-plus menu-plus" aria-hidden="true"></i>NEW ACCOUNT
+              </p>
+            </a>
+          </div>
+        </div>
+        <div class="alerts">
+          {% if errors %}
+            {% for key,value in errors.items() %}
+              <div class="alert">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{ value }}
+              </div>
+            {% endfor %}
+            {% if errors.items()|count >2 %}
+            <span class="closebtnall" onclick="this.parentElement.style.display='none';">&times;</span>
+            {% endif %}
+          {% endif %}
+          {% with messages=get_flashed_messages() %}
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert-flash">
+                  <span class="closebtn-flash" onclick="this.parentElement.style.display='none';">&times;</span>
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+        </div>
+      </div>
+    {% endblock %}
+
+    {% block banner %}
+    {% endblock %}
+
+    {% block content %}
+    {% endblock %}
+
+    {% block footer %}
+      <div class="pagination">
+        <a href="#/">&laquo;</a>
+        <a href="#/">1</a>
+        <a href="#/">2</a>
+        <a href="#/">3</a>
+        <a href="#/">4</a>
+        <a href="#/">5</a>
+        <a href="#/">6</a>
+        <a href="#/">&raquo;</a>
+      </div>
+    {% endblock %}
+  </body>
+</html>

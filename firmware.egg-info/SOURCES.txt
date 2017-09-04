@@ -1,0 +1,10 @@
+firmware/__init__.py
+firmware/repository.py
+firmware/uploaders.py
+firmware/validators.py
+firmware/views.py
+firmware.egg-info/PKG-INFO
+firmware.egg-info/SOURCES.txt
+firmware.egg-info/dependency_links.txt
+firmware.egg-info/requires.txt
+firmware.egg-info/top_level.txt
