@@ -1,66 +1,69 @@
-import sqlite3
-import os
-from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
+"""Validators - functions to validate stuff"""
+
+from firmware.repository import get_company, get_username_by_id
 import pdb
 
-from repository import get_company, get_username_by_id
-
-
-def validate_user_type(session, company_id):
+def validate_user_type(current_session, company_id):
+    """ checks if the user who wants to edit a company is the \
+       user who added it """
     errors = dict()
-    added_by_id = get_company(company_id)['added_by_id']
-    added_by = get_username_by_id(added_by_id)
-    if session.get('username', None) != added_by:
+    added_by_id = get_company(company_id).added_by_id
+    added_by_username = get_username_by_id(added_by_id)
+    if current_session['user'].get('username', None) != added_by_username:
         errors['stranger'] = ("Only the author, %s, can edit this company!" %
-            added_by)
+                              added_by_username)
     return errors
 
 
-def validate_add_company(session, company_id):
+def validate_add_company(current_session, company_id):
+    """ checks if the user has privilege to add a company """
     errors = dict()
-    if not session.get('logged_in', None):
+    if not current_session.get('logged_in', None):
         errors['logged_in'] = "You must be logged in to add a company!"
         return errors
-    if session.get('privilege', None) != 'admin':
-        errors['not_admin'] = "Sorry, dear %s.Only admins can add or edit \
-        companies.Please upgrade to admin." % session.get('username', None)
+    if current_session['user'].get('privilege', None) != 'admin':
+        errors['not_admin'] = ("Sorry, dear %s.Only admins can add or edit \
+                               companies.Please upgrade to admin."
+                               % current_session['user'].get('username', None))
         return errors
     if company_id is not None:
-        errors = validate_user_type(session, company_id)
-        pdb.set_trace()
+        errors = validate_user_type(current_session, company_id)
         return errors
 
 
-def validate_add_user(session):
+def validate_add_user(current_session):
+    """ checks if user has privilege to add a new user """
     errors = dict()
-    if not session.get('logged_in', None):
+    if not current_session.get('logged_in', None):
         errors['logged_in'] = "You must be logged in to add a user!"
         return errors
-    if session.get('privilege', None) != 'admin':
+    if current_session.get('privilege', None) != 'admin':
         errors['not_admin'] = "Sorry, dear %s.Only admins can add users.\
-        Please upgrade to admin." % session.get('username', None)
+        Please upgrade to admin." % current_session.get('username', None)
     return errors
 
 
-def validate_company(company, company_files):
+def validate_company(company):
+    """ checks if the user entered valid data when adding a company"""
     errors = dict()
-    if(company['company_name'] == ""):
+    if company['name'] == "":
         errors['add-name'] = "Please add a name for your company!"
-    if(company['company_adress'] == ""):
+    if company['adress'] == "":
         errors['add-adress'] = "Please add an adress for your company!"
-    if(company['company_description'] == ""):
+    if company['description'] == "":
         errors['add-description'] = "Please add a short description for \
         your company!"
-    if company.get('select-category-list') == None:
+    if company.get('category_id') is None:
         errors['add-category'] = 'Please select a category for your \
         company!'
-    if(company['company_details'] == ""):
+    if company['details'] == "":
         errors['add-details'] = "Please add a few details about your \
         company!"
     return errors
 
 
-def validate_new_user(user, user_files):
+def validate_new_user(user):
+    """ checks if the user enterd valid data when adding a new user """
     errors = dict()
     if user['username'] == "":
         errors['username'] = "Please add a username"
@@ -76,6 +79,7 @@ def validate_new_user(user, user_files):
 
 
 def validate_login(login):
+    """ checks if good credentials were added at ay log-in attempt"""
     errors = dict()
     if login['username-login'] == "":
         errors['username-login'] = "Please enter your username"
@@ -85,7 +89,8 @@ def validate_login(login):
 
 
 def validate_review(review):
+    """ checks if user submitted a valid review """
     errors = dict()
-    if(review['enter-review'] == ""):
+    if review['enter-review'] == "":
         errors['text'] = "Please write a review before submitting"
     return errors

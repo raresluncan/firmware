@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS companies (
   `name` TEXT NOT NULL UNIQUE,
   `description` TEXT NOT NULL,
   `details` TEXT NOT NULL,
-  `rating` TEXT NOT NULL,
+  `rating` INTEGER NOT NULL,
   `logo` TEXT NOT NULL,
   `adress` TEXT NOT NULL UNIQUE,
   `category_id` INTEGER NOT NULL,

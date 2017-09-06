@@ -49,7 +49,7 @@
                   </div>
                 </a>
               </li>
-              {% if session.logged_in and session.privilege == "admin" %}
+              {% if session.logged_in and session['user']['privilege'] == "admin" %}
                 <li class="menu-list-item">
                   <a class="menu-button" href="/company/">
                     <div class="drop-down-item">
@@ -75,7 +75,7 @@
           </div>
           <div class="header-buttons">
             {% if session.logged_in %}
-                <img src="../static/Avatars/{{ session['avatar'] }}" type=submit id="user_pic" value="profile pic" class="header-button -profile-pic"/>
+                <img src="../static/Avatars/{{ session['user']['avatar'] }}" onerror="this.src='../static/Avatars/{{ session['user']['avatar'] }}'" type=submit id="user_pic" value="profile pic" class="header-button -profile-pic"/>
                 <a href="{{ url_for('logout') }}" type=submit value="LOG IN" class="header-button -log-in">
                 <p class="button-label -login-label">
                   <i class="fa fa-sign-in menu-sign-in" aria-hidden="true"></i>LOG OUT
@@ -88,7 +88,7 @@
                 </p>
               </a>
             {% endif %}
-            {% if session.logged_in and session.privilege == "admin" %}
+            {% if session.logged_in and session['user']['privilege'] == "admin" %}
               <a href="{{ url_for('add_user') }}" type=submit value="NEW ACCOUNT" class="header-button -new-account">
                 <p class="button-label">
                   <i class="fa fa-plus menu-plus" aria-hidden="true"></i>NEW ACCOUNT

@@ -1,26 +1,23 @@
-import sqlite3
+"""UPLOADERS - function to upload files locally"""
+
 import os
-from flask import Flask, request, session, g, redirect, url_for, abort
-from flask import render_template, flash, send_from_directory
-
-from firmware import app
-import pdb
-
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 
 def allowed_file(filename):
+    """ allowed files that can be uploaded (not functioonal yet)"""
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 
-def upload_file(file, upload_name, upload_type):
+def upload_file(new_file, upload_name, upload_type):
+    """ uploads a file to the server """
     filename = "default.jpg"
-    if file:
+    if new_file:
         filename_temp = upload_name + ".jpg"
-        filename = file.filename
+        filename = new_file.filename
         folder = os.path.join(os.path.dirname(__file__), 'static', upload_type)
-        file.save(os.path.join(folder, filename))
+        new_file.save(os.path.join(folder, filename))
         os.rename(os.path.join(folder, filename), os.path.join(folder, filename_temp))
         filename = filename_temp
     return filename
