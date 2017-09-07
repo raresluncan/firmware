@@ -1,6 +1,6 @@
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
-from firmware.database import Base
+from firmware.database import Base, engine
 import pdb
 
 class User(Base):
@@ -12,22 +12,23 @@ class User(Base):
     email = Column(String(50), unique=True, nullable=False)
     name = Column(String(100))
     surname = Column(String(100))
-    avatar = Column(String(100), unique=True, nullable=False)
+    avatar = Column(String(100), nullable=False)
     contact = Column(String(100))
     privilege = Column(String(100), nullable=False)
     gender = Column(String(100), nullable=False)
+    usernname_review = relationship("Review", backref='user',
+        primaryjoin= "User.id == Review.user_id")
 
-    def __init__(self, username, password, email, name, surname, avatar,
-                 contact, privilege, gender):
-        self.username = username
-        self.password = password
-        self.email = email
-        self.name = name
-        self.surname = surname
-        self.avatar = avatar
-        self.contact = contact
-        self.privilege = privilege
-        self.gender = gender
+    def __init__(self, *args, **kwargs):
+        self.username = kwargs.get('username', None)
+        self.password = kwargs.get('password', None)
+        self.email = kwargs.get('email', None)
+        self.name = kwargs.get('name', None)
+        self.surname = kwargs.get('surname', None)
+        self.avatar = kwargs.get('avatar', 'default.jpg')
+        self.contact = kwargs.get('contact', None)
+        self.privilege = kwargs.get('privilege', None)
+        self.gender = kwargs.get('gender', None)
 
     def serialize(self):
         return { 'id': self.id,
@@ -51,10 +52,10 @@ class Review(Base):
     company_id = Column(String(2000), ForeignKey("companies.id"),
                         nullable=False)
 
-    def __init__(self, user_id, review, company_id):
-        self.user_id = user_id
-        self.review = review
-        self.company_id = company_id
+    def __init__(self, *args, **kwargs):
+        self.user_id = kwargs.get('user_id', None)
+        self.review = kwargs.get('review', None)
+        self.company_id = kwargs.get('company_id', None)
 
 class Company(Base):
     __tablename__ = 'companies'
@@ -81,6 +82,14 @@ class Company(Base):
         self.category_id = kwargs.get('category_id', None)
         self.added_by_id = kwargs.get('added_by_id', None)
 
+    def __iter__(self):
+        yield 'name', self.name
+        yield 'description', self.description
+        yield 'details', self.details
+        yield 'logo', self.logo
+        yield 'adress', self.adress
+        yield 'category_id', self.category_id
+
 
 class Category(Base):
     __tablename__ = 'categories'
@@ -91,3 +100,6 @@ class Category(Base):
     def __init__(self, id, type):
         self.id = id
         self.type = type
+
+
+Base.metadata.create_all(engine)

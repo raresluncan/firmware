@@ -71,10 +71,10 @@
               <li class="details-reviews">
                 <div class="username-avatar">
                   <h2 class="details-user">
-                    {{ review.username }}
+                    {{ review.user.username }}
                   </h2>
                   <div class="review-avatar-container">
-                    <img src="../static/Avatars/{{ review.avatar }}" class="review-avatar">
+                    <img src="../static/Avatars/{{ review.user.avatar }}" class="review-avatar">
                   </div>
                 </div>
                 <p class="details-user-review">
@@ -107,7 +107,7 @@
           </div>
           <div class="enter-text-review-button">
             <div>
-              <textarea  name="enter-review" class="enter-review" placeholder="Enter a detailed description about your company (max 2000 characters)" onfocus="this.placeholder = None" onblur="this.placeholder = 'Enter a detailed description about your company (max 2000 characters)'" rows=20 cols=80 maxlength=2000></textarea>
+              <textarea  name="review" class="enter-review" placeholder="Enter a detailed description about your company (max 2000 characters)" onfocus="this.placeholder = None" onblur="this.placeholder = 'Enter a detailed description about your company (max 2000 characters)'" rows=20 cols=80 maxlength=2000></textarea>
             </div>
             <div>
               <input type="submit" value="SUBMIT REVIEW" class="submit-review"></input>

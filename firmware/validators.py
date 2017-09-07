@@ -37,9 +37,9 @@ def validate_add_user(current_session):
     if not current_session.get('logged_in', None):
         errors['logged_in'] = "You must be logged in to add a user!"
         return errors
-    if current_session.get('privilege', None) != 'admin':
+    if current_session['user'].get('privilege', None) != 'admin':
         errors['not_admin'] = "Sorry, dear %s.Only admins can add users.\
-        Please upgrade to admin." % current_session.get('username', None)
+        Please upgrade to admin." % current_session['user'].get('username', None)
     return errors
 
 
@@ -91,6 +91,6 @@ def validate_login(login):
 def validate_review(review):
     """ checks if user submitted a valid review """
     errors = dict()
-    if review['enter-review'] == "":
+    if review['review'] == "":
         errors['text'] = "Please write a review before submitting"
     return errors

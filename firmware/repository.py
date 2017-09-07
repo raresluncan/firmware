@@ -6,7 +6,7 @@ from firmware.uploaders import upload_file
 from firmware import app
 from flask import g
 from firmware.database import db_session
-from models import User, Company, Category
+from models import User, Company, Category, Review
 from sqlalchemy import and_
 from sqlalchemy.orm import lazyload
 import pdb
@@ -63,8 +63,6 @@ def get_user_id(username):
 
 def add_company(company, company_files):
     """ adds a company to the database """
-    db = get_db()
-    pdb.set_trace()
     db_session.add(company)
     db_session.commit()
     return company.id
@@ -80,11 +78,9 @@ def get_company(company_id):
 
 def get_category(company_id):
     """ gets a category from the database by it's id """
-    db = get_db()
-    category_query = db.execute('select type from categories where \
-    id = "%s"' % get_company(company_id).category_id)
-    category = category_query.fetchall()
-    return category[0]['type']
+    category = db_session.query(Category).filter(Company.category_id ==
+                                                 Category.id).one()
+    return category.type
 
 
 def get_categories():
@@ -97,32 +93,17 @@ def get_categories():
 
 def get_reviews(company_id):
     """ gets all reviews for a company """
-    db = get_db()
-    reviews_query = db.execute(
-        'select users.username, users.avatar, reviews.id, reviews.user_id,\
-        reviews.review from reviews inner join users on \
-        reviews.user_id = users.id where reviews.company_id = "%s" order by \
-        reviews.id desc'
-        % company_id
-    )
-    reviews = reviews_query.fetchall()
+    reviews = db_session.query(Review).filter(Review.company_id == company_id).order_by(Review.id.desc()).all()
     return reviews
 
 
 def add_user(user, user_files):
     """ adds a new user to the database """
-    u = User(user['username'],
-                                       user['password'],
-                                       user['email'],
-                                       user.get('real_name', '-'),
-                                       user['surname'],
-                                       upload_file(user_files['user_avatar'],
-                                                   user['username'], 'Avatars'),
-                                       user['contact'],
-                                       user['radio-group-privilege'],
-                                       user['radio-group-gender'])
-    db_session.add(u)
-    return db_session.commit()
+    pdb.set_trace()
+    db_session.add(user)
+    db_session.commit()
+    return user.id, user.username
+
 
 def get_user(username):
     user = db_session.query(User).filter(User.username == username).one().serialize()
@@ -138,27 +119,11 @@ def check_user(username, password):
     return 1
 
 
-def add_reviews(company_id, user, text):
+def add_reviews(review):
     """ adds a review entered by a user for a company """
-    db = get_db()
-    get_user_id_query = db.execute("select id from users where username='%s'"
-                                   % user)
-    user_id_row = get_user_id_query.fetchmany()
-    user_id = user_id_row[0]['id']
-    db.execute("insert into reviews (user_id, review, \
-    company_id) values (?, ?, ?)", (user_id, text, company_id))
-    db.commit()
+    db_session.add(review)
+    db_session.commit()
     return None
-
-
-def get_category_id(category):
-    """ retrieves the if of a given category(if exists) """
-    db = get_db()
-    get_category_id_query = db.execute("select id from categories where \
-        type = '%s'" % category)
-    category_id_row = get_category_id_query.fetchmany()
-    category_id = category_id_row[0]['id']
-    return category_id
 
 
 def get_filtered_companies(category_type):
@@ -191,30 +156,16 @@ def fragment_company(company_id):
 
 def get_category_by_id(category_id):
     """ retrieves a category type by it's id """
-    db = get_db()
-    get_category_query = db.execute("select type from categories where id='%s'"
-                                    % category_id)
-    get_category_row = get_category_query.fetchmany()
-    category = get_category_row[0]['type']
+    category = db_session.query(Category).filter(Category.id == category_id).one()
     return category
 
 
 def update_company(company, company_files, company_id):
     """ updates a company in the database """
-    db = get_db()
     pdb.set_trace()
-    db.execute("update companies set name = ?,description = ?,details = ?,\
-        logo = ?,adress = ?,category_id = ? where id = ?", \
-        (company['name'],
-         company['description'],
-         company['details'],
-         upload_file(company_files['logo'],
-                     company['name'], 'Images'),
-         company['adress'],
-         company.get('category'),
-         company_id))
-    db.commit()
-    company_id_query = db.execute("select id from companies where id='%s'"
-                                  % company_id)
-    updated_company_id = company_id_query.fetchall()[0]
-    return updated_company_id[0]
+    old_company = db_session.query(Company).get(company_id)
+    company = dict(company)
+    for key,value in company.items():
+        setattr(old_company, key, value)
+    db_session.commit()
+    return company_id

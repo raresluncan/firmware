@@ -32,7 +32,7 @@
           <div class="title-field">
             <dt class="add-user-label">REAL NAME</dt>
             <dd>
-              <textarea name="real_name" class="add-user --input-new-user" placeholder="Enter your name" onfocus="this.placeholder = None" onblur="this.placeholder = 'Enter your name'" type=textarea maxlength=60>{{ data.get('real-name', '') }}</textarea>
+              <textarea name="name" class="add-user --input-new-user" placeholder="Enter your name" onfocus="this.placeholder = None" onblur="this.placeholder = 'Enter your name'" type=textarea maxlength=60>{{ data.get('real-name', '') }}</textarea>
             </dd>
           </div>
           <div class="title-field">
@@ -51,11 +51,11 @@
             <dt class="add-user-label">GENDER</dt>
             <dd class="radio-buttons">
               <p>
-                <input type="radio" id="male" value="male" class="radio-buttons-input gender" name="radio-group-gender" checked>
+                <input type="radio" id="male" value="male" class="radio-buttons-input gender" name="gender" checked>
                 <label for="male" class="radio-label">Male</label>
               </p>
               <p>
-                <input type="radio" id="female" value="female" class="radio-buttons-input gender" name="radio-group-gender">
+                <input type="radio" id="female" value="female" class="radio-buttons-input gender" name="gender">
                 <label for="female" class = "radio-label">Female</label>
               </p>
               <p>
@@ -65,11 +65,11 @@
             <dt class="add-user-label">PRIVILEGE</dt>
             <dd class="radio-buttons">
               <p>
-                <input type="radio" id="user" value="user" class="radio-buttons-input privilege" name="radio-group-privilege" checked>
+                <input type="radio" id="user" value="user" class="radio-buttons-input privilege" name="privilege" checked>
                 <label for="user" class="radio-label">User </label>
               </p>
               <p>
-                <input type="radio" id="admin" value="admin" class="radio-buttons-input privilege" name="radio-group-privilege">
+                <input type="radio" id="admin" value="admin" class="radio-buttons-input privilege" name="privilege">
                 <label for= "admin" class="radio-label">Admin  </label>
               </p>
               <p>

@@ -19,7 +19,6 @@ def get_details(company_id):
         errors = dict()
         errors['company-not-found'] = "Company not found!"
         return render_template('404.html', error_messages=errors)
-    pdb.set_trace()
     category = repository.get_category(company_id)
     reviews = repository.get_reviews(company_id)
     added_by_user = repository.get_username_by_id(company.added_by_id)
@@ -83,23 +82,20 @@ def add_company(company_id):
             errors = validate_company(request.form)
             if not errors:
                 if company_id is None:
-                    pdb.set_trace()
                     company = Company(added_by_id=session['user']['id'], **request.form.to_dict())
                     new_company_id = repository.add_company(company,
                                                             request.files)
                     flash('Congratulations on adding your company, ' \
-                        + request.form['name']+' to our website!Check out \
+                        + company.name +' to our website!Check out \
                         your profile below.')
                     return redirect(url_for('details',
                                             company_id=new_company_id))
                 if not errors:
-                    updated_company_id = (
-                        repository.update_company(request.form, request.files,
-                                                  company_id)
-                    )
-                    flash('Your company, '+ request.form['name']+', has\
-                            been updated!')
-                    return redirect(url_for('details', company_id=updated_company_id))
+                    updated_company = Company(**request.form.to_dict())
+                    repository.update_company(updated_company, request.files,
+                                              company_id)
+                    flash('Your company has been updated!')
+                    return redirect(url_for('details', company_id=company_id))
                 return render_template('404.html', error_messages=errors)
         if request.form.get('category') is not None:
             data['category'] = \
@@ -120,8 +116,9 @@ def add_user():
         if request.method == 'POST':
             errors = validate_new_user(request.form)
             if not errors:
-                new_user_id = repository.add_user(request.form, request.files)
-                flash("NEW USER ADDED SUCESFULLY!")
+                user = User(**request.form.to_dict())
+                new_user_id, username = repository.add_user(user, request.files)
+                flash("NEW USER, %s, ADDED SUCESFULLY!" % username)
                 return redirect(url_for('home', current_category=\
                                         request.args.get('category', \
                                         'all categories')))
@@ -168,8 +165,10 @@ def add_review(company_id):
         if session.get('logged_in', None):
             errors = validate_review(request.form)
             if not errors:
-                repository.add_reviews(company_id, session['username'],
-                                       request.form['enter-review'])
+                review = Review(user_id = session['user']['id'],
+                                company_id = company_id,
+                                **request.form.to_dict())
+                repository.add_reviews(review)
                 flash("Review added sucessfully")
                 return redirect(url_for('details', company_id=company_id))
         else:
