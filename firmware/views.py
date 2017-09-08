@@ -1,15 +1,13 @@
 """ Routes for app paths and functions combining multiple modules """
 
 from flask import request, session, redirect, url_for, render_template, flash
-
 from firmware import app
 from firmware import repository
 from firmware.validators import validate_company, validate_new_user
 from firmware.validators import validate_login, validate_review
 from firmware.validators import validate_add_company, validate_add_user
-from firmware.models import Company, User, Review, Category
-
-import pdb
+from firmware.models import Company, User, Review
+from firmware.uploaders import upload_file
 
 
 def get_details(company_id):
@@ -82,9 +80,12 @@ def add_company(company_id):
             errors = validate_company(request.form)
             if not errors:
                 if company_id is None:
-                    company = Company(added_by_id=session['user']['id'], **request.form.to_dict())
-                    new_company_id = repository.add_company(company,
-                                                            request.files)
+                    company = Company(added_by_id=session['user']['id'],
+                                      logo=upload_file(request.files['logo'],
+                                                       request.form['name'],
+                                                       "Images"),
+                                      **request.form.to_dict())
+                    new_company_id = repository.add_company(company)
                     flash('Congratulations on adding your company, ' \
                         + company.name +' to our website!Check out \
                         your profile below.')
@@ -92,10 +93,12 @@ def add_company(company_id):
                                             company_id=new_company_id))
                 if not errors:
                     updated_company = Company(**request.form.to_dict())
-                    repository.update_company(updated_company, request.files,
-                                              company_id)
+                    #ALSO UPDATE LOGO IF NEEDED@@@@@@@@@@@@@
+                    updated_company_id = repository.update_company(updated_company,
+                                                                   company_id)
                     flash('Your company has been updated!')
-                    return redirect(url_for('details', company_id=company_id))
+                    return redirect(url_for('details',
+                                            company_id=updated_company_id))
                 return render_template('404.html', error_messages=errors)
         if request.form.get('category') is not None:
             data['category'] = \
@@ -116,8 +119,12 @@ def add_user():
         if request.method == 'POST':
             errors = validate_new_user(request.form)
             if not errors:
-                user = User(**request.form.to_dict())
-                new_user_id, username = repository.add_user(user, request.files)
+                user = User(avatar=upload_file(request.files['avatar'],
+                                               request.form['username'],
+                                               "Avatars"),
+                            **request.form.to_dict())
+                new_user_id, username = repository.add_user(user)
+                print str(new_user_id) + "will be used when adding a new user page"
                 flash("NEW USER, %s, ADDED SUCESFULLY!" % username)
                 return redirect(url_for('home', current_category=\
                                         request.args.get('category', \
@@ -165,8 +172,8 @@ def add_review(company_id):
         if session.get('logged_in', None):
             errors = validate_review(request.form)
             if not errors:
-                review = Review(user_id = session['user']['id'],
-                                company_id = company_id,
+                review = Review(user_id=session['user']['id'],
+                                company_id=company_id,
                                 **request.form.to_dict())
                 repository.add_reviews(review)
                 flash("Review added sucessfully")

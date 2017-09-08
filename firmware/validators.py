@@ -1,7 +1,7 @@
 """Validators - functions to validate stuff"""
 
 from firmware.repository import get_company, get_username_by_id
-import pdb
+
 
 def validate_user_type(current_session, company_id):
     """ checks if the user who wants to edit a company is the \

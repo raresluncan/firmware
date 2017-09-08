@@ -19,16 +19,6 @@
         <p class=title-rating>
           Overall rating
         </p>
-        <form id="ratingsForm">
-          <div class="stars">
-            <input type="radio" name="star" class="star-1" id="star-1" /><label for="star-5" class="star-1">1</label>
-            <input type="radio" name="star" class="star-2" id="star-2" /><label for="star-4" class="star-2">2</label>
-            <input type="radio" name="star" class="star-3" id="star-3" /><label for="star-3" class="star-3">3</label>
-            <input type="radio" name="star" class="star-4" id="star-4" /><label for="star-2" class="star-4">4</label>
-            <input type="radio" name="star" class="star-5" id="star-5" /><label for="star-1" class="star-5">5</label>
-            <span></span>
-          </div>
-        </form>
       </div>
       <div class="details-adress-category">
          <div class="company-adress">
@@ -74,7 +64,7 @@
                     {{ review.user.username }}
                   </h2>
                   <div class="review-avatar-container">
-                    <img src="../static/Avatars/{{ review.user.avatar }}" class="review-avatar">
+                    <img width="1400" height="1400" src="../static/Avatars/{{ review.user.avatar }}" class="review-avatar">
                   </div>
                 </div>
                 <p class="details-user-review">

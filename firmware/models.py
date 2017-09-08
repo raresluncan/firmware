@@ -1,9 +1,12 @@
+"""Mappers for firmware database tables"""
+
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 from firmware.database import Base, engine
-import pdb
+
 
 class User(Base):
+    """defines / maps users table in database"""
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
@@ -17,9 +20,9 @@ class User(Base):
     privilege = Column(String(100), nullable=False)
     gender = Column(String(100), nullable=False)
     usernname_review = relationship("Review", backref='user',
-        primaryjoin= "User.id == Review.user_id")
+                                    primaryjoin="User.id == Review.user_id")
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
         self.username = kwargs.get('username', None)
         self.password = kwargs.get('password', None)
         self.email = kwargs.get('email', None)
@@ -31,19 +34,21 @@ class User(Base):
         self.gender = kwargs.get('gender', None)
 
     def serialize(self):
-        return { 'id': self.id,
-                 'username': self.username,
-                 'email': self.email,
-                 'name': self.name,
-                 'surname': self.surname,
-                 'avatar': self.avatar,
-                 'contact': self.contact,
-                 'privilege': self.privilege,
-                 'gender': self.gender
+        """returns a dictionary to store in session to remember logged user"""
+        return {'id': self.id,
+                'username': self.username,
+                'email': self.email,
+                'name': self.name,
+                'surname': self.surname,
+                'avatar': self.avatar,
+                'contact': self.contact,
+                'privilege': self.privilege,
+                'gender': self.gender
                }
 
 
 class Review(Base):
+    """defines / maps reviews table in database"""
     __tablename__ = 'reviews'
 
     id = Column(Integer, primary_key=True)
@@ -52,12 +57,13 @@ class Review(Base):
     company_id = Column(String(2000), ForeignKey("companies.id"),
                         nullable=False)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
         self.user_id = kwargs.get('user_id', None)
         self.review = kwargs.get('review', None)
         self.company_id = kwargs.get('company_id', None)
 
 class Company(Base):
+    """defines / maps companies table in database"""
     __tablename__ = 'companies'
 
     id = Column(Integer, primary_key=True)
@@ -72,7 +78,7 @@ class Company(Base):
     category = relationship("Category")
     user = relationship("User")
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
         self.name = kwargs.get('name', None)
         self.description = kwargs.get('description', None)
         self.details = kwargs.get('details', None)
@@ -92,14 +98,15 @@ class Company(Base):
 
 
 class Category(Base):
+    """defines / maps categories table in database """
     __tablename__ = 'categories'
 
     id = Column(Integer, primary_key=True)
-    type = Column(String(20), unique=True, nullable=False)
+    domain = Column(String(20), unique=True, nullable=False)
 
-    def __init__(self, id, type):
+    def __init__(self, id, domain):
         self.id = id
-        self.type = type
+        self.domain = domain
 
 
 Base.metadata.create_all(engine)

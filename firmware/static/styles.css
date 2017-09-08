@@ -36,14 +36,15 @@ footer {
 
 body {
   background-color: rgb(113, 113, 113);
-  width: 100vw;
-  min-height: 100px;
+  width: 90vw;
+  min-width: 600px;
+  min-height: 500px;
 }
 
 .header {
   position: fixed;
   z-index: 30;
-  width: 100%;
+  width: 100vw;
   height: 4vw;
 }
 
@@ -126,7 +127,7 @@ body {
   flex-direction: : row;
   justify-content: space-around;
   align-items: center;
-  width: 100%;
+  width: 100vw;
   background-color: rgb(69, 67, 67);
 }
 
@@ -377,7 +378,7 @@ body {
   font-weight: bold;
   font-style: italic;
   text-transform: uppercase;
-  font-size: 20px;
+  font-size: 18px;
   color: rgb(255, 194, 77);
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
     1px 1px 0 #000;
@@ -397,6 +398,7 @@ body {
   font-size: 1.0vw;
   margin-bottom: 10px;
   margin-left: 10px;
+  width: 10vw;
 }
 
 .edit-company-details {
@@ -404,6 +406,7 @@ body {
 }
 
 .edit-button {
+  font-size: 1vw;
   margin-left: 10px;
   transition: color 0.4s;
 }
@@ -428,9 +431,8 @@ body {
   flex-flow: row;
   justify-content: space-between;
   top: 150px;
-  width: 100vw;
-  margin-left: 120px;
-  margin-right: 100px;
+  width: 90vw;
+  margin-left: 3vw;
 }
 
 .details-title-logo {
@@ -440,9 +442,8 @@ body {
   flex-flow: column;
   align-content: stretch;
   float:left;
-  min-width: 450px;
-  max-width: 1000px;
-  width: 50%;
+  min-width: 550px;
+  width: 70vw;
   padding-right: 50px;
   margin-right: 50px;
   border-right: 2px solid black;
@@ -481,15 +482,17 @@ body {
   border-bottom: 2px solid black;
   padding-bottom: 0px;
   margin-bottom: 15px;
+  width: 45vw;
 }
 
 .overall-rating-company {
   display: flex;
   flex-flow: row;
   justify-content: space-around;
+  min-width: 100px;
   margin-top: 20px;
   margin-bottom: 20px;
-  font-size: 30px;
+  font-size: calc(10px + 2vw);
   font-weight: bolder;
   border-radius: 25px;
   display: inline-flex;
@@ -497,6 +500,8 @@ body {
   background-color: rgb(91, 191, 255);
   border-radius: 15px;
   padding: 10px 10px 20px 10px;
+  width: 38vw;
+  min-width: 280px;
 }
 
 .overall-rating-company-title {
@@ -512,14 +517,21 @@ body {
   margin-right: 100px;
   position: relative;
   max-height: 500px;
-  width: 1000px;
+  width: 50vw;
   min-width: 500px;
+}
+
+.reviews-list {
+  width: 50vw;
+  min-width: 300px;
 }
 
 .reviews-top {
   padding-bottom: 3vw;
   border-bottom: 2px solid black;
+  width: 44vw;
 }
+
 .add-review {
   width: 100%;
   max-height: 5vw;
@@ -590,15 +602,18 @@ body {
 }
 
 .title-reviews {
-  margin-bottom: 20px;
   display: inline-block;
   text-align: center;
   background-color: rgba(255, 161, 0, 0.8);
   border-radius: 40px;
   box-shadow: -2px 0px 41px 5px rgba(0,0,0,0.75);
-  padding-right: 20px;
-  padding-left: 20px;
-  margin-bottom: 20px;
+  padding-right: 4vw;
+  padding-left: 4vw;
+  padding-top: 0.5vw;
+  padding-bottom: 0.5vw;
+  margin-bottom: 2vw;
+  min-width: 200px;
+  font-size: calc(15px + 0.5vw);
   color: rgb(36, 17, 0);
 }
 
@@ -610,7 +625,7 @@ body {
   max-height: 200vw;
   width: auto;
   overflow: auto;
-  font-size: 1.2vw;
+  font-size: calc(10px + 1.2vw);
 }
 
 .details-reviews {
@@ -622,15 +637,15 @@ body {
 }
 
 .details-logo {
-  width: 80px;
-  height: 80px;
+  width: 8vw;
+  height: 8vw;
   margin-right: 2px;
 }
 
 .details-title {
   margin-left: 20px;
   text-transform: uppercase;
-  font-size: 50px;
+  font-size: 2vw;
   font-weight: 30px;
   color: white;
   text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000,
@@ -827,7 +842,7 @@ form .stars span {
 }
 
 .adress-title {
-  font-size: 20px;
+  font-size: 1vw;
   text-transform: uppercase;
   padding-left: 10px;
   font-weight: bolder;
@@ -853,15 +868,16 @@ form .stars span {
 }
 
 .add-company-layout {
-  position: relative;
+  position: absolute;
   display: flex;
   flex-flow: column;
   align-items: baseline;
   padding-top: 6.5vw;
   padding-bottom: 100px;
   margin-bottom: 100px;
-  margin-left: -100px;
-  transform: translate(40vw, 0%);
+  margin-left: -50px;
+  transform: translate(38vw, 0%);
+  min-width: 400px;
 }
 
 .add-user-layout {
@@ -1170,28 +1186,18 @@ form .stars span {
   flex-direction: row-reverse;
   align-items: center;
   justify-content: flex-end;
-  max-width: 20vw;
+  max-width: 40vw;
   max-height: 40px;
+  min-width: 15vw;
+  min-height: 25px;
   margin-bottom: 30px;
   margin-top: 20px;
-  padding: 5px 10px 5px 0px;
-  background-color: rgba(104, 184, 251, 0.2);
-  border-radius: 50px;
-  transition: background-color 0.25s,color 0.25s,width 0.25s;
-  transform: translate(25%, 0%);
-}
-
-.username-avatar:hover {
-  animation: floatText 5s infinite alternate ease-in-out;
-  background-color: rgba(104, 184, 251, 0.5);
-  color: rgb(201, 230, 242);
-  cursor: pointer;
 }
 
 .review-avatar-container {
-  min-width: 4vw;
-  min-height: 4vw;
-  max-width: 5vw;
+  min-width: 75px;
+  min-height: 75px;
+  max-width: 6vw;
   max-height: 5vw;
   height:auto;
   width:auto;
@@ -1205,16 +1211,39 @@ form .stars span {
   height:auto;
   width:auto;
   float:left;
+  max-height: 4vw;
+  min-height: 75px;
   max-width: 5vw;
-  min-width: 3vw;
+  min-width: 75px;
   background-color: rgba(196, 228, 255, 1);
   transform: translate(0%, 0%);
 }
 
 .details-user {
-  margin-left: 2vw;
-  padding-right: 15px;
-  font-size: 1.5vw;
+  position: relative;
+  font-size: calc(15px + 0.8vw);
+  left: -15vw;
+  width: 20vw;
+  min-width: 150px;
+  height: 1vw;
+  font-size: calc(10px + 0.8vw);
+  padding-right: 10vw;
+  padding-left: 15vw;
+  padding-top: calc( 5px + 0.4vw);
+  padding-bottom: calc( 12px + 0.7vw);
+  background-color: rgba(104, 184, 251, 0.2);
+  border-radius: 50px;
+  text-align: center;
+  align-items: center;
+  transition: background-color 0.25s,color 0.25s;
+  transform: translate(25%, 0%);
+}
+
+.details-user:hover {
+animation: floatText 5s infinite alternate ease-in-out;
+background-color: rgba(104, 184, 251, 0.5);
+color: rgb(201, 230, 242);
+cursor: pointer;
 }
 
 .login-data {

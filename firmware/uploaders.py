@@ -1,14 +1,6 @@
 """UPLOADERS - function to upload files locally"""
 
 import os
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
-
-
-def allowed_file(filename):
-    """ allowed files that can be uploaded (not functioonal yet)"""
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-
 
 def upload_file(new_file, upload_name, upload_type):
     """ uploads a file to the server """

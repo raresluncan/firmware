@@ -21,10 +21,10 @@
           <select name="category_id" class="select-category">
             <option disabled selected value>-- select category --</option>
             {% for category in categories %}
-              {% if category.type == data.get('category', '') %}
-                <option value="{{ category.id }}" selected="selected">{{ category.type }}</option>
+              {% if category.domain == data.get('category', '') %}
+                <option value="{{ category.id }}" selected="selected">{{ category.domain }}</option>
               {% else %}
-                <option value="{{ category.id }}">{{ category.type }}</option>
+                <option value="{{ category.id }}">{{ category.domain }}</option>
               {% endif %}
             {% endfor %}
           </select>
