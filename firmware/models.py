@@ -58,11 +58,13 @@ class Review(Base):
     message = Column(String(2000), nullable=False)
     company_id = Column(String(2000), ForeignKey("companies.id"),
                         nullable=False)
+    rating = Column(Integer, nullable=False)
 
     def __init__(self, **kwargs):
         self.user_id = kwargs.get('user_id', None)
         self.message = kwargs.get('message', None)
         self.company_id = kwargs.get('company_id', None)
+        self.rating = kwargs.get('rating', None)
 
 class Company(Base):
     """defines / maps companies table in database"""
@@ -89,14 +91,6 @@ class Company(Base):
         self.adress = kwargs.get('adress', None)
         self.category_id = kwargs.get('category_id', None)
         self.added_by_id = kwargs.get('added_by_id', None)
-
-    def __iter__(self):
-        yield 'name', self.name
-        yield 'description', self.description
-        yield 'details', self.details
-        yield 'logo', self.logo
-        yield 'adress', self.adress
-        yield 'category_id', self.category_id
 
     def to_dict(self):
         """returns the data in the model object to a mutable dictionary form"""

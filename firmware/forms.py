@@ -202,7 +202,7 @@ class LogIn(Form):
             validators.Length(min=2, max=20, message="Username must be \
                               2 and 20 characters")
         ],
-        widget=WidgetTextArea(maxlength=20)
+        widget=WidgetTextArea(maxlength=20, rows=0, cols=1)
     )
     password = PasswordField(
         'password',

@@ -11,6 +11,8 @@ from firmware.uploaders import upload_file
 from firmware.forms import AddUser, AddCompany, LogIn, AddReview
 from firmware.decorators import login_required
 from firmware.authorization import authorize_edit_company
+from firmware import encrypt
+
 
 
 
@@ -19,8 +21,7 @@ def get_details(company_id):
     try:
         company = repository.get_company(company_id)
     except sqlalchemy.orm.exc.NoResultFound:
-        errors = dict()
-        errors['company-not-found'] = "Company not found!"
+        errors = {'company-not-found': "Company not found!"}
         return render_template('404.html', error_messages=errors)
     category = company.category.domain
     reviews = repository.get_reviews(company_id)
@@ -47,35 +48,38 @@ def not_found(errors):
     return render_template('404.html', error_messages=errors)
 
 
-@app.route('/details/<company_id>', methods=['GET', 'POST'])
+@app.route('/details/<company_id>', methods=['GET'])
 def details(company_id):
     """ function to show details about a company via it's id """
-    errors = dict()
     try:
         company, category, reviews, added_by_user = get_details(company_id)
-        add_review_form = AddReview(request.form)
+        add_review_form = AddReview()
     except ValueError:
+        errors = dict()
         errors['Company-not-found'] = "Company not found!"
         return render_template('404.html', error_messages=errors)
-    if request.method == 'POST' and add_review_form.validate():
-        if session.get('logged_in', False) is True:
-            review = Review(user_id=session['user']['id'],
-                            company_id=company_id,
-                            **add_review_form.to_dict())
-            repository.add_review(review)
-            flash("Review added sucessfully")
-            return redirect(url_for('details', company_id=company_id))
-        errors['logged_in'] = "You must be logged in to add a review!"
-    errors.update(add_review_form.errors)
+
     return render_template('details.html', reviews=reviews,
                            add_review_form=add_review_form, company=company,
-                           category=category, added_by_user=added_by_user,
-                           errors=errors)
+                           category=category, added_by_user=added_by_user)
 
+
+@app.route('/details/<company_id>', methods=['POST'])
+@login_required('user')
+def add_review(company_id):
+    """ function to add a review when user clicks submit """
+    add_review_form = AddReview(request.form)
+    if add_review_form.validate():
+        review = Review(user_id=session['user']['id'],
+                        company_id=company_id, rating=0,
+                        **add_review_form.to_dict())
+        repository.add_review(review)
+        flash("Review added sucessfully")
+    return redirect(url_for('details', company_id=company_id))
 
 @app.route('/company/', defaults={'company_id': None}, methods=['GET', 'POST'])
 @app.route('/company/<company_id>', methods=['GET', 'POST'])
-@login_required(session)
+@login_required('admin')
 def add_company(company_id):
     """ function called when an admin wants to add a new company or edit \
         one of it's own """
@@ -126,11 +130,14 @@ def add_company(company_id):
 
 
 @app.route('/add/user/', methods=['GET', 'POST'])
-@login_required(session)
+@login_required('admin')
 def add_user():
     """ function called ONLY when an ADMIN wants to add a new user """
     add_user_form = AddUser(request.form)
     if request.method == 'POST' and add_user_form.validate():
+        add_user_form.password.data = encrypt.generate_password_hash(
+            add_user_form.password.data
+        )
         user = User(avatar=upload_file(request.files['avatar'],
                                        add_user_form.username.data,
                                        "Avatars"),
@@ -152,7 +159,7 @@ def login():
     login_form = LogIn(request.form)
     if request.method == 'POST' and login_form.validate():
         if repository.check_user(login_form.username.data,
-                                 login_form.password.data) is None:
+                                 login_form.password.data) is False:
             errors['invalid'] = "Invalid credentials!Please check your username \
                                and password again!"
         else:

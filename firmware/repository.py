@@ -1,8 +1,8 @@
 """Repository - module to communicate with the database"""
 
+from firmware import encrypt
 from firmware.database import db_session
 from firmware.models import User, Company, Category, Review
-from sqlalchemy import and_
 
 
 
@@ -49,11 +49,12 @@ def get_user(username):
 
 def check_user(username, password):
     """ checks if the user exists in the database, with the entered password """
-    user = db_session.query(User).filter(and_(User.username == username,
-                                              User.password == password)).all()
-    if user == []:
-        return None
-    return user
+    user = db_session.query(User).filter(User.username == username).first()
+    if user is None:
+        return False
+    if encrypt.check_password_hash(user.password, password) is False:
+        return False
+    return True
 
 
 def add_review(review):

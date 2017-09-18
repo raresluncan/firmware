@@ -5,8 +5,7 @@ def authorize_edit_company(session, company):
         rights over the company """
     if (session['user'].get('username', 'no-user')
             != company.added_by_user.username):
-        errors = dict()
-        errors['not-owner'] = ("You are not the owner of this company. \
-                               Only %s can edit this page!"
-                               % (company.added_by_user.username))
+        errors = {'not owner': ("You are not the owner of this company. \
+                                Only %s can edit this page!"
+                                % (company.added_by_user.username))}
         return errors
