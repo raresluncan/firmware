@@ -19,8 +19,10 @@ class User(Base):
     contact = Column(String(100))
     privilege = Column(String(100), nullable=False)
     gender = Column(String(100), nullable=False)
-    usernname_review = relationship("Review", backref='user',
-                                    primaryjoin="User.id == Review.user_id")
+    reviews = relationship("Review", backref='user',
+                           primaryjoin="User.id == Review.user_id")
+    added_company = relationship("Company", backref='added_by_user',
+                                 primaryjoin="User.id==Company.added_by_id")
 
     def __init__(self, **kwargs):
         self.username = kwargs.get('username', None)
@@ -53,13 +55,13 @@ class Review(Base):
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    review = Column(String(2000), nullable=False)
+    message = Column(String(2000), nullable=False)
     company_id = Column(String(2000), ForeignKey("companies.id"),
                         nullable=False)
 
     def __init__(self, **kwargs):
         self.user_id = kwargs.get('user_id', None)
-        self.review = kwargs.get('review', None)
+        self.message = kwargs.get('message', None)
         self.company_id = kwargs.get('company_id', None)
 
 class Company(Base):
@@ -75,8 +77,8 @@ class Company(Base):
     adress = Column(String(150), nullable=False)
     category_id = Column(Integer, ForeignKey("categories.id"), nullable=False)
     added_by_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    category = relationship("Category")
-    user = relationship("User")
+    categories = relationship("Category")
+    users = relationship("User")
 
     def __init__(self, **kwargs):
         self.name = kwargs.get('name', None)
@@ -96,6 +98,19 @@ class Company(Base):
         yield 'adress', self.adress
         yield 'category_id', self.category_id
 
+    def to_dict(self):
+        """returns the data in the model object to a mutable dictionary form"""
+        return {
+            'name': self.name,
+            'description': self.description,
+            'details': self.details,
+            'rating': self.rating,
+            'logo': self.logo,
+            'adress': self.adress,
+            'category_id': self.category.id,
+            'added_by_user': self.added_by_user,
+        }
+
 
 class Category(Base):
     """defines / maps categories table in database """
@@ -103,6 +118,8 @@ class Category(Base):
 
     id = Column(Integer, primary_key=True)
     domain = Column(String(20), unique=True, nullable=False)
+    category = relationship("Company", backref='category',
+                            primaryjoin="Category.id == Company.category_id")
 
     def __init__(self, id, domain):
         self.id = id

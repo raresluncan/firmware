@@ -1,0 +1,29 @@
+{% macro render_text_field(field) %}
+  {% if field.flags.required %}
+    <dt class="add-user-label -mandatory-label" for="{{ field.label.text }}">{{ field.label.text }}</dt>
+  {% else %}
+    <dt class="add-user-label" for="{{ field.label.text }}">{{ field.label.text }}</dt>
+  {% endif %}
+  <div>{{ field(**kwargs)|safe }}</div>
+{% endmacro %}
+
+{% macro render_radio_field(field) %}
+  <dt class="add-user-label -mandatory-label" for="{{ field.label.text }}">{{ field.label.text }}</dt>
+  {% for subfield in field %}
+     <div class="radio-label">
+       {{ subfield(**kwargs)|safe  }}
+       {{ subfield.label }}
+     </div>
+  {% endfor %}
+{% endmacro %}
+
+{% macro render_submit_field(field) %}
+  {{ field (**kwargs)|safe }}
+{% endmacro %}
+
+{% macro render_select_field(field) %}
+  <dt class="add-user-label -mandatory-label" for="{{ field.label.text }}">{{ field.label.text }}</dt>
+  <div class="select-category">
+    {{ field (**kwargs)|safe }}
+  </div>
+{% endmacro %}

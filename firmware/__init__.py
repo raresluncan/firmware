@@ -14,8 +14,11 @@ app.config.update(dict(
 
 
 from firmware import views
-from firmware import validators
 from firmware import repository
 from firmware import uploaders
 from firmware import models
 from firmware import database
+from firmware import forms
+from firmware import widgets
+from firmware import decorators
+from firmware import authorization

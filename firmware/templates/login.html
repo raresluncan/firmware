@@ -1,21 +1,19 @@
 {% extends "layout.html" %}
 
 {% block content %}
+  {% from "_formhelpers.html" import render_text_field %}
+  {% from "_formhelpers.html" import render_submit_field %}
   <form method="post" enctype="multipart/form-data" action="{{ url_for('login') }}" class="login-data">
     <div class="enter-user">
-      <div class="log-fields">
-        <div class="add-user-label -login">
-          USERNAME
+        <div class="title-field">
+          {{ render_text_field(login_form.username) }}
         </div>
-        <textarea name="username-login" class="add-user --input-new-user -username-login" placeholder="Enter username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter username'" maxlength=20></textarea></textarea>
+      <div class="title-field">
+        {{ render_text_field(login_form.password) }}
       </div>
-      <div class="log-fields">
-        <div class="add-user-label -login">
-          PASSWORD
-        </div>
-        <input type=password name="password-login" class= "add-user --input-new-user -username-login" placeholder="Enter password" onfocus="this.placeholder=''" onblur="this.placeholder = 'Enter password'" maxlength=120>
+      <div class="user-login">
+        {{ render_submit_field(login_form.submit) }}
       </div>
-      <input type="submit" value="LOG IN" class="submit-button -login-submit"></input>
     </div>
   </form>
 {% endblock %}

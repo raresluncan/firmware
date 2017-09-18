@@ -1,25 +1,30 @@
+# coding: utf8
 """ Routes for app paths and functions combining multiple modules """
 
+
+import sqlalchemy.orm
 from flask import request, session, redirect, url_for, render_template, flash
 from firmware import app
 from firmware import repository
-from firmware.validators import validate_company, validate_new_user
-from firmware.validators import validate_login, validate_review
-from firmware.validators import validate_add_company, validate_add_user
 from firmware.models import Company, User, Review
 from firmware.uploaders import upload_file
+from firmware.forms import AddUser, AddCompany, LogIn, AddReview
+from firmware.decorators import login_required
+from firmware.authorization import authorize_edit_company
+
 
 
 def get_details(company_id):
     """get details about a company via it's id"""
-    company = repository.get_company(company_id)
-    if company is None:
+    try:
+        company = repository.get_company(company_id)
+    except sqlalchemy.orm.exc.NoResultFound:
         errors = dict()
         errors['company-not-found'] = "Company not found!"
         return render_template('404.html', error_messages=errors)
-    category = repository.get_category(company_id)
+    category = company.category.domain
     reviews = repository.get_reviews(company_id)
-    added_by_user = repository.get_username_by_id(company.added_by_id)
+    added_by_user = company.added_by_user.username
     return company, category, reviews, added_by_user
 
 
@@ -42,117 +47,126 @@ def not_found(errors):
     return render_template('404.html', error_messages=errors)
 
 
-@app.route('/details/<company_id>')
+@app.route('/details/<company_id>', methods=['GET', 'POST'])
 def details(company_id):
     """ function to show details about a company via it's id """
+    errors = dict()
     try:
         company, category, reviews, added_by_user = get_details(company_id)
+        add_review_form = AddReview(request.form)
     except ValueError:
-        errors = dict()
         errors['Company-not-found'] = "Company not found!"
         return render_template('404.html', error_messages=errors)
-    return render_template('details.html', reviews=reviews, company=company,
-                           category=category, added_by_user=added_by_user)
+    if request.method == 'POST' and add_review_form.validate():
+        if session.get('logged_in', False) is True:
+            review = Review(user_id=session['user']['id'],
+                            company_id=company_id,
+                            **add_review_form.to_dict())
+            repository.add_review(review)
+            flash("Review added sucessfully")
+            return redirect(url_for('details', company_id=company_id))
+        errors['logged_in'] = "You must be logged in to add a review!"
+    errors.update(add_review_form.errors)
+    return render_template('details.html', reviews=reviews,
+                           add_review_form=add_review_form, company=company,
+                           category=category, added_by_user=added_by_user,
+                           errors=errors)
 
 
 @app.route('/company/', defaults={'company_id': None}, methods=['GET', 'POST'])
 @app.route('/company/<company_id>', methods=['GET', 'POST'])
+@login_required(session)
 def add_company(company_id):
     """ function called when an admin wants to add a new company or edit \
         one of it's own """
-    errors = validate_add_company(session, company_id)
+
     categories = repository.get_categories()
-    data = dict()
-    if company_id:
-        button_text = "SAVE CHANGES"
+    if company_id and request.method == 'GET':
         try:
-            data = repository.fragment_company(company_id)
-        except TypeError:
+            company = repository.get_company(company_id)
+            errors = authorize_edit_company(session, company)
+            if errors:
+                return render_template('404.html', error_messages=errors)
+            add_new_company_form = AddCompany(obj=company,
+                                              categories=categories)
+            add_new_company_form.submit.label.text = "SAVE CHANGES"
+        except sqlalchemy.orm.exc.NoResultFound:
             errors = dict()
             errors['404'] = "Company does not exist!"
             return render_template('404.html', error_messages=errors)
     else:
-        data = request.form.to_dict()
-        button_text = "SUBMIT COMPANY"
-    if not errors:
-        errors = dict()
-        if request.method == 'POST':
-            errors = validate_company(request.form)
-            if not errors:
-                if company_id is None:
-                    company = Company(added_by_id=session['user']['id'],
-                                      logo=upload_file(request.files['logo'],
-                                                       request.form['name'],
-                                                       "Images"),
-                                      **request.form.to_dict())
-                    new_company_id = repository.add_company(company)
-                    flash('Congratulations on adding your company, ' \
-                        + company.name +' to our website!Check out \
-                        your profile below.')
-                    return redirect(url_for('details',
-                                            company_id=new_company_id))
-                if not errors:
-                    updated_company = Company(**request.form.to_dict())
-                    #ALSO UPDATE LOGO IF NEEDED@@@@@@@@@@@@@
-                    updated_company_id = repository.update_company(updated_company,
-                                                                   company_id)
-                    flash('Your company has been updated!')
-                    return redirect(url_for('details',
-                                            company_id=updated_company_id))
-                return render_template('404.html', error_messages=errors)
-        if request.form.get('category') is not None:
-            data['category'] = \
-                repository.get_category_by_id(request.form.get('category'))
-        return render_template('add_company.html', data=data, errors=errors,
-                               categories=categories, button_text=button_text,
-                               company_id=company_id)
-    else:
-        return render_template('404.html', error_messages=errors)
+        add_new_company_form = AddCompany(request.form, categories=categories)
+
+    if request.method == 'POST' and add_new_company_form.validate():
+        if company_id is None:
+            logo = upload_file(request.files['logo'],
+                               add_new_company_form.name.data,
+                               "Images")
+            add_new_company_form.logo.data = logo
+            company = Company(added_by_id=session['user']['id'],
+                              **add_new_company_form.to_dict())
+            new_company_id = repository.add_company(company).id
+            flash('Congratulations on adding your company, ' \
+                + company.name +' to our website!Check out \
+                your profile below.')
+            return redirect(url_for('details',
+                                    company_id=new_company_id))
+        updated_company_id = repository.update_company(request.form.to_dict(),
+                                                       company_id).id
+        flash('Your company has been updated!')
+        return redirect(url_for('details',
+                                company_id=updated_company_id))
+
+    return render_template('add_company.html',
+                           categories=categories, company_id=company_id,
+                           add_company_form=add_new_company_form,
+                           errors=add_new_company_form.errors)
+
+
 
 
 @app.route('/add/user/', methods=['GET', 'POST'])
+@login_required(session)
 def add_user():
-    """ function called when an admin wants to add a new user """
-    errors = dict()
-    errors = validate_add_user(session)
-    if not errors:
-        if request.method == 'POST':
-            errors = validate_new_user(request.form)
-            if not errors:
-                user = User(avatar=upload_file(request.files['avatar'],
-                                               request.form['username'],
-                                               "Avatars"),
-                            **request.form.to_dict())
-                new_user_id, username = repository.add_user(user)
-                print str(new_user_id) + "will be used when adding a new user page"
-                flash("NEW USER, %s, ADDED SUCESFULLY!" % username)
-                return redirect(url_for('home', current_category=\
-                                        request.args.get('category', \
-                                        'all categories')))
-        return render_template('add_user.html', data=request.form, errors=errors)
-    else:
-        return render_template('404.html', error_messages=errors)
-
+    """ function called ONLY when an ADMIN wants to add a new user """
+    add_user_form = AddUser(request.form)
+    if request.method == 'POST' and add_user_form.validate():
+        user = User(avatar=upload_file(request.files['avatar'],
+                                       add_user_form.username.data,
+                                       "Avatars"),
+                    **add_user_form.to_dict())
+        new_user = repository.add_user(user)
+        # print str(new_user_id) + "will be used when adding a new user page"
+        flash("NEW USER, %s, ADDED SUCESFULLY!" % new_user.username)
+        return redirect(url_for('home', current_category=\
+                                request.args.get('category', \
+                                'all categories')))
+    return render_template('add_user.html',
+                           errors=add_user_form.errors,
+                           add_user_form=add_user_form)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     """ function called when an anon user wants to log in"""
     errors = dict()
-    if request.method == 'POST':
-        errors = validate_login(request.form)
-        if repository.check_user(request.form['username-login'],
-                                 request.form['password-login']) == 0:
-            errors['invalid'] = "Please enter valid credentials!"
-        if not errors:
-            user = repository.get_user(request.form['username-login'])
+    login_form = LogIn(request.form)
+    if request.method == 'POST' and login_form.validate():
+        if repository.check_user(login_form.username.data,
+                                 login_form.password.data) is None:
+            errors['invalid'] = "Invalid credentials!Please check your username \
+                               and password again!"
+        else:
+            user = repository.get_user(login_form.username.data).serialize()
             session['logged_in'] = True
             session['user'] = user
             flash('Welcome back, dear %s!' % user['username'])
-            return render_template('index.html', user=user, companies=
-                                   repository.get_companies(),
+            return render_template('index.html', user=user,
+                                   companies=repository.get_companies(),
                                    categories=repository.get_categories())
+
+    errors.update(login_form.errors)
     return render_template('login.html', errors=errors, data=request.form,
-                           session=session)
+                           session=session, login_form=login_form)
 
 
 @app.route('/logout')
@@ -162,25 +176,3 @@ def logout():
     session.pop('user', None)
     flash('You were logged out')
     return redirect(url_for('home'))
-
-
-@app.route('/add_review/<company_id>', methods=['GET', 'POST'])
-def add_review(company_id):
-    """ function called when a user tries to submit a review"""
-    if request.method == "POST":
-        errors = dict()
-        if session.get('logged_in', None):
-            errors = validate_review(request.form)
-            if not errors:
-                review = Review(user_id=session['user']['id'],
-                                company_id=company_id,
-                                **request.form.to_dict())
-                repository.add_reviews(review)
-                flash("Review added sucessfully")
-                return redirect(url_for('details', company_id=company_id))
-        else:
-            errors['not_logged'] = "You must be logged in to review a company!"
-    company, category, reviews, added_by_user = get_details(company_id)
-    return render_template('details.html', reviews=reviews, company=company,
-                           category=category, errors=errors,
-                           added_by_user=added_by_user)

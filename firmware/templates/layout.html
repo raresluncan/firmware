@@ -75,7 +75,11 @@
           </div>
           <div class="header-buttons">
             {% if session.logged_in %}
+              {% if session['user']['avatar'] == "default.jpg" %}
+                <img src="../static/Defaults/user/default.jpg " type=submit id="user_pic" value="profile pic" class="header-button -profile-pic"/>
+              {% else %}
                 <img src="../static/Avatars/{{ session['user']['avatar'] }}" onerror="this.src='../static/Avatars/{{ session['user']['avatar'] }}'" type=submit id="user_pic" value="profile pic" class="header-button -profile-pic"/>
+              {% endif %}
                 <a href="{{ url_for('logout') }}" type=submit value="LOG IN" class="header-button -log-in">
                 <p class="button-label -login-label">
                   <i class="fa fa-sign-in menu-sign-in" aria-hidden="true"></i>LOG OUT
@@ -109,7 +113,7 @@
             {% for key,value in errors.items() %}
               <div class="alert">
                 <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                {{ value }}
+                {{ value|pprint }}
               </div>
             {% endfor %}
             {% if errors.items()|count >2 %}

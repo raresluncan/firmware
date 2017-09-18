@@ -561,7 +561,7 @@ body {
   text-align: center;
 }
 
-.enter-review {
+.review-field {
   min-width: 160px;
   min-height: 150px;
   max-width: 40vw;
@@ -822,6 +822,14 @@ form .stars span {
   border-top: 2px solid black;
 }
 
+.user-bottom {
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2vw;
+}
+
 .company-category {
   float: right;
   margin-top: 5px;
@@ -876,7 +884,7 @@ form .stars span {
   padding-bottom: 100px;
   margin-bottom: 100px;
   margin-left: -50px;
-  transform: translate(38vw, 0%);
+  transform: translate(20vw, 0%);
   min-width: 400px;
 }
 
@@ -911,7 +919,7 @@ form .stars span {
 
 .entries {
   display: inline-flex;
-  flex-flow: row;
+  flex-flow: column;
 }
 
 .add-company-.inputadd.-logo {
@@ -1077,6 +1085,12 @@ form .stars span {
   margin-top: 1.7vw
 }
 
+.title-field-details {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  margin-top: 1.7vw
+}
 .add-user-label {
   width: 10vw;
   display: inline-block;
@@ -1090,6 +1104,7 @@ form .stars span {
   padding: 5px 10px 5px;
   color: rgb(244, 243, 242);
   text-align: right;
+  text-transform: uppercase;
 }
 
 .-mandatory-label:after {
@@ -1259,7 +1274,7 @@ cursor: pointer;
   display: inline-flex;
   flex-direction: column;
   position: relative;
-  top: -3vw;
+  top: -5vw;
 }
 
 .log-fields {
@@ -1326,7 +1341,7 @@ cursor: pointer;
   max-height: 40px;
   text-align: right;
   background-color: rgb(176, 176, 176);
-  font-size: calc(8px + 1vw);
+  font-size: calc(8px + 0.8vw);
   border-top-right-radius: 0.7em;
   border-bottom-right-radius: 0.7em;
   height: 3vw;
@@ -1368,9 +1383,10 @@ cursor: pointer;
   margin-right: 1vw;
 }
 
-.radio-label {
+.radio-label > label {
   margin-right: 4vw;
-  background-color: rgb(156, 213, 255);
+  margin-left: 2vw;
+  background-color: rgb(224, 224, 224);
   padding: 0.2vw 2vw 0.2vw 2vw;
   border-radius: 10px;
   font-size: 1vw;
@@ -1379,7 +1395,7 @@ cursor: pointer;
   text-align: center;
 }
 
-.radio-label:hover {
+.radio-label > label:hover {
   cursor: pointer;
   color: white;
   background-color: rgb(58, 165, 245);
@@ -1401,7 +1417,28 @@ cursor: pointer;
   margin-left: 2vw;
   font-size: 1vw;
 }
-.radio-buttons-input {
-  margin-right: 0.5vw;
-  color: green;
+
+.radio-label input[type=radio] {
+  display: none;
+}
+
+.radio-label input[type=radio]:checked+label {
+  background-color: rgb(214, 182, 100);
+  color: black;
+  box-shadow:0px 0px 4px 2px rgba(15, 7, 0, 0.3);
+}
+
+.select-field {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.details {
+  height:20vw;
+}
+
+.user-login {
+  display: block;
+  float:right;
 }

@@ -19,7 +19,11 @@
         <a href="{{ url_for('details', company_id=company.id) }}">
           <div class="company">
             <div class="company-left">
-              <img class="company-image" src="../static/images/{{ company.logo }}" />
+              {% if company.logo == "default.jpg" %}
+                <img class="company-image" src="../static/Defaults/company/default.jpg" />
+              {% else %}
+                <img class="company-image" src="../static/images/{{ company.logo }}" />
+              {% endif %}
               <form id="ratingsForm">
                 <div class="stars">
                   <input type="radio" name="star" class="star-1" id="star-1" /><label for="star-5" class="star-1">1</label>
