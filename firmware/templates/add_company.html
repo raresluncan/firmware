@@ -1,42 +1,32 @@
 {% extends "layout.html" %}
+
 {% block content %}
+  {% from "_formhelpers.html" import render_text_field %}
+  {% from "_formhelpers.html" import render_submit_field %}
+  {% from "_formhelpers.html" import render_select_field %}
   <div class="add-company-layout">
-    <form method="post" enctype="multipart/form-data" action="{{ url_for('add_company') }}" class="add-company">
-      <dl class="entries">
-        <div class="left">
-          <dt class="add-company-label name">COMPANY NAME</dt>
-          <dd>
-            <input value="{{ data.get('company_name', '') }}" name="company_name" class="add-company- inputadd -name" placeholder="Company name (max 20 characters)" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Company name (max 20 characters)'" rows=1 cols=20 maxlength=20  />
-          </dd>
-          <dt class="add-company-label adress">COMPANY ADRESS</dt>
-          <dd>
-            <textarea name="company_adress" class= "add-company- inputadd -adress" placeholder="Enter the adress where clients can find you (max 120 characters)" onfocus="this.placeholder=''" onblur="this.placeholder = 'Enter the adress where clients can find you (max 120 characters)'" maxlength=120>{{ data.get('company_adress', '') }}</textarea>
-          </dd>
-          <dt class="add-company-label description">COMPANY DESCRIPTION</dt>
-          <dd>
-            <textarea name="company_description" class="add-company- inputadd -description" placeholder="Enter a short description for your company (max 150 characters)" onfocus="this.placeholder = None" onblur="this.placeholder = 'Enter a short description for your company (max 150 characters)'" type=textarea maxlength=150>{{ data.get('company_description', '') }}</textarea>
-          </dd>
-          <dt class="add-company-label description">COMPANY CATEGORY</dt><br />
-          <select name="select-category-list" class="select-category">
-            <option disabled selected value>-- select category --</option>
-            {% for category in categories %}
-              <option value="{{ category.id }}">{{ category.type }}</option>
-            {% endfor %}
-          </select>
-          <br>
-          <dt class="add-company-label details">COMPANY DETAILS</dt>
-          <dd>
-            <textarea name="company_details" class="add-company- inputadd -details" placeholder="Enter a detailed description about your company (max 2000 characters)" onfocus="this.placeholder = None" onblur="this.placeholder = 'Enter a detailed description about your company (max 2000 characters)'" rows=20 cols=80 maxlength=2000>{{ data.get('company_details', '') }}</textarea>
-          </dd>
-          <div class="addlogo">
-            <p class="add-company-label logo">
-              COMPANY LOGO
-            </p>
-            <input name="company_logo" class="add-company- inputadd -logo" type=file accept="image/*"/>
-          </div>
-          <input type="submit" value="SUBMIT COMPANY" class="submit-button"></input>
+    <form method="post" enctype="multipart/form-data" action="{{ url_for('add_company', company_id=company_id) }}" class="add-company">
+      <div class="entries">
+        <div class="title-field">
+          {{ render_text_field(add_company_form.name,rows='100',cols='50') }}
         </div>
-      </dl>
+        <div class="title-field">
+          {{ render_text_field(add_company_form.adress) }}
+        </div>
+        <div class="title-field">
+          {{ render_text_field(add_company_form.description) }}
+        </div>
+        <div class="title-field-details">
+          {{ render_text_field(add_company_form.details, rows='20', cols='50') }}
+        </div>
+        <div class="user-bottom">
+          {{ render_select_field(add_company_form.category_id) }}
+        </div>
+        <div class="user-bottom">
+          {{ render_text_field(add_company_form.logo) }}
+          {{ render_submit_field(add_company_form.submit) }}
+        </div>
+      </div>
     </form>
   </div>
 {% endblock %}

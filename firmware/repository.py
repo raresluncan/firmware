@@ -1,163 +1,86 @@
-import sqlite3
-import os
-from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
+"""Repository - module to communicate with the database"""
 
-from uploaders import upload_file
-from firmware import app
+from firmware import encrypt
+from firmware.database import db_session
+from firmware.models import User, Company, Category, Review
 
-import pdb
-
-
-def connect_db():
-    rv = sqlite3.connect(app.config['DATABASE'], timeout=1)
-    rv.row_factory = sqlite3.Row
-    return rv
-
-
-def init_db():
-    db = get_db()
-    with app.open_resource('schema.sql', mode='r') as f:
-        db.cursor().executescript(f.read())
-    db.commit()
-
-
-def get_db():
-    if not hasattr(g, 'sqlite_db'):
-        g.sqlite_db = connect_db()
-    return g.sqlite_db
-
-
-@app.teardown_appcontext
-def close_db(error):
-    if hasattr(g, 'sqlite_db'):
-        g.sqlite_db.close()
 
 
 def get_companies():
-    db = get_db()
-    get_companies_query = db.execute("select * from companies")
-    companies = get_companies_query.fetchall()
-    return companies
+    """ gets all companies from database """
+    return db_session.query(Company)
 
 
-def add_company(company, company_files):
-    db = get_db()
-    db.execute("insert into companies (name, \
-        description , details, rating, \
-        logo, adress, category_id) values \
-        (?, ?, ?, ?, ?, ?, ?)", (company['company_name'],
-        company['company_description'],
-        company['company_details'],
-        0, upload_file(company_files['company_logo'],
-        company['company_name'], 'Images'),
-        company['company_adress'],
-        company.get('select-category-list')))
-    db.commit()
-    new_company_id_query = db.execute("select MAX(id) from companies")
-    new_company_id = new_company_id_query.fetchall()[0]
-    return new_company_id[0]
+def add_company(company):
+    """ adds a company to the database """
+    db_session.add(company)
+    db_session.commit()
+    return company
 
 
 def get_company(company_id):
-    db = get_db()
-    query = 'select * from companies where id="%s"' % company_id
-    records = db.execute(query).fetchmany(1)
-    if len(records) == 0:
-        return None
-    return records[0];
-
-
-def get_category(company_id):
-    db = get_db()
-    category_query = db.execute('select type from categories where \
-    id = "%s"' % get_company(company_id)['category_id'])
-    category = category_query.fetchall()
-    return category[0]['type']
+    """ retrieves a specific company, via it's id """
+    return db_session.query(Company).filter(Company.id == company_id).one()
 
 
 def get_categories():
-    db = get_db()
-    categories_query = db.execute('select * from categories')
-    categories = categories_query.fetchall()
-    return categories
+    """ gets all categories from the database """
+    return db_session.query(Category).all()
 
 
 def get_reviews(company_id):
-    db = get_db()
-    reviews_query = db.execute(
-        'select users.username, users.avatar, reviews.id, reviews.user_id,\
-        reviews.review from reviews inner join users on \
-        reviews.user_id = users.id where reviews.company_id = "%s" order by \
-        reviews.id desc'
-        % company_id
-    )
-    reviews = reviews_query.fetchall()
-    return reviews
+    """ gets all reviews for a company """
+    return db_session.query(Review).filter(Review.company_id == company_id)\
+                                             .order_by(Review.id.desc()).all()
 
 
-def add_user(user, user_files):
-    db = get_db()
-    add_user_query = db.execute("insert into users (username, password , email, \
-        name, surname, avatar, contact, gender) values \
-        (?, ?, ?, ?, ?, ?, ?, ?)", (user['username'],
-        user['password'],
-        user['email'],
-        user.get('real_name', '-'),
-        user['surname'],
-        upload_file(user_files['user_avatar'] ,
-            user['username'], 'Avatars'),
-        user['contact'],
-        user['gender'])
-        )
-    db.commit()
-    return True
+def add_user(user):
+    """ adds a new user to the database """
+    db_session.add(user)
+    db_session.commit()
+    return user
+
+
+def get_user(username):
+    """gets a user by unique username """
+    user = db_session.query(User).filter(User.username == username).one()
+    return user
 
 
 def check_user(username, password):
-    db = get_db()
-    errors = dict()
-    check_user_query = db.execute("select username, password from users where \
-        username=? and password=?", (username, password))
-    compatible_user = check_user_query.fetchmany()
-    if not compatible_user:
-        return 0
-    return 1
+    """ checks if the user exists in the database, with the entered password """
+    user = db_session.query(User).filter(User.username == username).first()
+    if user is None:
+        return False
+    if encrypt.check_password_hash(user.password, password) is False:
+        return False
+    return True
 
 
-def get_avatar(username):
-    db = get_db()
-    get_user_query = db.execute("select avatar from users where username='%s'"
-        % username )
-    user = get_user_query.fetchmany()
-    avatar = user[0]['avatar']
-    return avatar
+def add_review(review):
+    """ adds a review entered by a user for a company """
+    db_session.add(review)
+    db_session.commit()
+    return review
 
 
-def add_reviews(company_id, user, text):
-    db = get_db()
-    get_user_id_query = db.execute("select id from users where username='%s'"
-        % user)
-    user_id_row = get_user_id_query.fetchmany()
-    user_id = user_id_row[0]['id']
-    add_review_query = db.execute("insert into reviews (user_id, review, \
-    company_id) values (?, ?, ?)", (user_id,text,company_id))
-    db.commit()
-    return None
+def get_filtered_companies(category_domain):
+    """ gets companies that have a specific category """
+    category_id = db_session.query(Category.id).filter(
+        Category.domain == category_domain
+    )
+    return db_session.query(Company).filter(Company.category_id == category_id)
 
 
-def get_category_id(category):
-    db = get_db()
-    get_category_id_query = db.execute("select id from categories where \
-        type = '%s'" % category)
-    category_id_row = get_category_id_query.fetchmany()
-    category_id = category_id_row[0]['id']
-    return category_id
+def get_category_by_id(category_id):
+    """ retrieves a category domain by it's id """
+    return db_session.query(Category).filter(Category.id == category_id).one()
 
 
-def get_filtered_companies(category):
-    db = get_db()
-    category_id = get_category_id(category)
-    get_companies_query = db.execute("select * from companies where \
-        category_id = '%s'" % category_id)
-    companies = get_companies_query.fetchall()
-    return companies
+def update_company(new_data, company_id):
+    """ updates a company in the database """
+    company = db_session.query(Company).get(company_id)
+    for key, value in new_data.items():
+        setattr(company, key, value)
+    db_session.commit()
+    return company

@@ -10,16 +10,20 @@
     <div class="category-select">
       <a href="{{ url_for('home', category='all categories') }}" class="add-user-submit-button radio-type {% if 'all categories' == current_category %}active-category{% endif %}">all categories</a>
       {% for category in categories %}
-        <a href="{{ url_for('home', category=category.type) }}" class="add-user-submit-button radio-type {% if category.type == current_category %}active-category{% endif %}">{{ category.type }}</a>
+        <a href="{{ url_for('home', category=category.domain) }}" class="add-user-submit-button radio-type {% if category.domain == current_category %}active-category{% endif %}">{{ category.domain }}</a>
       {% endfor %}
     </div>
     <div class="companies">
-      <a name="reload-point"></a> <script> window.location.hash="reload-point"; </script>
+      <a name="reload-point"></a><script> window.location.hash="reload-point"; </script>
       {% for company in companies %}
         <a href="{{ url_for('details', company_id=company.id) }}">
           <div class="company">
             <div class="company-left">
-              <img class="company-image" src="../static/images/{{ company.logo }}" />
+              {% if company.logo == "default.jpg" %}
+                <img class="company-image" src="../static/Defaults/company/default.jpg" />
+              {% else %}
+                <img class="company-image" src="../static/images/{{ company.logo }}" />
+              {% endif %}
               <form id="ratingsForm">
                 <div class="stars">
                   <input type="radio" name="star" class="star-1" id="star-1" /><label for="star-5" class="star-1">1</label>
