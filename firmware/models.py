@@ -47,6 +47,19 @@ class User(Base):
                 'privilege': self.privilege,
                 'gender': self.gender
                }
+    def to_dict(self):
+        """returns the user object as a dictionary"""
+        return {
+            'username': self.username,
+            'email': self.email,
+            'name': self.name,
+            'surname': self.surname,
+            'avatar': self.avatar,
+            'contact': self.contact,
+            'privilege': self.privilege,
+            'gender': self.gender,
+            'password': self.password
+        }
 
 
 class Review(Base):
@@ -65,6 +78,16 @@ class Review(Base):
         self.message = kwargs.get('message', None)
         self.company_id = kwargs.get('company_id', None)
         self.rating = kwargs.get('rating', None)
+
+    def to_dict(self):
+        """ returns the review object data as a dictionary """
+        return {
+            'user_id': self.user_id,
+            'message': self.message,
+            'company_id': self.company_id,
+            'rating': self.rating
+        }
+
 
 class Company(Base):
     """defines / maps companies table in database"""
@@ -95,6 +118,7 @@ class Company(Base):
     def to_dict(self):
         """returns the data in the model object to a mutable dictionary form"""
         return {
+            'id': self.id,
             'name': self.name,
             'description': self.description,
             'details': self.details,

@@ -5,41 +5,42 @@
   {% from "_formhelpers.html" import render_radio_field %}
   {% from "_formhelpers.html" import render_submit_field %}
   <div class="add-user-layout add-company-layout">
-    <form method="post" enctype="multipart/form-data" action="{{ url_for('add_user') }}" class="add-user">
+    <form method="post" enctype="multipart/form-data" action="{{ url_for('add_new_user') }}" class="add-user">
       <dl class="entries">
         <div class="right-and left">
           <div class="title-field">
             {{ render_text_field(add_user_form.username) }}
           </div>
           <div class="title-field">
-              {{ render_text_field(add_user_form.password) }}
+            {{ render_text_field(add_user_form.password) }}
           </div>
           <div class="title-field">
-              {{ render_text_field(add_user_form.confirm_password) }}
-            </dd>
+            {{ render_text_field(add_user_form.confirm_password) }}
+          </div>
           </div>
           <div class="title-field">
-              {{ render_text_field(add_user_form.email) }}
+            {{ render_text_field(add_user_form.email) }}
           </div>
           <div class="title-field">
-              {{ render_text_field(add_user_form.name) }}
+            {{ render_text_field(add_user_form.name) }}
           </div>
           <div class="title-field">
-              {{ render_text_field(add_user_form.surname) }}
+            {{ render_text_field(add_user_form.surname) }}
           </div>
           <div class="title-field">
-              {{ render_text_field(add_user_form.contact) }}
+            {{ render_text_field(add_user_form.contact) }}
           </div>
           <div class="title-field">
-              {{ render_radio_field(add_user_form.gender) }}
+            {{ render_radio_field(add_user_form.gender) }}
           </div>
           <div class="title-field">
-              {{ render_radio_field(add_user_form.privilege) }}
+            {{ render_radio_field(add_user_form.privilege) }}
           </div>
         </div>
       </dl>
       <div class="user-bottom">
         {{ render_text_field(add_user_form.avatar) }}
+        <canvas id="viewport" class="viewport user"></canvas>
         {{ render_submit_field(add_user_form.submit) }}
       </div>
     </form>
@@ -47,4 +48,9 @@
 {% endblock %}
 
 {% block footer %}
+{% endblock %}
+
+{% block js %}
+  {{ super() }}
+  <script type="text/javascript" src="../static/js/add-user.js"></script>
 {% endblock %}

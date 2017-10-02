@@ -78,17 +78,17 @@
               {% if session['user']['avatar'] == "default.jpg" %}
                 <img src="../static/Defaults/user/default.jpg " type=submit id="user_pic" value="profile pic" class="header-button -profile-pic"/>
               {% else %}
-                <img src="../static/Avatars/{{ session['user']['avatar'] }}" onerror="this.src='../static/Avatars/{{ session['user']['avatar'] }}'" type=submit id="user_pic" value="profile pic" class="header-button -profile-pic"/>
+                <img src="../static/Avatars/{{ session['user']['avatar'] }}|safe" onerror="this.src='../static/Avatars/{{ session['user']['avatar'] }}'" type=submit id="user_pic" value="profile pic" class="header-button -profile-pic"/>
               {% endif %}
-                <a href="{{ url_for('logout') }}" type=submit value="LOG IN" class="header-button -log-in">
+                <a href="{{ url_for('logout') }}" id="log-button" type=submit value="LOG IN" class="header-button -log-in">
                 <p class="button-label -login-label">
-                  <i class="fa fa-sign-in menu-sign-in" aria-hidden="true"></i>LOG OUT
+                  <i id="log-text" class="fa fa-sign-in menu-sign-in" aria-hidden="true"></i>LOG OUT
                 </p>
               </a>
             {% else %}
-              <a href="{{ url_for('login') }}" type=submit value="LOG IN" class="header-button -log-in">
+              <a href="{{ url_for('login') }}" id="log-button" type=submit value="LOG IN" class="header-button -log-in">
                 <p class="button-label -login-label">
-                  <i class="fa fa-sign-in menu-sign-in" aria-hidden="true"></i>LOG IN
+                  <i id="log-text" class="fa fa-sign-in menu-sign-in" aria-hidden="true"></i>LOG IN
                 </p>
               </a>
             {% endif %}
@@ -108,7 +108,7 @@
             </div>
           </div>
         </div>
-        <div class="alerts">
+        <!-- <div id="alerts" class="alerts">
           {% if errors %}
             {% for key,value in errors.items() %}
               <div class="alert">
@@ -130,7 +130,7 @@
               {% endfor %}
             {% endif %}
           {% endwith %}
-        </div>
+        </div> -->
       </div>
     {% endblock %}
 
@@ -151,6 +151,13 @@
         <a href="#/">6</a>
         <a href="#/">&raquo;</a>
       </div>
+    {% endblock %}
+
+    {% block js %}
+      <script type="text/javascript" src="../static/js/submit-form.js"></script>
+      <script type="text/javascript" src="../static/js/submit-form-errors.js"></script>
+      <script type="text/javascript" src="../static/js/helper-functions.js"></script>
+      <script type="text/javascript" src="../static/js/flash-message.js"></script>
     {% endblock %}
   </body>
 </html>

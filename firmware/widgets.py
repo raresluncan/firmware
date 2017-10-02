@@ -3,8 +3,6 @@
     -TextAreaField, SelextField, FileField, PasswordField, RadioField
      SubmitField """
 
-
-
 from wtforms.widgets import PasswordInput, TextArea, FileInput, HTMLString, \
     Select, html_params, SubmitInput, ListWidget
 
@@ -19,7 +17,7 @@ class WidgetTextArea(TextArea):
         self.properties = {
             'class': kwargs.get('_class', 'add-user --input-new-user'),
             'placeholder': kwargs.get('placeholder', 'Enter your info'),
-            'onfocus': kwargs.get('onfocus', "this.placeholder = None"),
+            'onfocus': kwargs.get('onfocus', "this.placeholder = ''"),
             'onblur': kwargs.get('onblur', "this.placeholder = 'Enter your info\
                                  '"),
         }
@@ -31,10 +29,13 @@ class WidgetTextArea(TextArea):
             self.properties['rows'] = str(kwargs.get('rows', "20"))
         if kwargs.get('cols', None) is  not None:
             self.properties['cols'] = str(kwargs.get('cols', "80"))
+        if kwargs.get('id', None) is  not None:
+            self.properties['id'] = str(kwargs.get('id', "no-id"))
 
     def __call__(self, field, **kwargs):
         self.properties['placeholder'] = "Enter " + field.label.text
-        self.properties['onblur'] = "Enter " + field.label.text
+        self.properties['onblur'] = "this.placeholder = 'Enter " \
+            + field.label.text +"'"
         return super(WidgetTextArea, self).__call__(field, **self.properties)
 
 
@@ -46,9 +47,12 @@ class WidgetFile(FileInput):
         self.properties = {
             'class': kwargs.get('_class', 'file-upload')
         }
+        if kwargs.get('id', None) is  not None:
+            self.properties['id'] = str(kwargs.get('id', "no-id"))
 
     def __call__(self, field, **kwargs):
         return super(WidgetFile, self).__call__(field, **self.properties)
+
 
 class WidgetPassword(PasswordInput):
     """ adds extra properties toa Password INPUT:

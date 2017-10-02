@@ -10,10 +10,10 @@
 {% macro render_radio_field(field) %}
   <dt class="add-user-label -mandatory-label" for="{{ field.label.text }}">{{ field.label.text }}</dt>
   {% for subfield in field %}
-     <div class="radio-label">
-       {{ subfield(**kwargs)|safe  }}
-       {{ subfield.label }}
-     </div>
+    <div class="radio-label">
+      {{ subfield(**kwargs)|safe  }}
+      {{ subfield.label }}
+    </div>
   {% endfor %}
 {% endmacro %}
 
