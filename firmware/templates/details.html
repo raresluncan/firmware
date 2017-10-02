@@ -59,41 +59,44 @@
         </p>
       </div>
     </div>
-    <div class="details-reviews-body">
-      <div class="reviews-top">
-        <h1 class='title-reviews'>REVIEWS</h1>
-          <ul class = "review-list">
-            {% for review in reviews %}
-              <li class="details-reviews">
-                <div class="username-avatar">
-                  <h2 class="details-user">
-                    {{ review.user.username }}
-                  </h2>
-                  <div class="review-avatar-container">
-                    {% if review.user.avatar == "default.jpg" %}
-                      <img width="1400" height="1400" src="../static/Defaults/user/default.jpg" class="review-avatar">
-                    {% else %}
-                      <img width="1400" height="1400" src="../static/Avatars/{{ review.user.avatar }}" class="review-avatar">
-                    {% endif %}
-                  </div>
-                </div>
-                <p class="details-user-review">
-                  {{ review.message|safe }}
-                </p>
-              </li>
-              {% else %}
-              <li class="details-reviews"><em class="details-reviews" >NO REVIEWS YET</em></li>
-            {% endfor %}
-          </ul>
+    <div id="details-review-body" class="details-reviews-body">
+      <div id="reviews" class="reviews-top">
+        <h1 id="title-reviews" class='title-reviews'>REVIEWS</h1>
+        <ul id="review-list" class = "review-list">
+          {% for review in reviews %}
+            <li class="details-reviews">
+              <div class="username-avatar">
+                <h2 class="details-user">
+                  {{ review.user.username }}
+                </h2>
+                {% if review.user.avatar == "default.jpg" %}
+                  <img width="1400" height="1400" src="../static/Defaults/user/default.jpg" class="review-avatar">
+                {% else %}
+                  <img width="1400" height="1400" src="../static/Avatars/{{ review.user.avatar }}" class="review-avatar">
+                {% endif %}
+              </div>
+              <p class="details-user-review">
+                {{ review.message|safe }}
+              </p>
+            </li>
+            {% else %}
+            <li class="details-reviews"><em class="details-reviews" >NO REVIEWS YET</em></li>
+          {% endfor %}
+        </ul>
       </div>
       <form method="post" enctype="multipart/form-data" action="{{ url_for('add_review', company_id=company.id) }}" class="reviews-bottom">
         <div class="enter-text-review-button">
-            {{ render_text_field(add_review_form.message)}}
-            {{ render_submit_field(add_review_form.submit)}}
+          {{ render_text_field(add_review_form.message)}}
+          {{ render_submit_field(add_review_form.submit)}}
         </div>
       </form>
     </div>
   </div>
+{% endblock %}
+
+{% block js %}
+  {{ super() }}
+  <script type="text/javascript" src="../static/js/add-review.js"></script>
 {% endblock %}
 
 {% block footer %}

@@ -3,11 +3,11 @@
 {% block content %}
   {% from "_formhelpers.html" import render_text_field %}
   {% from "_formhelpers.html" import render_submit_field %}
-  <form method="post" enctype="multipart/form-data" action="{{ url_for('login') }}" class="login-data">
+  <form method="post" enctype="multipart/form-data" action="{{ url_for('login_request') }}" class="login-data">
     <div class="enter-user">
-        <div class="title-field">
-          {{ render_text_field(login_form.username) }}
-        </div>
+      <div class="title-field">
+        {{ render_text_field(login_form.username) }}
+      </div>
       <div class="title-field">
         {{ render_text_field(login_form.password) }}
       </div>
@@ -16,6 +16,11 @@
       </div>
     </div>
   </form>
+{% endblock %}
+
+{% block js %}
+  {{ super() }}
+  <script type="text/javascript" src="../static/js/login.js"></script>
 {% endblock %}
 
 {% block footer %}

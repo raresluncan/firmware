@@ -1,15 +1,15 @@
-"""UPLOADERS - function to upload files locally"""
+"""UPLOADERS - function to upload files to server"""
 
 import os
+import base64
 
-def upload_file(new_file, upload_name, upload_type):
-    """ uploads a file to the server """
-    filename = "default.jpg"
-    if new_file:
-        filename_temp = upload_name + ".jpg"
-        filename = new_file.filename
-        folder = os.path.join(os.path.dirname(__file__), 'static', upload_type)
-        new_file.save(os.path.join(folder, filename))
-        os.rename(os.path.join(folder, filename), os.path.join(folder, filename_temp))
-        filename = filename_temp
-    return filename
+
+def upload_base64_file(info, filename, foldername):
+    """ decodes an image from base64 format to File """
+    if not info:
+        return "default.jpg"
+    folder = os.path.join(os.path.dirname(__file__), 'static', foldername)
+    imgdata = base64.b64decode(info.split(",")[1])
+    with open(folder+"/"+filename+".jpg", 'wb') as new_file:
+        new_file.write(imgdata)
+    return filename+".jpg"

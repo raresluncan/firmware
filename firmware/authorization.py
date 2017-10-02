@@ -1,5 +1,6 @@
 """ module for operations that need authorization """
 
+
 def authorize_edit_company(session, company):
     """ function that verifies if the user in the current session has editing
         rights over the company """

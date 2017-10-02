@@ -5,6 +5,7 @@ from wtforms.fields import FileField, TextAreaField, RadioField, SubmitField, \
     PasswordField, SelectField
 from firmware.widgets import WidgetTextArea, WidgetPassword, WidgetRadio, \
     WidgetSubmit, WidgetFile, WidgetSelect
+from firmware import repository
 
 
 class AddUser(Form):
@@ -22,8 +23,8 @@ class AddUser(Form):
     password = PasswordField(
         'password',
         [
-            validators.InputRequired(message='Please add a password'),
-            validators.DataRequired(message='Please add a password'),
+            validators.InputRequired(message='Input add a password'),
+            validators.DataRequired(message='Passwords must match, Data'),
             validators.EqualTo('confirm_password',
                                message='Passwords must match'),
             validators.Length(min=2, max=120, message='Password must be between\
@@ -32,9 +33,9 @@ class AddUser(Form):
         widget=WidgetPassword(maxlength=120)
     )
     confirm_password = PasswordField(
-        'confirm password',
+        'confirm_password',
         [
-            validators.InputRequired(message='Please confirm your password!'),
+            validators.InputRequired(message='Please confirm your password!--inputccccc'),
         ],
         widget=WidgetPassword(maxlength=120)
     )
@@ -82,15 +83,12 @@ class AddUser(Form):
     )
     privilege = RadioField(
         'privilege',
-        [
-            validators.InputRequired()
-        ],
         widget=WidgetRadio(),
         choices=[('user', 'user'), ('admin', 'admin')], default='user'
     )
     avatar = FileField(
         'avatar',
-        widget=WidgetFile()
+        widget=WidgetFile(id="picture")
     )
     submit = SubmitField(
         'ADD USER',
@@ -149,8 +147,11 @@ class AddCompany(Form):
     category_id = SelectField(
         label='category',
         coerce=int,
-        choices=[('default', 'add some items')],
-        widget=WidgetSelect(disabled="--SELECT A CATEGORY--")
+        choices=[(a.id, a.domain) for a in repository.get_categories()],
+        widget=WidgetSelect(disabled="--SELECT A CATEGORY--"),
+        validators=[
+            validators.Required(message="Please select a category")
+        ]
     )
     details = TextAreaField(
         'details',
@@ -164,19 +165,12 @@ class AddCompany(Form):
         )
     logo = FileField(
         'logo',
-        widget=WidgetFile()
+        widget=WidgetFile(id="picture")
     )
     submit = SubmitField(
         'ADD COMPANY',
         widget=WidgetSubmit()
     )
-
-
-    def __init__(self, *args, **kwargs):
-        super(AddCompany, self).__init__(*args, **kwargs)
-        if kwargs.get('categories', None) is not None:
-            self.category_id.choices = [(a.id, a.domain) \
-                                        for a in kwargs.get('categories')]
 
 
     def to_dict(self):
@@ -225,7 +219,7 @@ class AddReview(Form):
     message = TextAreaField(
         'review',
         [
-            validators.DataRequired(message="Please write a review"),
+            validators.InputRequired(message="Please write a review"),
             validators.Length(min=2, max=2000, message="Review must be \
                               max. 2000 characters")
         ],
